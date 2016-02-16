@@ -1,0 +1,16 @@
+<header id="main-header">
+  <div id="site-title">
+    <a href="{{ site.baseurl }}/">{{ site.title }}</a>
+  </div>
+  <div class="links">
+  {% assign current = page.title %}
+  <a href="{{ site.baseurl }}/" class="page-link{% if current == null %} active{% endif %}">Blog</a>
+  {% for page in site.pages %}
+    {% if page.title and page.permalink != "/404.html" %}
+      <a class="page-link{% if current == page.title %} active{% endif %}"
+        href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
+    {% endif %}
+  {% endfor %}
+  <a href="{{ "/feed.xml" | prepend: site.baseurl }}" target="_blank" class="page-link">RSS</a>
+  </div>
+</header>
