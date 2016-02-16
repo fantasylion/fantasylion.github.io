@@ -13,35 +13,35 @@ excerpt_separator: "[-----]"
 
 # mode: dev
 mode: product
-url: http://fantasylions.github.io/
+url: https://fantasylions.github.io/
 devurl: http://localhost:4000/
-name: Fantasylion
+name: UniFreak
 title: 无用郎中 | 生命不止，奋斗不息
 description: "zl.shi's personal weblog, on coding or such stuff"
 
 my:
-    displayName: zl.shi
+    displayName: fantasylion
     realName: zl.shi
     realName_cn: 施正良
     jobTitle: "Web Coder"
     contact:
         qq: 473112797
         email: lionsmail1015@gmail.com
-        github: https://github.com/FantasyLions
+        github: http://www.github.com/Fantasylions
         qzone: http://473112797.qzone.qq.com
-        Twiter: https://twitter.com/fantasylions
-	Facebook:https://www.facebook.com/zl.shi
-        tel: 15671542698
+        pinterest: https://www.pinterest.com/miblah/
+        tel: 18394335249
         address:
             country: China
             state: ZheJiang
-            city: huzhou
+            city: ShangHai
             distribute: Hongshan
             postcode: 450000
+            cell: "zl.shi"
     skills:
-        frontend: ["HTML | Markdown", "CSS | SASS", "JS | jQuery", "Bootstrap", "Rangular"]
-        backend: ["Java", "MySQL", "Redis"]
-        tools: ["Sublime Text", "Eclipse", "Git | Github", "Linux", "Jekyll"]
+        frontend: ["HTML | Markdown", "CSS | SASS", "JS | jQuery", "Bootstrap"]
+        backend: ["Java", "MySQL", "Redis", "Regex", "Laravel", "OSC"]
+        tools: ["Sublime Text", "Git | Github", "Linux", "Jekyll | Liquid"]
 
 collections:
     qqGroupGuide:
