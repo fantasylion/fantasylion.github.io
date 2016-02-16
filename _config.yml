@@ -1,48 +1,60 @@
-﻿# Site settings
-title: 阿良博客
-#author: 多人
-# author_avatar: 
-email: lionsmail1015@gmail.com
-description: 个人博客
-baseurl: "" # optional
-url: "http://fantasylions.github.io"
-#twitter_username: foo_bar
-github_username: FantasyLions
-github_repo: FantasyLions/fantasylions.github.io
-google_analytics: UA-65584551-3
-disqus: zl.shi-blog
+highlighter: pygments
 
-# Build settings
-paginate: 10
-markdown: kramdown
-permalink: pretty
-excerpt_separator: "<!-- more -->"
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
 
-colors:
-  UmmaTan: '#cfc096'
-  BurtonTowerBeige: '#9b9a6d'
-  TheRockGray: '#989c97'
-  ObservatoryWhite: '#e4e1df'
-  AngellHallAsh: '#a79d96'
-  LawQuadStone: '#655a52'
-  HillBrown: '#7a121c'
-  LSAOrange: '#cc6600'
-  ArchwayIvy: '#7e732f'
-  RackhamRoofGreen: '#83b2a8'
-  CanhamPoolBlue: '#587abc'
-  MatthaeiViolet: '#575294'
-  Blue: '#003366'
+gems: [jekyll-paginate]
+paginate: 7
+paginate_path: "page:num"
+layout: post
+permalink: /:categories/:title
+excerpt_separator: "[-----]"
 
-authors:
-  zl.shi:
-    display_name: zl.shi 
-    gravatar: https://www.gravatar.com/avatar/0db85dd6e3b1972fafa2c36e6df3abfb?s=50     
-    email: lionsmail1015@gmail.com
-    web: http://fantasylions.github.io/
-    twitter: https://twitter.com/fantasylions
-    github: https://github.com/FantasyLions
+# mode: dev
+mode: product
+url: https://unifreak.github.io/
+devurl: http://localhost:4000/
+name: UniFreak
+title: UniFreak | Another yet unique freak is showing a freakshow
+description: "Fanghao's personal weblog, on coding or such stuff"
 
-gems:
-  - jekyll-sitemap
-  - jekyll-paginate
-  - jekyll-gist
+my:
+    displayName: UniFreak
+    realName: FangHao
+    realName_cn: 方浩
+    jobTitle: "PHP Coder"
+    contact:
+        qq: 744910240
+        email: fanghao90s@gmail.com
+        github: http://www.github.com/UniFreak
+        qzone: http://744910240.qzone.qq.com
+        pinterest: https://www.pinterest.com/miblah/
+        tel: 15671542698
+        address:
+            country: China
+            state: Hubei
+            city: Wuhan
+            distribute: Hongshan
+            postcode: 450000
+            cell: "XuefuJiayuan"
+    skills:
+        frontend: ["HTML | Markdown", "CSS | SASS", "JS | jQuery", "Bootstrap"]
+        backend: ["PHP", "MySQL", "Redis", "Regex", "Laravel", "OSC"]
+        tools: ["Sublime Text", "Git | Github", "Linux", "Jekyll | Liquid"]
+
+collections:
+    qqGroupGuide:
+        output: true
+
+defaults:
+  - scope:
+        path: ""
+        type: "posts"
+    values:
+        excerpt: "{{ page.content }} | slice: 0 300"
+  - scope:
+        path: ""
+        type: "qqGroupGuide"
+    values:
+        layout: markdownreader_bare
