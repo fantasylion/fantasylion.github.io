@@ -1,4 +1,4 @@
-highlighter: pygments
+﻿highlighter: pygments
 
 markdown: redcarpet
 redcarpet:
@@ -13,35 +13,35 @@ excerpt_separator: "[-----]"
 
 # mode: dev
 mode: product
-url: https://unifreak.github.io/
+url: http://fantasylions.github.io/
 devurl: http://localhost:4000/
-name: UniFreak
-title: UniFreak | Another yet unique freak is showing a freakshow
-description: "Fanghao's personal weblog, on coding or such stuff"
+name: Fantasylion
+title: 无用郎中 | 生命不止，奋斗不息
+description: "zl.shi's personal weblog, on coding or such stuff"
 
 my:
-    displayName: UniFreak
-    realName: FangHao
-    realName_cn: 方浩
-    jobTitle: "PHP Coder"
+    displayName: zl.shi
+    realName: zl.shi
+    realName_cn: 施正良
+    jobTitle: "Web Coder"
     contact:
-        qq: 744910240
-        email: fanghao90s@gmail.com
-        github: http://www.github.com/UniFreak
-        qzone: http://744910240.qzone.qq.com
-        pinterest: https://www.pinterest.com/miblah/
+        qq: 473112797
+        email: lionsmail1015@gmail.com
+        github: https://github.com/FantasyLions
+        qzone: http://473112797.qzone.qq.com
+        Twiter: https://twitter.com/fantasylions
+	Facebook:https://www.facebook.com/zl.shi
         tel: 15671542698
         address:
             country: China
-            state: Hubei
-            city: Wuhan
+            state: ZheJiang
+            city: huzhou
             distribute: Hongshan
             postcode: 450000
-            cell: "XuefuJiayuan"
     skills:
-        frontend: ["HTML | Markdown", "CSS | SASS", "JS | jQuery", "Bootstrap"]
-        backend: ["PHP", "MySQL", "Redis", "Regex", "Laravel", "OSC"]
-        tools: ["Sublime Text", "Git | Github", "Linux", "Jekyll | Liquid"]
+        frontend: ["HTML | Markdown", "CSS | SASS", "JS | jQuery", "Bootstrap", "Rangular"]
+        backend: ["Java", "MySQL", "Redis"]
+        tools: ["Sublime Text", "Eclipse", "Git | Github", "Linux", "Jekyll"]
 
 collections:
     qqGroupGuide:
