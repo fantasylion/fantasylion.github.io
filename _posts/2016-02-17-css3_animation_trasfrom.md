@@ -86,13 +86,13 @@ to   {left:20px; top: 50px;}
 ```
  
 
-###样式引用:
+##样式引用:
 
         Style=”animation:样式名 时间 播放曲线”
 
 eg:
 	
-    样式:
+    样式
     	```
         @-webkit-keyframes testRule {
 
@@ -108,11 +108,11 @@ eg:
 		}
 		``` 
 
-    元素:
+    元素
     	```
         <div style=”position:absolute;width:100px; height:100px; -webkit-animation: testRule 5s linear”> </div>
         ```
-	说明: 
+	说明 
 		```
 	    0s- 1s  DIV从最开始位置 到 {left:100px; top:50px;}
 
@@ -126,10 +126,10 @@ eg:
 		```
  
 
-###CSS3 Animation 所具有的属性:
-
-|@keyframes|所有规定动画|
+##CSS3 Animation 所具有的属性:
+|name      |功能        |
 |----------|------------|
+|@keyframes|所有规定动画|
 |Aniamtion |所有规定动画简写属性, 除了animation-play-state 属性|
 |Animation-name| 规定@keyframes 动画的名称|
 |Animation-duration| 规定动画完成一个周期所花费的秒或毫秒. 默认是 0 |
@@ -145,9 +145,9 @@ eg:
 ps:Animation-play-state : 当在移动端使用时, 如果样式中存在trasfrom 则会不起作用(原因未知)
  
 
-CSS3属性  对应  dom对象属性
+__ 属性对应__
 
-|name      | attribute          |             
+|CSS3属性      | dom对象属性          |             
 |----------|--------------------|
 |Aniamtion | Dom.style.webkitAnimation(根据浏览器内核而定)|
 |		   | Dom.style.animation|
