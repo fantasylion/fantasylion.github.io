@@ -16,6 +16,7 @@ excerpt: "CSS3(animation, trasfrom)总结"
 
 ###标准写法(chrome safari不支持
 
+```
 @keyframes  [样式名] {
 
 0% {left: 10px ; top : 20px;}
@@ -25,11 +26,13 @@ excerpt: "CSS3(animation, trasfrom)总结"
 100% {left: 10px ; top : 20px;}
 
 };
+```
 
        
 
 ###Firefox
 
+```
 @-mz-keyframes  [样式名] {
 
 0% {left: 10px ; top : 20px;}
@@ -39,11 +42,12 @@ excerpt: "CSS3(animation, trasfrom)总结"
 100% {left: 10px ; top : 20px;}
 
 };
-
+```
  
 
 ###Chrome & Safari
 
+```
 @-webkit-keyframes  [样式名] {
 
 0% {left: 10px ; top : 20px;}
@@ -53,10 +57,11 @@ excerpt: "CSS3(animation, trasfrom)总结"
 100% {left: 10px ; top : 20px;}
 
 };
-
+```
  
 
 ###Opern
+```
 @-o-keyframes  [样式名] {
 
 0% {left: 10px ; top : 20px;}
@@ -121,24 +126,16 @@ eg:
 
 ###CSS3 Animation 所具有的属性:
 
-|@keyframes 所有规定动画|
-|-----------------------|
-|Aniamtion|  所有规定动画简写属性, 除了animation-play-state 属性|
-
+|@keyframes|所有规定动画|
+|----------|------------|
+|Aniamtion |所有规定动画简写属性, 除了animation-play-state 属性|
 |Animation-name| 规定@keyframes 动画的名称|
-
 |Animation-duration| 规定动画完成一个周期所花费的秒或毫秒. 默认是 0 |
-
 |Animation-timing-function|规定动画的速度曲线.默认是 0 |
-
 |Aniamtion-delay|  规定动画从什么时候开始  默认是0|
-
 |Aniamtion-iteration-count|  规定动画播放几遍 默认是1|
-
 |Animation-direction| 规定动画是否在下一周期逆向地播放. 默认是 ” normal”|
-
 |Animation-play-state|规定动画的当前状态 “paused” or “running” .默认是 ”running”|
-
 |Animation-fill-mode|规定对象动画时间之外的状态|
 
  
@@ -164,6 +161,7 @@ CSS3属性  对应  dom对象属性
              
 
 |Aniamtion | Dom.style.webkitAnimation(根据浏览器内核而定)|
+|----------|--------------------|
 |		   | Dom.style.animation|
 |----------|--------------------|
 |Animation-name | Dom.style.webkitAnimationName|
