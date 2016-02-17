@@ -166,15 +166,9 @@ __ 属性对应__
 chorome中
 ```
 document.styleSheets  //获取所有的样式链表文件内容
-
-var  sst = document.styleSheets[0] //获取第0个样式链表
-
+var sst = document.styleSheets[0]; //获取第0个样式链表
 var str = “@keyframes name {0% {left:20px; } 100%{left:60px;}}”;
-
-//将样式str 插入到 第0 个位置的样式文件中
-
-sst.insertRule(str)
-
+sst.insertRule(str)；//将样式str 插入到 第0 个位置的样式文件中
 sst.cssRules[0];//获取第0 个样式文件中第0个样式对象
 ```
  
