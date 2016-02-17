@@ -145,7 +145,7 @@ eg:
 ps:Animation-play-state : 当在移动端使用时, 如果样式中存在trasfrom 则会不起作用(原因未知)
  
 
-__ 属性对应__
+__属性对应__
 
 |CSS3属性      | dom对象属性          |             
 |----------|--------------------|
@@ -163,7 +163,8 @@ __ 属性对应__
 
 ###样式动态生成动态引入styleSheets
 
-chorome中
+chorome中:
+
 ```
 document.styleSheets  //获取所有的样式链表文件内容
 var sst = document.styleSheets[0]; //获取第0个样式链表
@@ -173,7 +174,7 @@ sst.cssRules[0];//获取第0 个样式文件中第0个样式对象
 ```
  
 
-控制Animation播放时间
+__控制Animation播放时间__
 
 ```
 Dom.style.webkitAnimationDelay = “-” + time + "s";
