@@ -4,7 +4,7 @@ layout: post
 category: [programme]
 tags: [JavaScript]
 excerpt: "Canvas是html5上的一个画布标签,功能有点类似java的swing.可以在canvas上画线条 弧线, 文字 就是画布的功能.
-具体提供的js函数看<a href="http://www.w3school.com.cn/tags/html_ref_canvas.asp">http://www.w3school.com.cn/tags/html_ref_canvas.asp</a>"
+具体提供的js函数看<http://www.w3school.com.cn/tags/html_ref_canvas.asp/>"
 ---
 Canvas制作视频图片特效
 
@@ -12,18 +12,19 @@ Canvas制作视频图片特效
 
 Canvas是html5上的一个画布标签,功能有点类似java的swing.可以在canvas上画线条 弧线, 文字 就是画布的功能.
 
-具体提供的js函数看<a href="http://www.w3school.com.cn/tags/html_ref_canvas.asp">http://www.w3school.com.cn/tags/html_ref_canvas.asp</a>
+具体提供的js函数看<http://www.w3school.com.cn/tags/html_ref_canvas.asp/>
 
  
 
 #简单介绍一下使用:
 
+```
 Var canvas = document.documentElementById(“canvasId”);
 
 Var ctx = canvas.getContext(“2d”);//获取维数对象
 
 ctx.drawImage(img);//img为dom图片对象, 还有其他可选参数 剪切坐标  和 放置到canvas上的坐标
-
+```
  
 
 #给图片添加特效
@@ -34,8 +35,7 @@ ctx.drawImage(img);//img为dom图片对象, 还有其他可选参数 剪切坐�
 
 小demo 代码(将图片设置成灰白效果 原理: 将r g b 设置成rgb平均数):
 
-```html
-
+```
 <img id=”image1” src=”/img.jpg” />
 
 <canvas id=”can” width=”500” heigth=”300”> </canvas>
@@ -44,7 +44,7 @@ ctx.drawImage(img);//img为dom图片对象, 还有其他可选参数 剪切坐�
 ```
  
 
-```javaScript
+```
 Var img = document.documentElementById(“imgage1”);
 
 Var canvas = document.documentElementById(“can”);
@@ -77,15 +77,14 @@ ctx.putImageData(imgData, 0, 0);
 
 小demo 代码 (将视频画面红色调高 原理: 将r g b 中的r 调高)
 
-```html
-
+```
 <video id=”vid1” src=”/vid1.mp4” autoplay/>
 
 <canvas id=”can” width=”500” heigth=”300”> </canvas>
 ```
  
 
-```javaScript
+```
 
 Var vid= document.documentElementById(“vid1”);
 
@@ -116,7 +115,7 @@ setTimeout( drawVidEffect, 20 );
 #注意
 
 如果视频或者图片所在的域名 跟canvas所在域名不一样 或者 不在服务器上运行 会报错:
-```javaScript
+```
 Uncaught SecurityError: Failed to execute 'getImageData' on 'CanvasRenderingContext2D': The canvas has been tainted by cross-origin data.
 ```
  
@@ -125,8 +124,8 @@ Uncaught SecurityError: Failed to execute 'getImageData' on 'CanvasRenderingCont
 
 详见:
 
-<a href="http://camnpr.com/archives/1117.html">http://camnpr.com/archives/1117.html</a>
+<http://camnpr.com/archives/1117.html/>
 
-<a href="http://camnpr.com/TuiJianTools/html5/canvas-cross-domain-images.html">http://camnpr.com/TuiJianTools/html5/canvas-cross-domain-images.html</a>
+<http://camnpr.com/TuiJianTools/html5/canvas-cross-domain-images.html/>
 
  
