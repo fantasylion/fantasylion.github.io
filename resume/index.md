@@ -34,7 +34,7 @@ http://fantasylions.github.io
 
 **框架**: Spring Hibernate Bootstrap
 
-**工具**: Linux Git SublimeText Eclise Jekyll
+**工具**: Linux Git SublimeText Eclipse Jekyll
 
 #自我评价
 
