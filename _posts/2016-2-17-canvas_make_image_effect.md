@@ -41,10 +41,8 @@ ctx.drawImage(img);//img为dom图片对象, 还有其他可选参数 剪切坐�
 <canvas id=”can” width=”500” heigth=”300”> </canvas>
 
 <!-- 注意: canvas的宽高只能通过属性设置, 在style中设置没有效果 -->
-```
- 
 
-```
+
 Var img = document.documentElementById(“imgage1”);
 
 Var canvas = document.documentElementById(“can”);
@@ -81,10 +79,7 @@ ctx.putImageData(imgData, 0, 0);
 <video id=”vid1” src=”/vid1.mp4” autoplay/>
 
 <canvas id=”can” width=”500” heigth=”300”> </canvas>
-```
- 
 
-```
 
 Var vid= document.documentElementById(“vid1”);
 
