@@ -35,13 +35,13 @@ my:
             country: China
             state: ZheJiang
             city: ShangHai
-            distribute: Hongshan
-            postcode: 450000
+            distribute: huzhou
+            postcode: 313125
             cell: "zl.shi"
     skills:
-        frontend: ["HTML | Markdown", "CSS | SASS", "JS | jQuery", "Bootstrap"]
-        backend: ["Java", "MySQL", "Redis", "Regex", "Laravel", "OSC"]
-        tools: ["Sublime Text", "Git | Github", "Linux", "Jekyll | Liquid"]
+        frontend: ["HTML | Markdown", "CSS", "JS | jQuery | Rangular", "Bootstrap"]
+        backend: ["Java", "Nodejs", "MySQL", "Redis", "Oracle", "Mongodb"]
+        tools: ["Sublime Text", "Eclipse", "Git | Github | Bitbucket", "SVN", "Linux", "Jekyll", "Jenkins"]
 
 collections:
     qqGroupGuide:
