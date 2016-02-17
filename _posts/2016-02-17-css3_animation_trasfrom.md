@@ -91,8 +91,9 @@ to   {left:20px; top: 50px;}
         Style=”animation:样式名 时间 播放曲线”
 
 eg:
-	```
+	
     样式:
+    	```
         @-webkit-keyframes testRule {
 
             20%  {left:100px; top:50px;}
@@ -104,14 +105,15 @@ eg:
             80%  {left:100px; top: 0;}
 
             100% {left:0px; top:0px;}
-		} 
+		}
+		``` 
 
     元素:
-
+    	```
         <div style=”position:absolute;width:100px; height:100px; -webkit-animation: testRule 5s linear”> </div>
-
+        ```
 	说明: 
-
+		```
 	    0s- 1s  DIV从最开始位置 到 {left:100px; top:50px;}
 
 	    1s -2s  {left:100px; top:50px;} 到 {left:50px; top: 100;}
@@ -121,7 +123,7 @@ eg:
 	    3s - 4s  {left:50px; top: 50;} 到 {left:100px; top: 0;}
 
 	    4s - 5s  {left:100px; top: 0;} 到 {left:0px; top:0px;}
-	```
+		```
  
 
 ###CSS3 Animation 所具有的属性:
@@ -141,29 +143,14 @@ eg:
  
 
 ps:Animation-play-state : 当在移动端使用时, 如果样式中存在trasfrom 则会不起作用(原因未知)
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
  
 
 CSS3属性  对应  dom对象属性
 
-             
-
+|name      | attribute          |             
+|----------|--------------------|
 |Aniamtion | Dom.style.webkitAnimation(根据浏览器内核而定)|
-|----------|--------------------|
 |		   | Dom.style.animation|
-|----------|--------------------|
 |Animation-name | Dom.style.webkitAnimationName|
 |Animation-duration|Dom.style.webkitAnimationDuration|
 |Animation-timing-function|Dom.style.webkitAnimationTimingFunction|
@@ -173,11 +160,6 @@ CSS3属性  对应  dom对象属性
 |Animation-play-state|Dom.style.webkitAnimationPlayState|
 |Animation-fill-mode|Dom.style.webkitAnimationFillMode|
 
- 
- 
- 
-
- 
 
 ###样式动态生成动态引入styleSheets
 
@@ -193,9 +175,7 @@ var str = “@keyframes name {0% {left:20px; } 100%{left:60px;}}”;
 
 sst.insertRule(str)
 
-//获取第0 个样式文件中第0个样式对象
-
-sst.cssRules[0]
+sst.cssRules[0];//获取第0 个样式文件中第0个样式对象
 ```
  
 
