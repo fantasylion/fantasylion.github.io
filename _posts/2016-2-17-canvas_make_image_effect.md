@@ -1,7 +1,7 @@
 ---
 title: "使用canvas制作视频图片特效"
 layout: post
-category: [programme]
+category: [program]
 tags: [JavaScript]
 excerpt: "Canvas是html5上的一个画布标签,功能有点类似java的swing.可以在canvas上画线条 弧线, 文字 就是画布的功能.
 具体提供的js函数看<http://www.w3school.com.cn/tags/html_ref_canvas.asp/>"

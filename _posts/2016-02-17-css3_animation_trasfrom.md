@@ -1,7 +1,7 @@
 ---
 title: "CSS3(animation, trasfrom)总结"
 layout: post
-category: [programme]
+category: [program]
 tags: [CSS]
 excerpt: "CSS3(animation, trasfrom)总结"
 ---

@@ -1,7 +1,7 @@
 ---
 title: "ios微信上不能更换标题解决办法"
 layout: post
-category: [programme]
+category: [program]
 tags: [JavaScript]
 excerpt: "用Iphone手机的微信浏览网页的时候，在切换页面时无法更新页面的title。于是从网上找了一个传说中的黑魔法解决此问题。"
 ---

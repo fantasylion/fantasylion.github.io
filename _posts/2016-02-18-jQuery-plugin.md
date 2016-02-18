@@ -1,7 +1,7 @@
 ---
 title: "Jquery 插件开发"
 layout: post
-category: [programme]
+category: [program]
 tags: [JavaScript]
 excerpt: "jQuery已经被广泛使用，凭借其简洁的API，对DOM强大的操控性，易扩展性越来越受到web开发人员的喜爱。本文简单介绍一下如何开发jQuery的插件"
 ---
