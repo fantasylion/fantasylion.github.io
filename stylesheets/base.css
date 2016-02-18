@@ -4266,8 +4266,8 @@ ul {
 }
 #l-header .subnav:hover li {
   display: block;
-  -webkit-animation-name: bounceInDown;
-  animation-name: bounceInDown;
+  -webkit-animation: bounceInDown 1s;
+  animation: bounceInDown 1s;
 }
 #l-header #search {
   height: 3rem;
