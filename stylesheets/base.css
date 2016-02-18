@@ -4243,10 +4243,10 @@ ul {
   border-radius: 5px;
   padding: 0;
   background: white;
-  transition:background 1s;
-  -moz-transition:background 1s; /* Firefox 4 */
-  -webkit-transition:background 1s; /* Safari and Chrome */
-  -o-transition:background 1s; /* Opera */
+  transition:background 0.6s;
+  -moz-transition:background 0.6s; /* Firefox 4 */
+  -webkit-transition:background 0.6s; /* Safari and Chrome */
+  -o-transition:background 0.6s; /* Opera */
 }
 #l-header nav > ul > li:hover {
   background: #ccc;
