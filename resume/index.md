@@ -26,7 +26,7 @@ layout: markdownreader_bare
 #开源项目经验
 
 ###个人博客 
-http://fantasylions.github.io
+http://blog.shizhengliang.com/
 
 #技术/工具
 
