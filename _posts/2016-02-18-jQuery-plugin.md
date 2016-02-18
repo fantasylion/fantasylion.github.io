@@ -3,19 +3,19 @@ title: "Jquery 插件开发"
 layout: post
 category: [programme]
 tags: [JavaScript]
-excerpt: "jQuery已经被广泛使用，凭借其简洁的API，对DOM强大的操控性，易扩展性越来越受到web开发人员的喜爱。本文简简单介绍一下如何开发jQuery的插件"
+excerpt: "jQuery已经被广泛使用，凭借其简洁的API，对DOM强大的操控性，易扩展性越来越受到web开发人员的喜爱。本文简单介绍一下如何开发jQuery的插件"
 ---
 
 #前言
-jQuery已经被广泛使用，凭借其简洁的API，对DOM强大的操控性，易扩展性越来越受到web开发人员的喜爱，本文简简单介绍一下如何开发jQuery的插件
+[jQuery]已经被广泛使用，凭借其简洁的[API]，对DOM强大的操控性，易扩展性越来越受到web开发人员的喜爱，本文简单介绍一下如何开发[jQuery]的插件
 
 #开发插件的方式有两种
 
 ##类级别的开发
 
-类级别的插件开发最直接的理解就是给jQuery类添加类方法，可以理解为添加静态方法。典型的例子有$.AJAX(),$.getJSON(),将函数定义于jQuery的命名空间中.
+类级别的插件开发最直接的理解就是给[jQuery]类添加类方法，可以理解为添加静态方法。典型的例子有`$.AJAX(),$.getJSON()`,将函数定义于[jQuery]的命名空间中.
 
-*  直接给jQuery添加一个函数.
+*  直接给[jQuery]添加一个函数.
 
 ```
 jQuery.pluginTest = function() {
@@ -28,7 +28,7 @@ jQuery.pluginTest = function() {
 ```
 
 
-*  通过jQuery.extend()添加函数
+*  通过`jQuery.extend()`添加函数
 
 ```
 jQuery.extend({
@@ -47,7 +47,7 @@ jQuery.extend({
 
 *  以命名空间的方式添加函数
 
-	优点: 避免某些函数或变量名将于其他jQuery插件冲突
+	优点: 避免某些函数或变量名将于其他[jQuery]插件冲突
 
 ```
 jQuery.pluginTest = {
@@ -181,17 +181,17 @@ $(“#id”).pluginTest();
 
 #开发插件时需要注意的几点
 
-* 推荐使用插件的命名方法jQuery.[插件名].js||[插件名].js
+* 推荐使用插件的命名方法`jQuery.[插件名].js||[插件名].js`
 
-* 所有的对象方法都应当附加到JQuery.fn对象上面,而所有的全局函数都应当附加到JQuery对象本身上
+* 所有的对象方法都应当附加到`JQuery.fn`对象上面,而所有的全局函数都应当附加到[JQuery]对象本身上
 
-* 在插件内部,this指向的是当前通过选择器获取的JQuery对象,而不像一般方法那样,内部的this指向的是DOM元素
+* 在插件内部,`this`指向的是当前通过选择器获取的[JQuery]对象,而不像一般方法那样,内部的`this`指向的是`DOM`元素
 
-* 可以通过this.each 来遍历所有的元素 
+* 可以通过`this.each` 来遍历所有的元素 
 
 * 所有方法或函数插件,都应当以分号结尾,否则压缩的时候可能会出现问题.为了更加保险写,可以在插件头部添加一个分号（;）,以免他们的不规范代码给插件带来 影响.
 
-* 插件应该返回一个jQuery对象,以便保证插件的可链式操作. 链式操作：`($("#div1").css("color","red").addClass("Add"))`
+* 插件应该返回一个[jQuery]对象,以便保证插件的可链式操作. 链式操作：`($("#div1").css("color","red").addClass("Add"))`
 
  
 
@@ -227,7 +227,7 @@ $(“#id”).pluginTest();
 __`jQuery.fn`是什么__
 
 
-jQuery 源码如下\:
+[jQuery] 源码如下\:
 
 
 ```
@@ -242,4 +242,7 @@ jQuery.fn = jQuery.prototype = {
 }
 ```
 
-从源码中可以看出`jQuery.fn.extend(src)`就是将src添加到jQuery原型中由其实例对象调用
+从源码中可以看出`jQuery.fn.extend(src)`就是将`src`添加到[jQuery]原型中由其实例对象调用
+
+[jQuery]:http://jquery.com/
+[API]:http://api.jquery.com/
