@@ -112,7 +112,7 @@ jQuery.fn.pluginTest = function() {
 调用: $(“#id”).pluginTest();
 ```
 
-*通过接收参数options 改变默认的值
+* 通过接收参数options 改变默认的值
 
 ```
 (function($) {
