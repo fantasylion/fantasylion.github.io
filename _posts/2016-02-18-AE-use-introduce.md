@@ -5,7 +5,12 @@ category: [TOOL]
 tags: [TOOL]
 excerpt: "AE全称After Effects，是由世界著名的图形设计、出版和成像软件设计公司Adobe Systems Inc.开发的专业非线性特效合成软件。是一个灵活的基于层的2D和3D后期合成软件，包含了上百种特效及预置动画效果，与同为Adobe公司出品的Premiere，Photoshop，Illustrator等软件可以无缝结合，创建无与伦比的效果"
 ---
-#AE简单使用#
+
+#AE 介绍
+
+AE全称After Effects，是由世界著名的图形设计、出版和成像软件设计公司Adobe Systems Inc.开发的专业非线性特效合成软件。是一个灵活的基于层的2D和3D后期合成软件，包含了上百种特效及预置动画效果，与同为Adobe公司出品的Premiere，Photoshop，Illustrator等软件可以无缝结合，创建无与伦比的效果
+
+#AE简单使用
 
 ##第一步: 创建project
  AE默认自动会创建一个 未命名的project
