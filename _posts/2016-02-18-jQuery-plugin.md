@@ -199,7 +199,7 @@ $(“#id”).pluginTest();
 
 #`jQuery.extend()` 和 `jQuery.fn.extend()`区别
 
-##`jQuery.extend()`函数;
+##`jQuery.extend()`函数
 
 　　　　``var tar = jQuery.extend(target, src1, src2...);``
 
@@ -222,7 +222,9 @@ $(“#id”).pluginTest();
 
  
 
-##`JQuery.fn.extend()`函数 用法同上
+##`JQuery.fn.extend()`函数
+
+使用方法同上
 
 __`jQuery.fn`是什么__
 
