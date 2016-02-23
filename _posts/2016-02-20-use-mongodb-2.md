@@ -193,7 +193,25 @@ __查询数组__<br>
 
 ##删除数据
 
+[MongoDB]使用`remove`函数进行删除操作
 
+__删除集合中所有的数据__
+
+```
+> db.testCollection.remove({})
+```
+
+__删除满足条件的数据__
+
+```
+> db.testCollection.remove({x:1})
+```
+
+__删除单个数据，设置参数`1`或者`true`__
+
+```
+> db.testCollection.remove({x:1}, 1)
+```
 [官网]:https://www.mongodb.org
 [MongoDB]:https://www.mongodb.org
 [下载]:https://www.mongo|||db.org|/||dow||nloads?_ga=1.146306676.1535760226.1455459089#production
