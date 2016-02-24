@@ -1,5 +1,5 @@
 ---
-title: "婚姻有感"
+title: "人生有感"
 layout: post
 category: [LifeFeeling]
 tags: [人生]
