@@ -1,5 +1,5 @@
 ---
-title: "排序算法总计(未完成)"
+title: "排序算法总计(未完结)"
 layout: post
 category: [notes]
 tags: [DS]
