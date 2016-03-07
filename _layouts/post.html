@@ -1,43 +1,16 @@
-{% include mode_switcher.html %}
-
-<!DOCTYPE html>
-<html>
-<head>
-    {% include head_base.html %}
-    {% include head_post.html %}
-</head>
-
-<body>
-    {% include header.html %}
-
-    <div class="container">
-        <div class="row">
-            <div id="markdown-container" class="col-lg-9">
-                <header>
-                    <p id="postTitle">{{ page.title }}</p>
-                    {% if page.tags %}
-                    <ul class="tags clearfix">
-                        {% for tag in page.tags %}
-                        <li><i class="fa fa-tag"></i> {{ tag }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                    <p id="postMeta">posted on {{ page.date | date_to_string }} under category <a href="{{crturl}}category/">{{ page.categories[0] }}</a></p>
-
-                </header>
-
-                {{ content }}
-            </div>
-
-            <div id="markdown-outline" class="col-lg-3">
-            </div>
-
-            {% include disqus_load.html %}
-        </div>
+---
+layout: default
+---
+  <section class="wrapper{% if page.options contains 'minihead' %} minihead{% endif %} style5">
+    <div class="inner{% if page.options contains 'fullwidth' %} fullwidth{% endif %}">{% unless page.options contains 'minihead' %}
+      <h4><i>{{ page.date | date: "%Y-%m-%d"  }}</i></h4><hr />{% endunless %}
+      <!-- <div style="clear: both;margin-bottom:32px;"></div> -->
+      {{ content }}{% unless page.author == 'none' %}
+      {% include author-block.html %}{% endunless %}{%
+      if site.owner.disqus_shortname and jekyll.environment == "production" %}{%
+        unless page.options contains nocomment %}
+      {% include disqus.html %}{%
+        endunless %}{%
+      endif %}
     </div>
-
-    {% include footer.html %}
-
-    <script type="text/javascript" src="{{crturl}}javascripts/markdownreader.js"></script>
-</body>
-</html>
+  </section>

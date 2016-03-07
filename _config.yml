@@ -1,60 +1,82 @@
-﻿highlighter: pygments
+# Welcome to Jekyll!
+#
 
-markdown: redcarpet
-redcarpet:
-  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
+# Site settings
+title: arkadianriver
+description: Flowing creativity &#x2192; Cascading bliss
+owner:
+  name: Gary Faircloth # or company name
+  bio: >
+    Interests: tech writing, programming, science, history.
+    You might also find me playing some PC Ga&mdash;SQUIRREL!
+  disqus_shortname: arkadianriver
+  email: gfair@arkadianriver.com
+  url: http://arkadianriver.com
+  avatar: owner.png
+first_published: 1996 # if migrating another site, the year of your first publish
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://arkadianriver.com" # the base hostname & protocol for your site
 
-gems: [jekyll-paginate]
-paginate: 7
-paginate_path: "page:num"
-layout: post
-permalink: /:categories/:title
-excerpt_separator: "[-----]"
+# on landing page
+greeting: |
+  Welcome!  
+  I hope you enjoy my collection
+features-title: Featured topics
+closing-head: Thanks for visiting
+closing-para: Feel free to get in touch. Cheers!
 
-# mode: dev
-mode: product
-url: https://fantasylions.github.io/
-devurl: http://localhost:4000/
-name: 阿良博客
-title: 无用郎中 | 生命不止，奋斗不息
-description: "zl.shi's personal weblog, on coding or such stuff"
+# on all pages
+social:
+  twitter: https://twitter.com/arkadianriver
+  github: https://github.com/arkadianriver
+  linkedin-square: https://linkedin.com/in/arkadianriver
+  facebook-official: https://facebook.com/gary.faircloth
+  google-plus-square: https://plus.google.com/u/0/+GaryFaircloth
+  email: /contact/
+  #flickr:
+  #instagram:
+  #youtube-square:
+  #spotify:
+  #stack-overflow:
+  #vimeo:
+  #reddit:
+  #stubleupon:
+  #delicious:
+  #pied-piper:
+  #digg:
+  #soundcloud:
+  #deviantart:
+  #angellist:
+  #tumblr-square:
+  #stackexchange:
+  #weibo:
+  #trello:
+  #foursquare:
+  #linux:
+  #bitbucket-square:
+  #vk:
+  #slack:
+  #vine:
+  #weixin:
+  #yelp:
+  #skyatlas:
+  #leanpub:
+  #connectdevelop:
+  #ils:
+  #forumbee:
+  #tripadvisor:
+  #amazon:
 
-my:
-    displayName: fantasylion
-    realName: zl.shi
-    realName_cn: 施正良
-    jobTitle: "Web Coder"
-    contact:
-        qq: 473112797
-        email: lionsmail1015@gmail.com
-        github: http://www.github.com/Fantasylions
-        qzone: http://473112797.qzone.qq.com
-        pinterest: https://www.pinterest.com/miblah/
-        tel: 18810192595
-        address:
-            country: China
-            state: ZheJiang
-            city: ShangHai
-            distribute: huzhou
-            postcode: 313125
-            cell: "zl.shi"
-    skills:
-        frontend: ["HTML | Markdown", "CSS", "JS | jQuery | Rangular", "Bootstrap"]
-        backend: ["Java", "Nodejs", "MySQL", "Redis", "Oracle", "Mongodb"]
-        tools: ["Sublime Text", "Eclipse", "Git | Github | Bitbucket", "SVN", "Linux", "Jekyll", "Jenkins"]
-
-collections:
-    qqGroupGuide:
-        output: true
-
+# Build settings
+permalink: /:categories/:title.html
+markdown: kramdown
+#sass:
+#  style: compressed
+exclude: ['site.bat']
+include: ['_pages','.htaccess']
 defaults:
   - scope:
-        path: ""
-        type: "posts"
+      path: _pages
     values:
-        excerpt: "{{ page.content }} | slice: 0 300"
-  - scope:
-        path: ""
-        type: "qqGroupGuide"
-    values:
-        layout: markdownreader_bare
+      layout: page
+      #permalink: /:slug/ # see github.com/jekyll/jekyll/issues/2280 for restriction

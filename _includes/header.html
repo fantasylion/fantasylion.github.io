@@ -1,45 +1,26 @@
-<header id="l-header">
-    <div class="container">
-        <div class="row logo">
-            <div class="col-lg-7">
-                <!-- <h1 style="font-size:100px;font-family: 楷体;">{{ site.name }}</h1> -->
-                <img style="margin-bottom: 35px;margin-top: 20px;" src="http://7xr0d3.com1.z0.glb.clouddn.com/blog-img/blob-name.png">
-            </div>
-
-
-            <div class="col-lg-5">
-                <!-- <p style="text-align:left;font-family: 楷体;">生命不止，奋斗不息</p> -->
-                <p style="text-align: center; margin-top: 7.5rem;">
-                    <img src="http://7xr0d3.com1.z0.glb.clouddn.com/blog-img/slogan.png" />
-                </p>
-            </div>
+<!-- Header -->
+<header id="header"{% if page.layout == 'landing' %} class="alt"{% endif %}>
+  <h1><a href="{{ site.baseurl }}/index.html">{{ site.title }}</a></h1>
+  <nav id="nav">
+    <ul>
+      <li class="special">
+        <a href="#menu" class="menuToggle"><span>Menu</span></a>
+        <div id="menu">
+          <ul>
+            <li><a href="{{ "/index.html" | prepend: site.baseurl }}">Home</a></li>{%
+            assign sorted_pages = site.pages | sort:"id" %}{%
+            for my_page in sorted_pages %}{%
+              if my_page.title %}{%
+                unless my_page.options contains 'nomenu' %}
+            <li><a href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a></li>{%
+                endunless %}{%
+              endif %}{%
+            endfor %}
+            <li><a href="{{ "/feed.xml" | prepend: site.baseurl }}"
+                   class="icon fa-feed"> RSS Feed</a></li>
+          </ul>
         </div>
-
-        <div class="row navicon">
-            <a href=""><i class="fa fa-navicon"></i></a>
-        </div>
-
-        <div class="row navbar" style="border-radius:5px;">
-            <nav class="col-lg-8 col-md-8 col-xs-12">
-                <ul class="row" style="font-family: Georgia;font-weight: bolder;">
-                    <li class="col-lg-3"><a href="{{crturl}}">主页</a></li>
-                    <li class="col-lg-3">
-                        <ul class="subnav">
-                            <a href="javascript:void(0)">文章</a>
-                            <li><a href="{{crturl}}category">分类</a></li>
-                            <li><a href="{{crturl}}tag">标签</a></li>
-                        </ul>
-                    </li>
-                    <li class="col-lg-3"><a href="{{crturl}}about">关于我</a></li>
-                    <li class="col-lg-3"><a href="{{crturl}}building">娱乐</a></li>
-                </ul>
-            </nav>
-
-            <div class="search col-lg-4 col-md-4 col-xs-12">
-                <label for="search"></label>
-                <input id="search" name="serach" type="text" placeholder="Dummy Search">
-                <i class="fa fa-search"></i>
-            </div>
-        </div>
-    </div>
+      </li>
+    </ul>
+  </nav>
 </header>
