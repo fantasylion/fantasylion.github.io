@@ -1,0 +1,16 @@
+---
+layout: default
+---
+  <section class="wrapper{% if page.options contains 'minihead' %} minihead{% endif %} style5">
+    <div class="inner{% if page.options contains 'fullwidth' %} fullwidth{% endif %}">{% unless page.options contains 'minihead' %}
+      <h4><i>{{ page.date | date: "%Y-%m-%d"  }}</i></h4><hr />{% endunless %}
+      <!-- <div style="clear: both;margin-bottom:32px;"></div> -->
+      {{ content }}{% unless page.author == 'none' %}
+      {% include author-block.html %}{% endunless %}{%
+      if site.owner.disqus_shortname and jekyll.environment == "production" %}{%
+        unless page.options contains nocomment %}
+      {% include disqus.html %}{%
+        endunless %}{%
+      endif %}
+    </div>
+  </section>

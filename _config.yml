@@ -2,23 +2,37 @@
 #
 
 # Site settings
-title: Spectral
-description: |
-  Another fine responsive  
-  site template freebie  
-  crafted by [HTML5 UP](http://html5up.net)
-owner: Your Name # or company name
-first_published: 2016 # if migrating another site, the year of your first publish
-email: your-email@domain.com
+title: arkadianriver
+description: Flowing creativity &#x2192; Cascading bliss
+owner:
+  name: Gary Faircloth # or company name
+  bio: >
+    Interests: tech writing, programming, science, history.
+    You might also find me playing some PC Ga&mdash;SQUIRREL!
+  disqus_shortname: arkadianriver
+  email: gfair@arkadianriver.com
+  url: http://arkadianriver.com
+  avatar: owner.png
+first_published: 1996 # if migrating another site, the year of your first publish
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
+url: "http://arkadianriver.com" # the base hostname & protocol for your site
+
+# on landing page
+greeting: |
+  Welcome!  
+  I hope you enjoy my collection
+features-title: Featured topics
+closing-head: Thanks for visiting
+closing-para: Feel free to get in touch. Cheers!
+
+# on all pages
 social:
-  twitter: https://twitter.com/<username>
-  github: https://github.com/<username>
-  linkedin-square: https://linkedin.com/in/<username>
-  facebook-official: https://facebook.com/<username>
-  google-plus-square: https://plus.google.com/u/0/+<username>
-  #email: /contact/
+  twitter: https://twitter.com/arkadianriver
+  github: https://github.com/arkadianriver
+  linkedin-square: https://linkedin.com/in/arkadianriver
+  facebook-official: https://facebook.com/gary.faircloth
+  google-plus-square: https://plus.google.com/u/0/+GaryFaircloth
+  email: /contact/
   #flickr:
   #instagram:
   #youtube-square:
@@ -54,6 +68,15 @@ social:
   #amazon:
 
 # Build settings
+permalink: /:categories/:title.html
 markdown: kramdown
 #sass:
 #  style: compressed
+exclude: ['site.bat']
+include: ['_pages','.htaccess']
+defaults:
+  - scope:
+      path: _pages
+    values:
+      layout: page
+      #permalink: /:slug/ # see github.com/jekyll/jekyll/issues/2280 for restriction
