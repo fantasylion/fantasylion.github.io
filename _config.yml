@@ -3,12 +3,12 @@
 
 # Site settings
 title: 无用郎中
-description: 一个追求极致的技术宅
+description: 一只受伤的猿
 owner:
   name: zl.shi # or company name
   bio: >
-    Interests: tech writing, programming, science, history.
-    You might also find me playing some PC Ga&mdash;SQUIRREL!
+    Interests: programming, Skating, Cycling, science, history.
+    Sometimes you'll see me a man riding a bicycle in the city
   disqus_shortname: fantasyLion
   email: lionsmail1015@gmail.com
   url: http://blog.shizhengliang.com
@@ -27,7 +27,7 @@ closing-para: Feel free to get in touch. Cheers!
 
 # on all pages
 social:
-  twitter: https://twitter.com/fantasylion
+  twitter: https://twitter.com/fantasylions
   github: https://github.com/FantasyLions
   linkedin-square: https://linkedin.com/in/FantasyLions
   facebook-official: https://facebook.com/zl.shi
