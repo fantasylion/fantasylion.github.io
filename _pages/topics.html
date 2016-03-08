@@ -25,7 +25,7 @@ background-image: pic01.jpg
                 {{ post.date | date: "%Y-%m-%d" }}
               <br /></span>
             <span class="post-desc" style="overflow: hidden;text-overflow: ellipsis;">
-                {{ post.excerpt | strip_html | truncatewords: 12 }}
+                {{ post.excerpt | strip_html | truncate: 12, '...' }}
             </span>
           </div>
         </a>
@@ -52,7 +52,7 @@ background-image: pic01.jpg
               <br />
             </span>
             <span class="post-desc" style="overflow: hidden;text-overflow: ellipsis;">
-                {{ post.excerpt | strip_html | truncatewords: 12 }}
+                {{ post.excerpt | strip_html | truncate: 12, '...' }}
             </span>
           </div>
         </a>
