@@ -18,14 +18,14 @@ background-image: pic01.jpg
         <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
           <div class="container">
             <span class="post-title" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                {{ post.title }}
+                {{ post.title | truncate: 10, '...' }}
               <br />
             </span>
             <span class="post-date" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                 {{ post.date | date: "%Y-%m-%d" }}
               <br /></span>
             <span class="post-desc" style="overflow: hidden;text-overflow: ellipsis;">
-                {{ post.excerpt | strip_html | truncate: 12, '...' }}
+                {{ post.excerpt | strip_html | truncate: 20, '...' }}
             </span>
           </div>
         </a>
@@ -44,7 +44,7 @@ background-image: pic01.jpg
             <span class="post-feature">Featured:<br /></span>{%
             endif %}
             <span class="post-title" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                {{ post.title }}
+                {{ post.title | truncate: 10, '...' }}
               <br />
             </span>
             <span class="post-date" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -52,7 +52,7 @@ background-image: pic01.jpg
               <br />
             </span>
             <span class="post-desc" style="overflow: hidden;text-overflow: ellipsis;">
-                {{ post.excerpt | strip_html | truncate: 12, '...' }}
+                {{ post.excerpt | strip_html | truncate: 20, '...' }}
             </span>
           </div>
         </a>
