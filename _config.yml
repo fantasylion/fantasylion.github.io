@@ -3,9 +3,9 @@
 
 # Site settings
 title: 无用郎中
-description: Flowing creativity &#x2192; Cascading bliss
+description: 一个追求极致的技术宅
 owner:
-  name: Gary Faircloth # or company name
+  name: zl.shi # or company name
   bio: >
     Interests: tech writing, programming, science, history.
     You might also find me playing some PC Ga&mdash;SQUIRREL!
@@ -13,14 +13,14 @@ owner:
   email: lionsmail1015@gmail.com
   url: http://blog.shizhengliang.com
   avatar: owner.png
-first_published: 1996 # if migrating another site, the year of your first publish
+first_published: 2015 # if migrating another site, the year of your first publish
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://blog.shizhengliang.com" # the base hostname & protocol for your site
 
 # on landing page
 greeting: |
   Welcome!  
-  I hope you enjoy my collection
+  I hope you enjoy my blog
 features-title: Featured topics
 closing-head: Thanks for visiting
 closing-para: Feel free to get in touch. Cheers!
