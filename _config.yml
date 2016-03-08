@@ -2,20 +2,20 @@
 #
 
 # Site settings
-title: arkadianriver
+title: 无用郎中
 description: Flowing creativity &#x2192; Cascading bliss
 owner:
   name: Gary Faircloth # or company name
   bio: >
     Interests: tech writing, programming, science, history.
     You might also find me playing some PC Ga&mdash;SQUIRREL!
-  disqus_shortname: arkadianriver
-  email: gfair@arkadianriver.com
-  url: http://arkadianriver.com
+  disqus_shortname: fantasyLion
+  email: lionsmail1015@gmail.com
+  url: http://blog.shizhengliang.com
   avatar: owner.png
 first_published: 1996 # if migrating another site, the year of your first publish
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://arkadianriver.com" # the base hostname & protocol for your site
+url: "http://blog.shizhengliang.com" # the base hostname & protocol for your site
 
 # on landing page
 greeting: |
@@ -27,11 +27,11 @@ closing-para: Feel free to get in touch. Cheers!
 
 # on all pages
 social:
-  twitter: https://twitter.com/arkadianriver
-  github: https://github.com/arkadianriver
-  linkedin-square: https://linkedin.com/in/arkadianriver
-  facebook-official: https://facebook.com/gary.faircloth
-  google-plus-square: https://plus.google.com/u/0/+GaryFaircloth
+  twitter: https://twitter.com/fantasylion
+  github: https://github.com/FantasyLions
+  linkedin-square: https://linkedin.com/in/FantasyLions
+  facebook-official: https://facebook.com/zl.shi
+  google-plus-square: https://plus.google.com/u/0/+FantasyLions
   email: /contact/
   #flickr:
   #instagram:

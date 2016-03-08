@@ -17,9 +17,22 @@ background-image: pic01.jpg
       <li>
         <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
           <div class="container">
-            <span class="post-title">{{ post.title }}<br /></span>
-            <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}<br /></span>
-            <span class="post-desc">{{ post.excerpt | strip_html | truncatewords: 12 }}</span>
+            <span class="post-title">
+              <li style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                {{ post.title }}
+              </li>
+              <br />
+            </span>
+            <span class="post-date">
+              <li style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                {{ post.date | date: "%Y-%m-%d" }}
+              </li>
+              <br /></span>
+            <span class="post-desc">
+              <li style="overflow: hidden;text-overflow: ellipsis;">
+                {{ post.excerpt | strip_html | truncatewords: 12 }}
+              </li>
+            </span>
           </div>
         </a>
       </li>{%
@@ -36,9 +49,23 @@ background-image: pic01.jpg
             if post.tags contains "featured" %}
             <span class="post-feature">Featured:<br /></span>{%
             endif %}
-            <span class="post-title">{{ post.title }}<br /></span>
-            <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}<br /></span>
-            <span class="post-desc">{{ post.excerpt | strip_html | truncatewords: 12 }}</span>
+            <span class="post-title">
+              <li style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                {{ post.title }}
+              </li>
+              <br />
+            </span>
+            <span class="post-date">
+              <li style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                {{ post.date | date: "%Y-%m-%d" }}
+              </li>
+              <br />
+            </span>
+            <span class="post-desc">
+              <li style="overflow: hidden;text-overflow: ellipsis;">
+                {{ post.excerpt | strip_html | truncatewords: 12 }}
+              </li>
+            </span>
           </div>
         </a>
       </li>{%
