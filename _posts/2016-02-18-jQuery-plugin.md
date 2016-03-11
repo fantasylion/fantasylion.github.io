@@ -6,12 +6,12 @@ tags: [JavaScript]
 excerpt: "jQuery已经被广泛使用，凭借其简洁的API，对DOM强大的操控性，易扩展性越来越受到web开发人员的喜爱。本文简单介绍一下如何开发jQuery的插件"
 ---
 
-#前言
+# 前言
 [jQuery]已经被广泛使用，凭借其简洁的[API]，对DOM强大的操控性，易扩展性越来越受到web开发人员的喜爱，本文简单介绍一下如何开发[jQuery]的插件
 
-#开发插件的方式有两种
+# 开发插件的方式有两种
 
-##类级别的开发
+## 类级别的开发
 
 类级别的插件开发最直接的理解就是给[jQuery]类添加类方法，可以理解为添加静态方法。典型的例子有`$.AJAX(),$.getJSON()`,将函数定义于[jQuery]的命名空间中.
 
@@ -63,7 +63,7 @@ jQuery.pluginTest = {
 调用方式 : jQuery.pluginTest.test();
 ```
 
-##对象级别的开发
+## 对象级别的开发
 
 * 第一种对象级别开发方式:
 
@@ -179,7 +179,7 @@ $(“#id”).pluginTest();
 
  
 
-#开发插件时需要注意的几点
+# 开发插件时需要注意的几点
 
 * 推荐使用插件的命名方法`jQuery.[插件名].js||[插件名].js`
 
@@ -197,9 +197,9 @@ $(“#id”).pluginTest();
 
  
 
-#`jQuery.extend()` 和 `jQuery.fn.extend()`区别
+# `jQuery.extend()` 和 `jQuery.fn.extend()`区别
 
-##`jQuery.extend()`函数
+## `jQuery.extend()`函数
 
 　　　　``var tar = jQuery.extend(target, src1, src2...);``
 
@@ -222,7 +222,7 @@ $(“#id”).pluginTest();
 
  
 
-##`JQuery.fn.extend()`函数
+## `JQuery.fn.extend()`函数
 
 使用方法同上
 

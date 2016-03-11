@@ -8,7 +8,7 @@ excerpt: "Canvas是html5上的一个画布标签,功能有点类似java的swing.
 ---
 Canvas制作视频图片特效
 
-#Canvas介绍
+# Canvas介绍
 
 Canvas是html5上的一个画布标签,功能有点类似java的swing.可以在canvas上画线条 弧线, 文字 就是画布的功能.
 
@@ -16,7 +16,7 @@ Canvas是html5上的一个画布标签,功能有点类似java的swing.可以在c
 
  
 
-#简单介绍一下使用:
+# 简单介绍一下使用:
 
 ```
 Var canvas = document.documentElementById(“canvasId”);
@@ -27,7 +27,7 @@ ctx.drawImage(img);//img为dom图片对象, 还有其他可选参数 剪切坐�
 ```
  
 
-#给图片添加特效
+# 给图片添加特效
 
 原理: 图片通过drawImage函数 绘制到 canvas 上之后, 用getImageData函数可以获得
 
@@ -69,7 +69,7 @@ ctx.putImageData(imgData, 0, 0);
 ```
  
 
-#给视频添加特效
+# 给视频添加特效
 
 原理: 与图片的原理类似,只是要绘制视频每一帧的画面, 视频每播放一帧,就在canvas上绘制一帧画面
 
@@ -107,7 +107,7 @@ setTimeout( drawVidEffect, 20 );
 ```
  
 
-#注意
+# 注意
 
 如果视频或者图片所在的域名 跟canvas所在域名不一样 或者 不在服务器上运行 会报错:
 ```

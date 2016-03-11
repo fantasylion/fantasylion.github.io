@@ -6,15 +6,15 @@ tags: [CSS]
 excerpt: "CSS3(animation, trasfrom)总结"
 ---
 
-#Animation
+# Animation
 
-##样式写法:
+## 样式写法:
 
 格式: @-浏览器内核-keyframes 样式名 {}
 
  
 
-###标准写法(chrome safari不支持
+### 标准写法(chrome safari不支持
 
 ```
 @keyframes  [样式名] {
@@ -30,7 +30,7 @@ excerpt: "CSS3(animation, trasfrom)总结"
 
        
 
-###Firefox
+### Firefox
 
 ```
 @-mz-keyframes  [样式名] {
@@ -45,7 +45,7 @@ excerpt: "CSS3(animation, trasfrom)总结"
 ```
  
 
-###Chrome & Safari
+### Chrome & Safari
 
 ```
 @-webkit-keyframes  [样式名] {
@@ -60,7 +60,7 @@ excerpt: "CSS3(animation, trasfrom)总结"
 ```
  
 
-###Opern
+### Opern
 ```
 @-o-keyframes  [样式名] {
 
@@ -74,7 +74,7 @@ excerpt: "CSS3(animation, trasfrom)总结"
 ```
  
 
-###其他写法 
+### 其他写法 
 ```
 @keyframes [样式名] {
 
@@ -85,8 +85,8 @@ to   {left:20px; top: 50px;}
 }
 ```
  
-
-##样式引用:
+ 
+## 样式引用:
 
         Style=”animation:样式名 时间 播放曲线”
 
@@ -126,7 +126,7 @@ eg:
 		```
  
 
-##CSS3 Animation 所具有的属性:
+## CSS3 Animation 所具有的属性:
 |name      |功能        |
 |----------|------------|
 |@keyframes|所有规定动画|
@@ -161,7 +161,7 @@ __属性对应__
 |Animation-fill-mode|Dom.style.webkitAnimationFillMode|
 
 
-###样式动态生成动态引入styleSheets
+### 样式动态生成动态引入styleSheets
 
 chorome中:
 
@@ -187,7 +187,7 @@ dom.display = "block";
 ```
  
 
-#transform
+# transform
 
 <http://www.w3school.com.cn/cssref/pr_transform.asp>
 

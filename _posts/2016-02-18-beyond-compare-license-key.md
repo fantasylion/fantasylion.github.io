@@ -6,7 +6,7 @@ tags: [tool]
 excerpt: "Beyond Compare是一套由Scooter Software推出的软件，主要用途是对比两个文件夹或者文件，并将差异以颜色标示。本文记录一些Beyond Compare3的注册码"
 ---
 
-#介绍
+# 介绍
 Beyond Compare是一套由Scooter Software推出的软件，主要用途是对比两个文件夹或者文件，并将差异以颜色标示。
 
 #Beyond Compare 3简体中文版官方下载地址：

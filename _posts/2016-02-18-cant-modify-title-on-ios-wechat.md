@@ -6,11 +6,11 @@ tags: [JavaScript]
 excerpt: "用Iphone手机的微信浏览网页的时候，在切换页面时无法更新页面的title。于是从网上找了一个传说中的黑魔法解决此问题。"
 ---
 
-#背景
+# 背景
 
 用Iphone手机的微信浏览网页的时候，在切换页面时无法更新页面的title。于是从网上找了一个传说中的黑魔法解决此问题。
 
-#使用jQuery
+# 使用jQuery
 
 ```
 var$body = $('body');
@@ -32,7 +32,7 @@ $iframe.on('load',function(){
 }).appendTo($body);
 ```
 
-#原生javaScript
+# 原生javaScript
 
 ```
 var body = document.getElementsByTagName('body')[0];
