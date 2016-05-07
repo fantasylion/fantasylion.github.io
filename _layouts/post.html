@@ -1,6 +1,11 @@
 ---
 layout: default
 ---
+<article {% if page.background-image %} id="main"{%
+        elsif page.options contains 'minihead' %} id="minihead"{%
+        else %} id="standard"{%
+        endif %}>
+  {% include header-inner.html %}
   <section class="wrapper{% if page.options contains 'minihead' %} minihead{% endif %} style5">
     <div class="inner{% if page.options contains 'fullwidth' %} fullwidth{% endif %}">{% unless page.options contains 'minihead' %}
       <h4><i>{{ page.date | date: "%Y-%m-%d"  }}</i></h4><hr />{% endunless %}
@@ -14,3 +19,4 @@ layout: default
       endif %}
     </div>
   </section>
+</article>

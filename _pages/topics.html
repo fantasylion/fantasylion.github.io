@@ -34,9 +34,9 @@ background-image: pic01.jpg
       endfor %}
   </ul>
   <hr style="margin:1em 0 1em 0;" />
-  <ul class="post-list">{%
-      for post in site.posts %}{%
-        unless post.tags contains "featured" %}
+  <ul class="post-list">
+    {% for post in site.posts %}
+      {% unless post.tags contains "featured" %}
       <li{% if post.tags contains "featured" %}  class="featured"{% endif %}>
         <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
           <div class="container">{%
@@ -56,8 +56,8 @@ background-image: pic01.jpg
             </span>
           </div>
         </a>
-      </li>{%
-        endunless %}{%
-      endfor %}
+      </li>
+        {% endunless %}
+        {% endfor %}
   </ul>
   {% endif %}

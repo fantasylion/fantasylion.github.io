@@ -1,5 +1,15 @@
 # Welcome to Jekyll!
-#
+#highlighter: redcarpet
+highlighter: kramdown
+markdown: kramdown
+kramdown:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
+gems: [jekyll-paginate]
+paginate: 7
+paginate_path: "page:num"
+layout: post
+permalink: /:categories/:title
+excerpt_separator: "[-----]"
 
 # Site settings
 title: 无用郎中
@@ -13,7 +23,7 @@ owner:
   email: lionsmail1015@gmail.com
   url: http://blog.shizhengliang.com
   avatar: owner.png
-first_published: 2015 # if migrating another site, the year of your first publish
+first_published: 2014 # if migrating another site, the year of your first publish
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://blog.shizhengliang.com" # the base hostname & protocol for your site
 
@@ -31,45 +41,13 @@ social:
   github: https://github.com/FantasyLions
   linkedin-square: https://linkedin.com/in/FantasyLions
   facebook-official: https://facebook.com/zl.shi
-  google-plus-square: https://plus.google.com/103035350124326308105/posts
+  google-plus-square: https://plus.google.com/u/0/103035350124326308105/posts
   email: /contact/
-  #flickr:
-  #instagram:
-  #youtube-square:
-  #spotify:
-  #stack-overflow:
-  #vimeo:
-  #reddit:
-  #stubleupon:
-  #delicious:
-  #pied-piper:
-  #digg:
-  #soundcloud:
-  #deviantart:
-  #angellist:
-  #tumblr-square:
-  #stackexchange:
-  #weibo:
-  #trello:
-  #foursquare:
-  #linux:
-  #bitbucket-square:
-  #vk:
-  #slack:
-  #vine:
-  #weixin:
-  #yelp:
-  #skyatlas:
-  #leanpub:
-  #connectdevelop:
-  #ils:
-  #forumbee:
-  #tripadvisor:
-  #amazon:
+
 
 # Build settings
-permalink: /:categories/:title.html
-markdown: kramdown
+#permalink: /:categories/:title.html
+
 #sass:
 #  style: compressed
 exclude: ['site.bat']

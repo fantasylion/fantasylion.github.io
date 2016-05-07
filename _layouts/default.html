@@ -4,30 +4,26 @@
     html5up.net | @n33co
     Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
   Jekyll build mod
-  Further hacked by arkadianriver
 -->
 <html>
 
   {% include head.html %}
 
   <body>
-
+    {% include header.html %}
     <!-- Page Wrapper -->
     <div id="page-wrapper">
 
-      {% include header.html %}
-
-      <article{%
-        if page.background-image %} id="main"{%
+      <!-- <article {% if page.background-image %} id="main"{%
         elsif page.options contains 'minihead' %} id="minihead"{%
         else %} id="standard"{%
         endif %}>
 
-        {% include header-inner.html %}
+        {% include header-inner.html %} -->
 
         {{ content }}
 
-      </article>
+      <!-- </article> -->
 
       {% include footer.html %}
 
