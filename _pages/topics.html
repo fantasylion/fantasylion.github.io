@@ -11,27 +11,29 @@ background-image: pic01.jpg
   {% if site.posts %}
   <hr style="margin:0 0 1em 0;" />
   <h4>Featured posts</h4>
-  <ul class="post-list">{%
-      for post in site.posts %}{%
-        if post.tags contains "featured" %}
+  <ul class="post-list">
+    {% for post in site.posts %}
+    {% if post.tags contains "featured" %}
       <li>
         <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
           <div class="container">
             <span class="post-title" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                {{ post.title | truncate: 10, '...' }}
+                {{ post.title | truncate: 100, '...' }}
+                {{ post.title }}
               <br />
             </span>
             <span class="post-date" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                 {{ post.date | date: "%Y-%m-%d" }}
               <br /></span>
             <span class="post-desc" style="overflow: hidden;text-overflow: ellipsis;">
-                {{ post.excerpt | strip_html | truncate: 20, '...' }}
+                {{ post.excerpt | strip_html | truncate: 200, '...' }}
             </span>
           </div>
         </a>
-      </li>{%
-        endif %}{%
-      endfor %}
+      </li>
+      <br />
+      {% endif %}
+      {% endfor %}
   </ul>
   <hr style="margin:1em 0 1em 0;" />
   <ul class="post-list">
@@ -44,7 +46,7 @@ background-image: pic01.jpg
             <span class="post-feature">Featured:<br /></span>{%
             endif %}
             <span class="post-title" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                {{ post.title | truncate: 10, '...' }}
+                {{ post.title | truncate: 100, '...' }}
               <br />
             </span>
             <span class="post-date" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
@@ -52,11 +54,12 @@ background-image: pic01.jpg
               <br />
             </span>
             <span class="post-desc" style="overflow: hidden;text-overflow: ellipsis;">
-                {{ post.excerpt | strip_html | truncate: 20, '...' }}
+                {{ post.excerpt | strip_html | truncate: 200, '...' }}
             </span>
           </div>
         </a>
       </li>
+      <br />
         {% endunless %}
         {% endfor %}
   </ul>
