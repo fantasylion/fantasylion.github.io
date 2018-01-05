@@ -72,6 +72,60 @@ d) 相当于每个list被分为12个小的单元，每个小的单元自成一�
 看过的按记忆周期在第2、4、7、15天重新复习，基本每天进行的300～400个单词记忆。
 ```
 
+### 英语背诵任务
+
+* a) 每天连续背诵1个list，每个list 120个单词，并完成复习任务；
+* b) 复习永远比记新词重要，要反复高频率的复习，复习，再复习；
+* c) 一天都不能间断，坚持挺过这15天，之后每天都要花大约1小时复习； 
+ 
+### 时间表
+
+```
+
+			      新学		 背诵
+第1天：			list1		  *list1
+第2天：			list2	  	*list1		*list2
+第3天：			list3	  	*list2		*list3
+第4天：			list4		  *list3		*list1		*list4
+第5天：			list5		  *list4		*list2		*list5
+第6天：			list6		  *list5		*list3		*list6
+第7天：			list7		  *list6		*list4		*list1		*list7
+第8天：			list8		  *list7		*list5		*list2		*list8
+第9天：			list9		  *list8		*list6		*list3		*list9
+第10天：			list10		*list9		*list7		*list4		*list10
+第11天：			list11		*list10		*list8		*list5		*list11
+第12天：			list12		*list11		*list9		*list6		*list12
+第13天：			list13		*list12		*list10		*list7		*list13
+第14天：			list14		*list13		*list11		*list8		*list14
+第15天：			list15		*list14		*list12		*list9		*list1		*list15
+第16天：			list16		*list15		*list13		*list10		*list2		*list16
+第17天：			list17		*list16		*list14		*list11		*list3		*list17
+第18天：			list18		*list17		*list15		*list12		*list4		*list18
+第19天：			list19		*list18		*list16		*list13		*list5		*list19
+第20天：			list20		*list19		*list17		*list14		*list6		*list20
+第21天：			list21		*list20		*list18		*list15		*list7		*list21
+第22天：			list22		*list21		*list19		*list16		*list8		*list22
+第23天：			list23		*list22		*list20		*list17		*list9		*list23
+第24天：			list24		*list23		*list21		*list18		*list10		*list24
+第25天：			list25		*list24		*list22		*list19		*list11		*list25
+第26天：			list26		*list25		*list23		*list20		*list12		*list26
+第27天：			list27		*list26		*list24		*list21		*list13		*list27
+第28天：			list28		*list27		*list25		*list22		*list14		*list28
+第29天：			list29		*list28		*list26		*list23		*list15		*list29
+第30天：			list30		*list29		*list27		*list24		*list16		*list30
+第31天：			list31		*list30		*list28		*list25		*list17		*list31
+第32天：			list32		*list31		*list29		*list26		*list18		*list32
+第33天：			list33		*list32		*list30		*list27		*list19		*list33
+第34天：			list34		*list33		*list31		*list28		*list20		*list34
+第35天：			list35		*list34		*list32		*list29		*list21		*list35
+第36天：			list36		*list35		*list33		*list30		*list22		*list36
+第37天：			list37		*list36		*list34		*list31		*list23		*list37
+第38天：			list38		*list37		*list35		*list32		*list24		*list38
+
+
+```
+
+
 ### 注意事项
 
 * a) 每天连续背诵2个list，并完成复习任务；
