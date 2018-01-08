@@ -88,9 +88,9 @@ d) 相当于每个list被分为12个小的单元，每个小的单元自成一�
 第4天：			list4		*list3		*list1		*list4
 第5天：			list5		*list4		*list2		*list5
 第6天：			list6		*list5		*list3		*list6
-第7天：---		list7		*list6		*list4		*list1		*list7
+第7天：    		list7		*list6		*list4		*list1		*list7
 第8天：			list8		*list7		*list5		*list2		*list8
-第9天：			list9		*list8		*list6		*list3		*list9
+第9天*：   		list9		*list8		*list6		*list3		*list9
 第10天：			list10		*list9		*list7		*list4		*list10
 第11天：			list11		*list10		*list8		*list5		*list11
 第12天：			list12		*list11		*list9		*list6		*list12
