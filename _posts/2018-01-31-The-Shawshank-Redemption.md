@@ -169,4 +169,45 @@ Welcome to Shawshank.
 Unhook them.
 [time is 14:19]
 
+Turn around.
+
+That's enough. Move to the end of the cage. Turn around. Delouse him. Turn around. Move out of the cage.
+Pick up your clohes and Bible. Next man up. To the right. Right. Right. Left. The first night's the toughest. No doubt about it.
+They march you in naked as the day you were born. Skin burning and half-blind from that delouing shit. And when they put you in 
+that cell and those bars slam home. That's when you know it's for real. Old life blown away in the blink of an eye. Nothing left
+but all the time in the world to think about it. Most new fish come close to madness the first night. Somebody always breaks down crying. Hapens every time. The only question is who's it going to be? It's as good a thing to bet on as any, I guess. I had my
+money on Andy Dufresne.
+
+Lights out.
+
+I remember my first night.Seems like a long time ago.
+
+Hey fish, fish ,fish, what are you, scared of the dark? Bet you wish your daddy never dicked your mama? Piggy! Pork! I want me
+a port chop.
+
+Poke your ass out, give me a first look! Keep it down.
+
+The boys always go fishing with first-timers. And the don't quit till they reel someone in.
+
+Hey, Fat Ass. Take to me boy. I know your're there. I can hear you breathing. Don't you listen to these nitwits, you hear me?
+This place ain't so bad. Tell you what, I'll introduce you around, make you feel right at home.
+I konw a couple of big od bull queers that'd just love to make your acquaintance. Especially that big,
+white, mushy butt of yours.
+
+Glod!
+
+I don't belong here!
+
+We have a winner!- I want to go home!
+
+And it's Fat Ass by a nose!
+
+Fresh fish! Fresh fish! Fresh fish!
+
+I don't belong here. I want to go home. I want my mother!
+
+I had your mother! She wasn't that great!
+[time is 18:01]
+
+
 ```
