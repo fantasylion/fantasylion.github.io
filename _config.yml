@@ -1,6 +1,6 @@
 # Welcome to Jekyll!
 #highlighter: redcarpet
-highlighter: kramdown
+highlighter: rouge
 markdown: kramdown
 kramdown:
   extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
