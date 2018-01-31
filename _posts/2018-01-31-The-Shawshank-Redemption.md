@@ -26,7 +26,8 @@ What Happened after you argued with your wife?
 
 She packed a bag. She packed a bag to go and stay with Mr.Quentin.
 
-Glenn Quentin, golf pro at the Snowden Hills Country Club whom you had discovered was your wife's lover. Did you follow her?
+Glenn Quentin, golf pro at the Snowden Hills Country Club whom you had discovered was your wife's lover. Did you follow
+her?
 
 I went to a few bars first. Later, I drove to his house to confront them. They weren't home. 
 So I parked in the turnout and waited.[Some errors here]
@@ -52,8 +53,9 @@ Yet you still maintain you threw your gun into the river before the murders took
 
 It's the truth.
 
-The police dragged that river for three days, and nary a gun was found, so no comparison could be made between your gun
-and the bullets taken from the bloodstained corpses of the victims. And that also is very convenient. Isn's it, Mr,Dufresne?
+The police dragged that river for three days, and nary a gun was found, so no comparison could be made between your
+gun and the bullets taken from the bloodstained corpses of the victims. And that also is very convenient.
+Isn's it, Mr,Dufresne?
 
 Since I am innocent of this crime.I find it decidedly inconvenient that the gun was nerver found.
 
