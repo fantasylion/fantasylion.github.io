@@ -44,7 +44,7 @@ ZooKeeper 树中的任何一个节点都依赖于 `ZNode`。`ZNode` 维护一个
 
 Note |
 :--- |
-在分布式应用引擎上，节点可以是指一台主机、一个服务、一个成员、一个客户端进程等等。在 ZooKeeper 文档中，`ZNodes` 指一个数据节点。`Servers` 指启动ZooKeeper服务的服务器；`quorum peers` 指服务集群； 客户端指任何一台主机或者使用 ZooKeeper 服务的进程|
+在分布式应用引擎上，节点可以是指一台主机、一个服务、集群中的某个成员、一个客户端进程等等。在 ZooKeeper 文档中，`ZNodes` 指一个数据节点。`Servers` 指启动ZooKeeper服务的服务器；`quorum peers` 指服务集群； 客户端指任何一台主机或者使用 ZooKeeper 服务的进程|
 
 
 
