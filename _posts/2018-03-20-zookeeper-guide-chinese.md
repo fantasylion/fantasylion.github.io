@@ -63,6 +63,16 @@ ZooKeeper 当然也临时节点的概念。这些 Znodes 生命周期同   保�
 
 
 ### ZooKeeper 时间
+ZooKeeper 有很多方法去追踪这个时间
+
+* _xid_
+ZooKeeper 状态有任何修改都将会收到一个 zxid(ZooKeeper Transaction Id) 的标记。这个暴露了 ZooKeeper 所有的修改排序。
+* _版本号_
+
+* _Ticks_
+
+* _真实时间_
+
 ### ZooKeeper 状态结构
 
 
