@@ -1,6 +1,6 @@
 ---
 id: 3
-title: Contact
+title: 联系
 permalink: /contact/
 options: nolanding
 excerpt: Get in touch

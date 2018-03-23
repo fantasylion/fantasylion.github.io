@@ -1,6 +1,6 @@
 ---
 id: 4
-title: Thanks!
+title: 情感
 permalink: /contact-success/
 options: nomenu, nolanding
 excerpt: I'll get in touch soon
