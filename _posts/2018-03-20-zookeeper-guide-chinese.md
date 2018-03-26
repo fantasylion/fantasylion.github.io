@@ -108,7 +108,7 @@ ZooKeeper 客户端通过语言绑定于服务创建握手来建立与 ZooKeeper
 **3.2.0 版本添加**<br>
 可选后缀 “chroot” 可以追加到连接字符串后面。这会运行客户端命令以相对ROOT路径的形式（类似unix系统的chroot命令）。如果要举例的话看起来就像："127.0.0.1:4545/app/a" 或 "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002/app/a" 这样客户端就会以 "app/a" 为根目录，所有的路径都会相对于这个根目录。比如 "/foo/bar" 返回的结果将是运行 "/app/a/foo/bar" 得到（从服务器的角度来看）。这个功能在多租户环境真的很有用，每个 ZooKeeper 服务的用户可以有不同的根目录。这使得复用变得简单，用户可以将他的应用程序根目录编码成 “/” ，但是实际的位置可以在发布的时候在去决定。
 
-When a client gets a handle to the ZooKeeper service, ZooKeeper creates a ZooKeeper session, represented as a 64-bit number, that it assigns to the client. If the client connects to a different ZooKeeper server, it will send the session id as a part of the connection handshake. As a security measure, the server creates a password for the session id that any ZooKeeper server can validate.The password is sent to the client with the session id when the client establishes the session. The client sends this password with the session id whenever it reestablishes the session with a new server.
+当客户端获取到连接 ZooKeeper 服务的句柄，ZooKeeper 将创建一个以64位的数字表示的 ZooKeeper session，派送到客户端。如果客户端连接到一个不同的 ZooKeeper 服务，它将会发送一个 session id 作为连接握手的一个部分。为了保证安全，服务端会给 session id 创建一个秘密，任何的 ZooKeeper 服务都可以去验证。这个密码将会在客户端建立会话的时候和 session id 一起发送到客户端。客户端随时都可以发送这个密码和 session id 跟一个新的服务重新建立会话。
 
 One of the parameters to the ZooKeeper client library call to create a ZooKeeper session is the session timeout in milliseconds. The client sends a requested timeout, the server responds with the timeout that it can give the client. The current implementation requires that the timeout be a minimum of 2 times the tickTime (as set in the server configuration) and a maximum of 20 times the tickTime. The ZooKeeper client API allows access to the negotiated timeout.
 
