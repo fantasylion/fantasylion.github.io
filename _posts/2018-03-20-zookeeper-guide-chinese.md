@@ -118,17 +118,17 @@ session 过期通过 ZooKeeper 集群自己管理，不是通过客户端。当 
 
 举一个会话过期监控者看到的会话过期状态转换的例子：
 
-'connected' : session is established and client is communicating with cluster (client/server communication is operating properly)
+1. 'connected' : session is established and client is communicating with cluster (client/server communication is operating properly)
 
-.... client is partitioned from the cluster
+2. .... client is partitioned from the cluster
 
-'disconnected' : client has lost connectivity with the cluster
+3. 'disconnected' : client has lost connectivity with the cluster
 
-.... time elapses, after 'timeout' period the cluster expires the session, nothing is seen by client as it is disconnected from cluster
+4. .... time elapses, after 'timeout' period the cluster expires the session, nothing is seen by client as it is disconnected from cluster
 
-.... time elapses, the client regains network level connectivity with the cluster
+5. .... time elapses, the client regains network level connectivity with the cluster
 
-'expired' : eventually the client reconnects to the cluster, it is then notified of the expiration
+6. 'expired' : eventually the client reconnects to the cluster, it is then notified of the expiration
 
 Another parameter to the ZooKeeper session establishment call is the default watcher. Watchers are notified when any state change occurs in the client. For example if the client loses connectivity to the server the client will be notified, or if the client's session expires, etc... This watcher should consider the initial state to be disconnected (i.e. before any state changes events are sent to the watcher by the client lib). In the case of a new connection, the first event sent to the watcher is typically the session connection event.
 
