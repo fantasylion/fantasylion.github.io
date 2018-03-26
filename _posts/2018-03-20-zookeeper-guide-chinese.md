@@ -66,12 +66,13 @@ ZooKeeper 当然也临时节点的概念。这些 Znodes 生命周期同   保�
 ZooKeeper 有很多方法去追踪这个时间
 
 * _xid_
-ZooKeeper 状态有任何修改都将会收到一个 zxid(ZooKeeper Transaction Id) 的标记。这个暴露了 ZooKeeper 所有的修改排序。
-* _版本号_
-
+ZooKeeper 状态有任何修改都将会收到一个 zxid(ZooKeeper Transaction Id) 的标记。这个暴露了 ZooKeeper 所有的修改排序。每次修改都将会有一个唯一的   zxid，如果 zxid1 小于 zxid2 那么就可以认为 zxid1 是发生在 zxid2 之前。
+* _Version numbers_
+所有对节点的修改都将造成这个节点的版本号增加。这三个版本数字就是version（znode数据修改的数量），cversion（znode子节点修改的数量），aversion（znode  修改的数量）。
 * _Ticks_
-
-* _真实时间_
+当使用多服务的 ZooKeeper，服务将使用 ticks 去定义事件时间，像（上传状态，会话超时，管道连接超时等等）。Tick 只会间接的暴露最小会话时间（两倍的 Tick time）；如果一个客户端的请求超时时间小于这个会话时间，服务器将告知客户端这个超时时间以最小的超时时间为准。
+* _Real time_
+ZooKeeper 不使用真实的时间或锁定时间，除了将时间戳放到 znode 的创建和修改的状态结构中。
 
 ### ZooKeeper 状态结构
 
