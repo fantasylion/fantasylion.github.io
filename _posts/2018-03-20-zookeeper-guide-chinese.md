@@ -65,13 +65,13 @@ ZooKeeper 当然也临时节点的概念。这些 Znodes 生命周期同   保�
 ### ZooKeeper 时间
 ZooKeeper 有很多方法去追踪这个时间
 
-* *xid*<br>
+* **xid**<br>
 ZooKeeper 状态有任何修改都将会收到一个 zxid(ZooKeeper Transaction Id) 的标记。这个暴露了 ZooKeeper 所有的修改排序。每次修改都将会有一个唯一的   zxid，如果 zxid1 小于 zxid2 那么就可以认为 zxid1 是发生在 zxid2 之前。
-* *Version numbers*<br>
+* **Version numbers**<br>
 所有对节点的修改都将造成这个节点的版本号增加。这三个版本数字就是version（znode数据修改的数量），cversion（znode子节点修改的数量），aversion（znode  修改的数量）。
-* *Ticks*<br>
+* **Ticks**<br>
 当使用多服务的 ZooKeeper，服务将使用 ticks 去定义事件时间，像（上传状态，会话超时，管道连接超时等等）。Tick 只会间接的暴露最小会话时间（两倍的 Tick time）；如果一个客户端的请求超时时间小于这个会话时间，服务器将告知客户端这个超时时间以最小的超时时间为准。
-* *Real time*<br>
+* **Real time**<br>
 ZooKeeper 不使用真实的时间或锁定时间，除了将时间戳放到 znode 的创建和修改的统计结构中。
 
 ### ZooKeeper 统计结构
@@ -109,6 +109,8 @@ ZooKeeper 客户端通过语言绑定于服务创建握手来建立与 ZooKeeper
 可选后缀 “chroot” 可以追加到连接字符串后面。这会运行客户端命令以相对ROOT路径的形式（类似unix系统的chroot命令）。如果要举例的话看起来就像："127.0.0.1:4545/app/a" 或 "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002/app/a" 这样客户端就会以 "app/a" 为根目录，所有的路径都会相对于这个根目录。比如 "/foo/bar" 返回的结果将是运行 "/app/a/foo/bar" 得到（从服务器的角度来看）。这个功能在多租户环境真的很有用，每个 ZooKeeper 服务的用户可以有不同的根目录。这使得复用变得简单，用户可以将他的应用程序根目录编码成 “/” ，但是实际的位置可以在发布的时候在去决定。
 
 当客户端获取到连接 ZooKeeper 服务的句柄，ZooKeeper 将创建一个以64位的数字表示的 ZooKeeper session，派送到客户端。如果客户端连接到一个不同的 ZooKeeper 服务，它将会发送一个 session id 作为连接握手的一个部分。为了保证安全，服务端会给 session id 创建一个秘密，任何的 ZooKeeper 服务都可以去验证。这个密码将会在客户端建立会话的时候和 session id 一起发送到客户端。客户端随时都可以发送这个密码和 session id 跟一个新的服务重新建立会话。
+
+
 
 One of the parameters to the ZooKeeper client library call to create a ZooKeeper session is the session timeout in milliseconds. The client sends a requested timeout, the server responds with the timeout that it can give the client. The current implementation requires that the timeout be a minimum of 2 times the tickTime (as set in the server configuration) and a maximum of 20 times the tickTime. The ZooKeeper client API allows access to the negotiated timeout.
 
