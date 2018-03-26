@@ -87,11 +87,11 @@ znode 创建时间（以毫秒为单位）。
 * _mtime_<br>
 znode 最后的修改时间（以毫秒为单位）。
 * _version_<br>
-znode 数据的修改时间。
+znode 数据的修改次数。
 * _cversion_<br>
 znode 子节点的修改次数
 * _aversion_<br>
-znode  的修改次数
+znode 的修改次数
 * _ephemeralOwner_<br>
 如果是暂时节点，表示这个 znode 的主人的 session id 。如果不是，这个值为0.
 * _dataLength_<br>
