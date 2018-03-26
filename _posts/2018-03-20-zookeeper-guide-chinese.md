@@ -110,9 +110,8 @@ ZooKeeper 客户端通过语言绑定于服务创建握手来建立与 ZooKeeper
 
 当客户端获取到连接 ZooKeeper 服务的句柄，ZooKeeper 将创建一个以64位的数字表示的 ZooKeeper session，派送到客户端。如果客户端连接到一个不同的 ZooKeeper 服务，它将会发送一个 session id 作为连接握手的一个部分。为了保证安全，服务端会给 session id 创建一个秘密，任何的 ZooKeeper 服务都可以去验证。这个密码将会在客户端建立会话的时候和 session id 一起发送到客户端。客户端随时都可以发送这个密码和 session id 跟一个新的服务重新建立会话。
 
+ZooKeeper 客户端库用来创建 ZooKeeper session超时的参数是用毫秒表示。客户端发送一个超时请求，服务端将响应一个超时给到客户端。现在的实例要求超时至少是两倍 tickTime （这个可以在服务端配置）或者大于20倍的tickTime。ZooKeeper 客户端API允许访问协商超时时间。
 
-
-One of the parameters to the ZooKeeper client library call to create a ZooKeeper session is the session timeout in milliseconds. The client sends a requested timeout, the server responds with the timeout that it can give the client. The current implementation requires that the timeout be a minimum of 2 times the tickTime (as set in the server configuration) and a maximum of 20 times the tickTime. The ZooKeeper client API allows access to the negotiated timeout.
 
 When a client (session) becomes partitioned from the ZK serving cluster it will begin searching the list of servers that were specified during session creation. Eventually, when connectivity between the client and at least one of the servers is re-established, the session will either again transition to the "connected" state (if reconnected within the session timeout value) or it will transition to the "expired" state (if reconnected after the session timeout). It is not advisable to create a new session object (a new ZooKeeper.class or zookeeper handle in the c binding) for disconnection. The ZK client library will handle reconnect for you. In particular we have heuristics built into the client library to handle things like "herd effect", etc... Only create a new session when you are notified of session expiration (mandatory).
 
