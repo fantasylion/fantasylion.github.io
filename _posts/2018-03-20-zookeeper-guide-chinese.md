@@ -101,9 +101,10 @@ znode 有多少子节点
 
 
 ## ZooKeeper 会话
-A ZooKeeper client establishes a session with the ZooKeeper service by creating a handle to the service using a language binding. Once created, the handle starts of in the CONNECTING state and the client library tries to connect to one of the servers that make up the ZooKeeper service at which point it switches to the CONNECTED state. During normal operation will be in one of these two states. If an unrecoverable error occurs, such as session expiration or authentication failure, or if the application explicitly closes the handle, the handle will move to the CLOSED state. The following figure shows the possible state transitions of a ZooKeeper client:
+ZooKeeper 客户端通过语言绑定于服务创建握手来建立与 ZooKeeper 服务的会话。一旦创建，句柄就会以CONNECTING状态开始，并且客户端库尝试连接到组成ZooKeeper服务的服务器之一，此时它将切换到CONNECTED状态。在正常的操作时候将会是这两者状态之一。如果发生一个不可逆转的错误事件，像 session 过期或者认证失败，再或者应用直接关闭了句柄，这个句柄将切换到 closed 状态。下面的图表展示了 ZooKeeper 客户端事物的处理状态：
 ![结构图](http://fantasylion.github.io/images/state_dia.jpg)<br>
-To create a client session the application code must provide a connection string containing a comma separated list of host:port pairs, each corresponding to a ZooKeeper server (e.g. "127.0.0.1:4545" or "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002"). The ZooKeeper client library will pick an arbitrary server and try to connect to it. If this connection fails, or if the client becomes disconnected from the server for any reason, the client will automatically try the next server in the list, until a connection is (re-)established.
+要创建客户端会话，应用程序代码必须提供一个连接字符串，其中包含以逗号分隔的host：port对列表，每个对应于一个ZooKeeper服务器（举例："127.0.0.1:4545" 或者 "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002"）。ZooKeeper 客户端库将随机挑选一台服务器然后尝试去链接它。如果链接失败或者由于某些原因服务端到客户端断开链接，客户端都会自动尝试链接列表中的下一个服务，知道链接重新建立。
+
 
 ## ZooKeeper 监控
 ### 监控语义
