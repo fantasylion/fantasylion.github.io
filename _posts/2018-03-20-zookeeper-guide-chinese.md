@@ -116,7 +116,7 @@ ZooKeeper 客户端库用来创建 ZooKeeper session超时的参数是用毫秒�
 
 session 过期通过 ZooKeeper 集群自己管理，不是通过客户端。当 ZooKeeper 客户端建立一个集群 session 它将提供一个详细的 timeout 值。这个值是集群用来确定客户端的 session 何时过期。当集群没有收到来自客户端指定的过期时间（比如：没有心跳）将会直接过期。在 session 过期时集群将会删除任何/所有这个  session 所拥有的临时节点并且立刻通知所有连接的客户端这个事情（任何监控这些节点的客户端）。在这个时候会话过期的时间点于集群是一直保持断开状态，session 过期不会被通知到直到它可以重新连接到集群。客户端将会一直保持断开状态一直到重新 TCP 连接到集群，在这个时间点上如果 session 过期，监控者将收到 session 过期的通过。
 
-Example state transitions for an expired session as seen by the expired session's watcher:
+举一个会话过期监控者看到的会话过期状态转换的例子：
 
 'connected' : session is established and client is communicating with cluster (client/server communication is operating properly)
 
