@@ -105,10 +105,8 @@ ZooKeeper 客户端通过语言绑定于服务创建握手来建立与 ZooKeeper
 ![结构图](http://fantasylion.github.io/images/state_dia.jpg)<br>
 要创建客户端会话，应用程序代码必须提供一个连接字符串，其中包含以逗号分隔的host：port对列表，每个对应于一个ZooKeeper服务器（举例："127.0.0.1:4545" 或者 "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002"）。ZooKeeper 客户端库将随机挑选一台服务器然后尝试去链接它。如果链接失败或者由于某些原因服务端到客户端断开链接，客户端都会自动尝试链接列表中的下一个服务，知道链接重新建立。
 
-**3.2.0 版本添加**
-可选后缀 “chroot” 可以追加到连接字符串后面。
-
-__Added in 3.2.0__: An optional "chroot" suffix may also be appended to the connection string. This will run the client commands while interpreting all paths relative to this root (similar to the unix chroot command). If used the example would look like: "127.0.0.1:4545/app/a" or "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002/app/a" where the client would be rooted at "/app/a" and all paths would be relative to this root - ie getting/setting/etc... "/foo/bar" would result in operations being run on "/app/a/foo/bar" (from the server perspective). This feature is particularly useful in multi-tenant environments where each user of a particular ZooKeeper service could be rooted differently. This makes re-use much simpler as each user can code his/her application as if it were rooted at "/", while actual location (say /app/a) could be determined at deployment time.
+**3.2.0 版本添加**<br>
+可选后缀 “chroot” 可以追加到连接字符串后面。这会运行客户端命令以相对ROOT路径的形式（类似unix系统的chroot命令）。如果要举例的话看起来就像："127.0.0.1:4545/app/a" 或 "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002/app/a" 这样客户端就会以 "app/a" 为根目录，所有的路径都会相对于这个根目录。比如 "/foo/bar" 返回的结果将是运行 "/app/a/foo/bar" 得到（从服务器的角度来看）。这个功能在多租户环境真的很有用，每个 ZooKeeper 服务的用户可以有不同的根目录。这使得复用变得简单，用户可以将他的应用程序根目录编码成 “/” ，但是实际的位置可以在发布的时候在去决定。
 
 When a client gets a handle to the ZooKeeper service, ZooKeeper creates a ZooKeeper session, represented as a 64-bit number, that it assigns to the client. If the client connects to a different ZooKeeper server, it will send the session id as a part of the connection handshake. As a security measure, the server creates a password for the session id that any ZooKeeper server can validate.The password is sent to the client with the session id when the client establishes the session. The client sends this password with the session id whenever it reestablishes the session with a new server.
 
