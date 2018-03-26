@@ -72,9 +72,32 @@ ZooKeeper 状态有任何修改都将会收到一个 zxid(ZooKeeper Transaction 
 * *Ticks*<br>
 当使用多服务的 ZooKeeper，服务将使用 ticks 去定义事件时间，像（上传状态，会话超时，管道连接超时等等）。Tick 只会间接的暴露最小会话时间（两倍的 Tick time）；如果一个客户端的请求超时时间小于这个会话时间，服务器将告知客户端这个超时时间以最小的超时时间为准。
 * *Real time*<br>
-ZooKeeper 不使用真实的时间或锁定时间，除了将时间戳放到 znode 的创建和修改的状态结构中。
+ZooKeeper 不使用真实的时间或锁定时间，除了将时间戳放到 znode 的创建和修改的统计结构中。
 
-### ZooKeeper 状态结构
+### ZooKeeper 统计结构
+ZooKeeper 每个节点的统计结构由以下几个字段组成：
+* _czxid_<br>
+表示造成这次 znode 创建的时间。
+* _mzxid_<br>
+znode 最后的修改时间。
+* _pzxid_<br>
+znode 子节点最后的修改时间。
+* _ctime_<br>
+znode 创建时间（以毫秒为单位）。
+* _mtime_<br>
+znode 最后的修改时间（以毫秒为单位）。
+* _version_<br>
+znode 数据的修改时间。
+* _cversion_<br>
+znode 子节点的修改次数
+* _aversion_<br>
+znode  的修改次数
+* _ephemeralOwner_<br>
+如果是暂时节点，表示这个 znode 的主人的 session id 。如果不是，这个值为0.
+* _dataLength_<br>
+znode 数据字段的长度。
+* _numChildren_<br>
+znode 有多少子节点
 
 
 ## ZooKeeper 会话
