@@ -104,7 +104,39 @@ znode 有多少子节点
 ZooKeeper 客户端通过语言绑定于服务创建握手来建立与 ZooKeeper 服务的会话。一旦创建，句柄就会以CONNECTING状态开始，并且客户端库尝试连接到组成ZooKeeper服务的服务器之一，此时它将切换到CONNECTED状态。在正常的操作时候将会是这两者状态之一。如果发生一个不可逆转的错误事件，像 session 过期或者认证失败，再或者应用直接关闭了句柄，这个句柄将切换到 closed 状态。下面的图表展示了 ZooKeeper 客户端事物的处理状态：
 ![结构图](http://fantasylion.github.io/images/state_dia.jpg)<br>
 要创建客户端会话，应用程序代码必须提供一个连接字符串，其中包含以逗号分隔的host：port对列表，每个对应于一个ZooKeeper服务器（举例："127.0.0.1:4545" 或者 "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002"）。ZooKeeper 客户端库将随机挑选一台服务器然后尝试去链接它。如果链接失败或者由于某些原因服务端到客户端断开链接，客户端都会自动尝试链接列表中的下一个服务，知道链接重新建立。
+#Added in 3.2.0#: An optional "chroot" suffix may also be appended to the connection string. This will run the client commands while interpreting all paths relative to this root (similar to the unix chroot command). If used the example would look like: "127.0.0.1:4545/app/a" or "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002/app/a" where the client would be rooted at "/app/a" and all paths would be relative to this root - ie getting/setting/etc... "/foo/bar" would result in operations being run on "/app/a/foo/bar" (from the server perspective). This feature is particularly useful in multi-tenant environments where each user of a particular ZooKeeper service could be rooted differently. This makes re-use much simpler as each user can code his/her application as if it were rooted at "/", while actual location (say /app/a) could be determined at deployment time.
 
+When a client gets a handle to the ZooKeeper service, ZooKeeper creates a ZooKeeper session, represented as a 64-bit number, that it assigns to the client. If the client connects to a different ZooKeeper server, it will send the session id as a part of the connection handshake. As a security measure, the server creates a password for the session id that any ZooKeeper server can validate.The password is sent to the client with the session id when the client establishes the session. The client sends this password with the session id whenever it reestablishes the session with a new server.
+
+One of the parameters to the ZooKeeper client library call to create a ZooKeeper session is the session timeout in milliseconds. The client sends a requested timeout, the server responds with the timeout that it can give the client. The current implementation requires that the timeout be a minimum of 2 times the tickTime (as set in the server configuration) and a maximum of 20 times the tickTime. The ZooKeeper client API allows access to the negotiated timeout.
+
+When a client (session) becomes partitioned from the ZK serving cluster it will begin searching the list of servers that were specified during session creation. Eventually, when connectivity between the client and at least one of the servers is re-established, the session will either again transition to the "connected" state (if reconnected within the session timeout value) or it will transition to the "expired" state (if reconnected after the session timeout). It is not advisable to create a new session object (a new ZooKeeper.class or zookeeper handle in the c binding) for disconnection. The ZK client library will handle reconnect for you. In particular we have heuristics built into the client library to handle things like "herd effect", etc... Only create a new session when you are notified of session expiration (mandatory).
+
+Session expiration is managed by the ZooKeeper cluster itself, not by the client. When the ZK client establishes a session with the cluster it provides a "timeout" value detailed above. This value is used by the cluster to determine when the client's session expires. Expirations happens when the cluster does not hear from the client within the specified session timeout period (i.e. no heartbeat). At session expiration the cluster will delete any/all ephemeral nodes owned by that session and immediately notify any/all connected clients of the change (anyone watching those znodes). At this point the client of the expired session is still disconnected from the cluster, it will not be notified of the session expiration until/unless it is able to re-establish a connection to the cluster. The client will stay in disconnected state until the TCP connection is re-established with the cluster, at which point the watcher of the expired session will receive the "session expired" notification.
+
+Example state transitions for an expired session as seen by the expired session's watcher:
+
+'connected' : session is established and client is communicating with cluster (client/server communication is operating properly)
+
+.... client is partitioned from the cluster
+
+'disconnected' : client has lost connectivity with the cluster
+
+.... time elapses, after 'timeout' period the cluster expires the session, nothing is seen by client as it is disconnected from cluster
+
+.... time elapses, the client regains network level connectivity with the cluster
+
+'expired' : eventually the client reconnects to the cluster, it is then notified of the expiration
+
+Another parameter to the ZooKeeper session establishment call is the default watcher. Watchers are notified when any state change occurs in the client. For example if the client loses connectivity to the server the client will be notified, or if the client's session expires, etc... This watcher should consider the initial state to be disconnected (i.e. before any state changes events are sent to the watcher by the client lib). In the case of a new connection, the first event sent to the watcher is typically the session connection event.
+
+The session is kept alive by requests sent by the client. If the session is idle for a period of time that would timeout the session, the client will send a PING request to keep the session alive. This PING request not only allows the ZooKeeper server to know that the client is still active, but it also allows the client to verify that its connection to the ZooKeeper server is still active. The timing of the PING is conservative enough to ensure reasonable time to detect a dead connection and reconnect to a new server.
+
+Once a connection to the server is successfully established (connected) there are basically two cases where the client lib generates connectionloss (the result code in c binding, exception in Java -- see the API documentation for binding specific details) when either a synchronous or asynchronous operation is performed and one of the following holds:
+
+The application calls an operation on a session that is no longer alive/valid
+
+The ZooKeeper client disconnects from a server when there are pending operations to that server, i.e., there is a pending asynchronous call.
 
 ## ZooKeeper 监控
 ### 监控语义
