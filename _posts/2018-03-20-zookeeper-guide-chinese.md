@@ -132,9 +132,7 @@ session 过期通过 ZooKeeper 集群自己管理，不是通过客户端。当 
 
 ZooKeeper 调用会话建立的另外一个参数是默认的 watchers。当客户端任何一个改变状态的事件发生 watchers 都是收到通知。举个例子：如果客户端丢失了跟服务器端的连接客户端将收到通知，或者如果客户端的 session 过期等等...... 这个 watcher 应该考虑到初始化状态为断开状态。（比如：在客户端库把状态变化的事件发送到 watcher 之前）。在新的连接案例中，第一个发送到 watcher 的事件一般是 session 连接事件。
 
-
-
-The session is kept alive by requests sent by the client. If the session is idle for a period of time that would timeout the session, the client will send a PING request to keep the session alive. This PING request not only allows the ZooKeeper server to know that the client is still active, but it also allows the client to verify that its connection to the ZooKeeper server is still active. The timing of the PING is conservative enough to ensure reasonable time to detect a dead connection and reconnect to a new server.
+ZooKeeper 通过客户端发送请求保持 session 不过期。如果让 session 保持一段时间的空闲将使得 session 过期，所以客户端会一直发送一个 ping 请求保证 session 一直存活。这个 ping 请求不仅仅只是让 ZooKeeper 服务知道这个客户端还活着，还可以让客户端验证它连接的 ZooKeeper 服务是否一直活着。这个 ping 请求的时间安排的足够合理保证有充足的时间去检测断开的连接和重新去连接一个新的服务。
 
 Once a connection to the server is successfully established (connected) there are basically two cases where the client lib generates connectionloss (the result code in c binding, exception in Java -- see the API documentation for binding specific details) when either a synchronous or asynchronous operation is performed and one of the following holds:
 
