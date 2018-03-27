@@ -140,6 +140,10 @@ ZooKeeper 通过客户端发送请求保持 session 不过期。如果让 sessio
 
 2. 在客户端在等待服务响应的时候，服务断开连接，比如：在等待异步调用的响应的时候。
 
+**Added in 3.2.0** -- SessionMovedException. There is an internal exception that is generally not seen by clients called the SessionMovedException. This exception occurs because a request was received on a connection for a session which has been reestablished on a different server. The normal cause of this error is a client that sends a request to a server, but the network packet gets delayed, so the client times out and connects to a new server. When the delayed packet arrives at the first server, the old server detects that the session has moved, and closes the client connection. Clients normally do not see this error since they do not read from those old connections. (Old connections are usually closed.) One situation in which this condition can be seen is when two clients try to reestablish the same connection using a saved session id and password. One of the clients will reestablish the connection and the second client will be disconnected (causing the pair to attempt to re-establish its connection/session indefinitely).
+
+
+
 ## ZooKeeper 监控
 ### 监控语义
 ### 如何保障 ZooKeeper 订阅者
