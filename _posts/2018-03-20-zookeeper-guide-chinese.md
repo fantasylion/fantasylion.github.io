@@ -130,7 +130,9 @@ session 过期通过 ZooKeeper 集群自己管理，不是通过客户端。当 
 
 6. 'expired' : eventually the client reconnects to the cluster, it is then notified of the expiration
 
-Another parameter to the ZooKeeper session establishment call is the default watcher. Watchers are notified when any state change occurs in the client. For example if the client loses connectivity to the server the client will be notified, or if the client's session expires, etc... This watcher should consider the initial state to be disconnected (i.e. before any state changes events are sent to the watcher by the client lib). In the case of a new connection, the first event sent to the watcher is typically the session connection event.
+ZooKeeper 调用会话建立的另外一个参数是默认的 watchers。当客户端任何一个改变状态的事件发生 watchers 都是收到通知。举个例子：如果客户端丢失了跟服务器端的连接客户端将收到通知，或者如果客户端的 session 过期等等...... 这个 watcher 应该考虑到初始化状态为断开状态。（比如：在客户端库把状态变化的事件发送到 watcher 之前）。在新的连接案例中，第一个发送到 watcher 的事件一般是 session 连接事件。
+
+
 
 The session is kept alive by requests sent by the client. If the session is idle for a period of time that would timeout the session, the client will send a PING request to keep the session alive. This PING request not only allows the ZooKeeper server to know that the client is still active, but it also allows the client to verify that its connection to the ZooKeeper server is still active. The timing of the PING is conservative enough to ensure reasonable time to detect a dead connection and reconnect to a new server.
 
