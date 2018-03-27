@@ -134,11 +134,11 @@ ZooKeeper 调用会话建立的另外一个参数是默认的 watchers。当客�
 
 ZooKeeper 通过客户端发送请求保持 session 不过期。如果让 session 保持一段时间的空闲将使得 session 过期，所以客户端会一直发送一个 ping 请求保证 session 一直存活。这个 ping 请求不仅仅只是让 ZooKeeper 服务知道这个客户端还活着，还可以让客户端验证它连接的 ZooKeeper 服务是否一直活着。这个 ping 请求的时间安排的足够合理保证有充足的时间去检测断开的连接和重新去连接一个新的服务。
 
-Once a connection to the server is successfully established (connected) there are basically two cases where the client lib generates connectionloss (the result code in c binding, exception in Java -- see the API documentation for binding specific details) when either a synchronous or asynchronous operation is performed and one of the following holds:
+一旦一个到服务器端的连接成功被建立，基本上有两种情况客户端库生成一个 connectionloss（这个返回码会在 C binding 中， java 的话会在异常里面 -- 看 API 文档会有详细的介绍）如果有同步或者异步的操作被执行而且有以下情况之一：
 
-The application calls an operation on a session that is no longer alive/valid
+1. 应用程序在一个 session 过期或者无效的服务器上执行一项操作。
 
-The ZooKeeper client disconnects from a server when there are pending operations to that server, i.e., there is a pending asynchronous call.
+2. 在客户端在等待服务响应的时候，服务断开连接，比如：在等待异步调用的响应的时候。
 
 ## ZooKeeper 监控
 ### 监控语义
