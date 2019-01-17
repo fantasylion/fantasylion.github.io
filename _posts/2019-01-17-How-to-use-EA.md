@@ -6,8 +6,6 @@ tags: [uml]
 excerpt: "EA 的英文全称叫 Enterprise Architect，是由澳大利亚公司 Sparx Systems 开发的一款基于 OMG UML 的可视化模型与设计工具，提供了对软件系统的设计和构建、业务流程建模和基于领域建模的支持，被企业和组织不仅应用于对系统的建模，还用于推进模型在整个应用程序开发周期中实现。"
 ---
 
-#如何使用 Enterprise Architect 画 UML
-
 ### 重识 EA (Enterprise Architect)
 公司使用的 OMS 是从外面买过来后进行二次开发的，而对方给到的技术文档不够全面，有很大部分的业务细节需要自己看代码梳理。想起来之前 IBM Developer 看过一篇关于[ Tomcat 原理](https://www.ibm.com/developerworks/cn/java/j-lo-tomcat1/index.html)的文章，文章里面用到了很多建模语言（UML）去描述代码逻辑结构。这不仅看起来高大上而且逻辑清晰易懂，就想着将上学那会学的 UML 重新捡起来，学着用 UML 去梳理代码逻辑。
 
