@@ -75,6 +75,7 @@ EA 的英文全称叫 Enterprise Architect，是由澳大利亚公司 Sparx Syst
 点击最上方区域的 Publish 选项 -> Image -> Save to File 写好图片名和格式保存到相应目录中，或者选择 Save to clipboard 保存到粘贴板中。
 
 如下图：
+
 ![](https://raw.githubusercontent.com/fantasylion/fantasylion.github.io/master/images/pubish_step1.jpg)
 
 ### 最后展示下最终的成果
