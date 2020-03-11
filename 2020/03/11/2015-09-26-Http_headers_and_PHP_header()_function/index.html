@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>HTTP 头和 PHP header() 函数 | Serio&#39;s blog</title>
+  <meta name="description" content="许多初级到中级的的 PHP 程序员把 header() 函数当作某种神秘巫术. 他们可以照着代码示例把功能实现, 但是还是不知道到底它是如果运作的. 我最开始就是这样的.  实际上它非常简单. 在这篇文章中, 我会解释 HTTP 头(header) 是如何运作的, 它们与 PHP 的关系, 以及它们的 meta 标签 equivalents(对应物)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP 头和 PHP header() 函数">
+<meta property="og:url" content="http://locahost:4000/2020/03/11/2015-09-26-Http_headers_and_PHP_header()_function/index.html">
+<meta property="og:site_name" content="Serio&#39;s blog">
+<meta property="og:description" content="许多初级到中级的的 PHP 程序员把 header() 函数当作某种神秘巫术. 他们可以照着代码示例把功能实现, 但是还是不知道到底它是如果运作的. 我最开始就是这样的.  实际上它非常简单. 在这篇文章中, 我会解释 HTTP 头(header) 是如何运作的, 它们与 PHP 的关系, 以及它们的 meta 标签 equivalents(对应物)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-11T14:46:32.015Z">
+<meta property="article:modified_time" content="2020-01-07T08:03:58.000Z">
+<meta property="article:author" content="Serio">
+<meta property="article:tag" content="php">
+<meta property="article:tag" content="http">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://locahost:4000/2020/03/11/2015-09-26-Http_headers_and_PHP_header()_function/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Serio&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/fantasylion" target="_blank">
+          <img class="img-circle img-rotate" src="/images/owner.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Serio</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Coder</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> hangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LifeFeeling/">LifeFeeling</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">database</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/notes/">notes</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/program/">program</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">tool</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/translation/">translation</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/zookeeper/">zookeeper</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AE/" rel="tag">AE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DS/" rel="tag">DS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/framework/" rel="tag">framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tool/" rel="tag">tool</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uml/" rel="tag">uml</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%94%9F/" rel="tag">人生</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%B1/" rel="tag">爱</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/AE/" style="font-size: 13px;">AE</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/DS/" style="font-size: 13px;">DS</a> <a href="/tags/English/" style="font-size: 13.5px;">English</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/MongoDB/" style="font-size: 13.5px;">MongoDB</a> <a href="/tags/ffmpeg/" style="font-size: 13px;">ffmpeg</a> <a href="/tags/framework/" style="font-size: 13px;">framework</a> <a href="/tags/http/" style="font-size: 13px;">http</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/tool/" style="font-size: 13.5px;">tool</a> <a href="/tags/uml/" style="font-size: 13.5px;">uml</a> <a href="/tags/zookeeper/" style="font-size: 13px;">zookeeper</a> <a href="/tags/%E4%BA%BA%E7%94%9F/" style="font-size: 13px;">人生</a> <a href="/tags/%E7%88%B1/" style="font-size: 13px;">爱</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">26</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/tool/">tool</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2020-01-07-adding-extra-celery-configs-to-airflow/" class="title">Airflow 使用 Celery 时，如何添加 Celery 配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.070Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Tools/">Tools</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2019-01-17-How-to-use-EA/" class="title">如何使用 Enterprise Architect 画 UML</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.067Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/zookeeper/">zookeeper</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2018-03-20-zookeeper-guide-chinese/" class="title">zookeeper 应用指南中文版</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.065Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/English/">English</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2018-01-31-The-Shawshank-Redemption/" class="title">Ebbinghaus Forgetting Curve</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.062Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/English/">English</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2018-01-02-How-to-remember-sthing/" class="title">Ebbinghaus Forgetting Curve</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.060Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2015-09-26-Http_headers_and_PHP_header()_function" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTP 头和 PHP header() 函数
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/03/11/2015-09-26-Http_headers_and_PHP_header()_function/" class="article-date">
+	  <time datetime="2020-03-11T14:46:32.015Z" itemprop="datePublished">2020-03-11</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/translation/">translation</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/http/" rel="tag">http</a>, <a class="article-tag-link" href="/tags/php/" rel="tag">php</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/03/11/2015-09-26-Http_headers_and_PHP_header()_function/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 6.6k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 25(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><em>原文链接: <a href="http://www.nicholassolutions.com/tutorials/php/headers.html" target="_blank" rel="noopener">http://www.nicholassolutions.com/tutorials/php/headers.html</a></em></p>
+<p><em>版权: 本文受 Creative Commons License 版权保护, 你可以在 Creative Commons Attribution NonCommercial NoDerives 2.5 License 下分发该文</em></p>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>许多初级到中级的的 PHP 程序员把 <a href="http://www.php.net/manual/function.header.php" target="_blank" rel="noopener">header()</a> 函数当作某种神秘巫术. 他们可以照着代码示例把功能实现, 但是还是不知道到底它是如果运作的. 我最开始就是这样的.</p>
+<p>实际上它非常简单. 在这篇文章中, 我会解释 HTTP 头(header) 是如何运作的, 它们与 PHP 的关系, 以及它们的 meta 标签 equivalents(对应物)</p>
+<p>希望你读完之后, 能更顺手的使用 header() 函数, 甚至想出一些更多利用它的地方. 我们也会讲到其他一些关于 HTTP 和 PHP 的重要话题. 但是在我们开始讲任何程序相关的东西之前, 我们需要先快速(并且不完整的)过一遍 HTTP (HyperTex Transfer Protocol) 运作原理</p>
+<h1 id="HTTP-概览"><a href="#HTTP-概览" class="headerlink" title="HTTP 概览"></a>HTTP 概览</h1><h2 id="Headers-对话中的词语"><a href="#Headers-对话中的词语" class="headerlink" title="Headers: 对话中的词语"></a>Headers: 对话中的词语</h2><p><a href="http://en.wikipedia.org/wiki/HyperText_Transfer_Protocol" target="_blank" rel="noopener">HTTP</a> 是 web 服务器和客户端浏览器之间的数据传输(比如 web 页面中的 HTML, 图片, 文件)协议(‘规则’集合), 并且通常使用 80 <a href="http://en.wikipedia.org/wiki/Port_%28computing%29#Network_port" target="_blank" rel="noopener">端口</a>. 这就是网站 URL 前面 ‘<code>http://</code>‘ 的来源</p>
+<p>很多人最开始制作 web 页面的时候, 他们先在本地电脑上写 HTML, 在本地浏览器查看是否符合预期, 然后上传到服务器, 就可以在网上浏览这些页面了. 看起来好像在无论在本地查看与在服务器上查看的页面都一样, 传输的数据只有这些 HTML 以及它包含的图片. 但是实际上还有另外一些许多你没看到的信息 - 头信息.</p>
+<p>头信息可以分为两大类: 你浏览器向服务器请求文件时发出的请求头信息, 服务器提供文件给浏览器时发出的响应头信息. 把这些头信息当作浏览器和服务器对话时的词语. 我喜欢把服务器想象为图书管理员, 把浏览器想象成正在请求图书资源的学者. 浏览器走向位于服务台 (80 端口) 的服务器, 说道, “Hi, 我是 Mozilla, 我正在找这个编目号是 ‘<a href="http://www.expertsrt.com&#39;" target="_blank" rel="noopener">www.expertsrt.com&#39;</a> 的资源. 你可以帮我找到它吗?” 服务器听到后回应 “是的, 我找到了, 让我把它给你. 这里面是 HTML 文本, 它写的是 ‘<code>&lt;html&gt;...</code>‘“ 浏览器开始从头到尾的读它, 并且遇到了一个图片标签, 所以向服务器要位于 src 属性指定处的图片. 服务器进行查找, 找到这个文件然后说道 “这是个 PNG 图片, 它的数据是…” 你懂的.</p>
+<p id="secondConv">另一个对话可能像这样:</p>
+
+<blockquote>
+<p>浏览器: Hi, 我是 Mozilla, 能给我在 ‘<a href="http://www.expertsrt.com/moved.html&#39;" target="_blank" rel="noopener">www.expertsrt.com/moved.html&#39;</a> 这里的文件吗?.</p>
+</blockquote>
+<blockquote>
+<p>服务器: 那个文件已经不在那儿了, 他现在在 ‘<a href="http://www.expertsrt.com/newloc.html&#39;" target="_blank" rel="noopener">www.expertsrt.com/newloc.html&#39;</a>.</p>
+</blockquote>
+<blockquote>
+<p>浏览器: Hi, 我是 Mozilla, 能给我在 ‘<a href="http://www.expertsrt.com/newloc.html&#39;" target="_blank" rel="noopener">www.expertsrt.com/newloc.html&#39;</a> 这里的文件吗?</p>
+</blockquote>
+<blockquote>
+<p>服务器: 我找到这个文件了. 查看它 10 秒钟然后再向我问一次. 它是一个 HTML 文本文件, 它有这些内容…</p>
+</blockquote>
+<p>…10 秒钟…</p>
+<blockquote>
+<p>浏览器: Hi, 我是 Mozilla, 能给我在 ‘<a href="http://www.expertsrt.com/newloc.html&#39;" target="_blank" rel="noopener">www.expertsrt.com/newloc.html&#39;</a> 这里的文件吗?</p>
+</blockquote>
+<blockquote>
+<p>服务器: 我找到这个文件了. 查看它 10 秒钟然后再向我问一次. 它是一个 HTML 文本文件, 它有这些内容…</p>
+</blockquote>
+<p>…10 秒钟…</p>
+<blockquote>
+<p>浏览器: Hi, 我是 Mozilla, 能给我在 ‘<a href="http://www.expertsrt.com/newloc.html&#39;" target="_blank" rel="noopener">www.expertsrt.com/newloc.html&#39;</a> 这里的文件吗?</p>
+</blockquote>
+<blockquote>
+<p>服务器: 我找到这个文件了. 查看它 10 秒钟然后再向我问一次. 它一个 HTML 文本文件, 它有这些内容…</p>
+</blockquote>
+<p>…诸如这般, 直到浏览器被用户重新定向…</p>
+<p>正如你所看到的, 使用头信息可以控制许多事情. 使用 header() 函数, 你可以让服务器发送你所需的头信息, 这样你可以做除了发送 HTML 之外许多很酷的事情.</p>
+<h2 id="看看整个对话过程"><a href="#看看整个对话过程" class="headerlink" title="看看整个对话过程"></a>看看整个对话过程</h2><p>在继续之前, 让我们先不使用浏览器来查看一个 web 页面, 这样我们可以看到整个对话, 更好的了解 HTTP 头的工作. 先打开命令行 (在 windows 中, 点击开始菜单-&gt;运行, 输入 <code>cmd</code>, 然后点击 “OK”…如果你正使用 linux, 你或许已经知道怎么打开了). 在命令行中输入:</p>
+<pre><code>telnet expertsrt.com 80</code></pre><p>然后回车. 这会链接到 expersrt.com 的 80 端口. 然后, 复制并粘贴下面的文字:</p>
+<pre><code>GET / HTTP/1.1
+Host: expertsrt.com</code></pre><p>如果你输入或粘贴这些文字的时候, 命令行除了光标的闪烁没看到任何动静的话, 不要担心 – 它们确实被发送到服务器了. 第一行说明你使用 GET 请求方法去获取资源 / (这里是目标主机上基目录里的文件), 并且你在使用 HTTP 1.1 版本. 第二行告诉服务器你想要连接到哪台主机. 当你输入 ‘expertsrt.com’ 后, 回车两次 (只需两次). 你应当立刻得到类似下面的响应:</p>
+<pre><code>HTTP/1.1 301 Moved Permanently
+Date: Wed, 08 Feb 2006 07:44:07 GMT
+Server: Apache/2.0.54 (Debian GNU/Linux) mod_auth_pgsql/2.0.2b1 mod_ssl/2.0.54 OpenSSL/0.9.7e
+Location: http://www.expertsrt.com/
+Content-Length: 233
+Content-Type: text/html; charset=iso-8859-1
+
+&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;
+&lt;html&gt;&lt;head&gt;
+&lt;title&gt;301 Moved Permanently&lt;/title&gt;
+&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Moved Permanently&lt;/h1&gt;
+&lt;p&gt;The document has moved &lt;a href=&quot;http://www.expertsrt.com/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</code></pre><p>哎呀! 看起来好像我们请求的文件已经不在那儿了; 它已经被移到新的地方了: <code>http://www.expertsrt.com</code>. 如果你使用浏览器, 你只会看到 HTML - 在第一个空白行之前的都是头信息. 实际上, 现代浏览器比这更智能 - 当他们看到第三行的新的 URL 时, 会自动转向那里, 这样你就不用手动再输入这个新的 URL 了. 让我们去这个新的 URL. 这时可能你已经断开连接了. 如果这样, 只需按向上键, telnet 命令会出现, 然后回车以重新连接. 如果你没有断开连接, 那直接输入下面的文字就行:</p>
+<pre><code>GET / HTTP/1.1
+Host: www.expertsrt.com</code></pre><p>然后回车两次. 你会看到另一个类似的响应, 告诉你那个页面实际上在 <code>http://www.expertsrt.com/index.php</code>. 服务器真挑剔是不是? ;-) 重复上面的操作, 不过这次输入</p>
+<pre><code>GET /index.php HTTP/1.1
+Host: www.expertsrt.com</code></pre><p>注意我们想要的文件名在第一行. 这一次我们屏幕被文字刷满了: 这就是来自 ERT 主页的 HTML. 这里的头信息看起来是这样的</p>
+<pre><code>HTTP/1.1 200 OK
+Date: Wed, 08 Feb 2006 08:20:07 GMT
+Server: Apache/2.0.54 (Debian GNU/Linux) mod_auth_pgsql/2.0.2b1 mod_ssl/2.0.54 OpenSSL/0.9.7e
+X-Powered-By: PHP/4.4.0
+Transfer-Encoding: chunked
+Content-Type: text/html</code></pre><p>很简单是不是? 我们来继续探讨这跟你编程有什么关系. 如果你不明白我们讲到的所有事情也没有关系. 重要的是对浏览器和服务器如何交互的有个大致印象, 以及意识到并没有什么魔法在里面. 最终就是这些</p>
+<ol>
+<li><p>浏览器和服务器通过使用头信息来进行交互</p>
+</li>
+<li><p>头信息在主要内容之前发送, 并且用两个 <a href="http://www.google.com/search?q=define%3ACRLF" target="_blank" rel="noopener">CRLF</a>/换行符 来和主要内容分割开</p>
+</li>
+<li><p>在头信息部分, 每一行就是一个头. 首先是头的名字, 然后是一个冒号一个空格, 然后是这个头的名/值</p>
+<p> 头名: 头值</p>
+</li>
+<li><p>头信息可以包括许多类型的信息和指示, 以便浏览器和服务器用来告知对方接下来该做什么</p>
+</li>
+</ol>
+<p><strong>提示</strong>: 如果你是那种刨根问底的人, 你可以看看 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html" target="_blank" rel="noopener">RFC 2616</a>, 那是 HTTP/1.1 的完整规范. 尤其是 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14" target="_blank" rel="noopener">14 章</a>, 包含每一个头的完整定义</p>
+<h1 id="PHP-header-基础"><a href="#PHP-header-基础" class="headerlink" title="PHP header(): 基础"></a>PHP header(): 基础</h1><p>注意在我们最终得到的主页中的 X-Powered-By: PHP/4.4.0 和 Content-Type: text/html 这两个头信息. PHP 一开始就被设计成输出 HTML ( PHP 中的 H 即代表 ‘Hypertext’), 并且在 PHP 脚本第一次生成输出(比如, 使用 echo)时, 会自动为你包含这些头信息. 这非常方便, 但也造成许多 PHP 新手对头信息的困惑 - 在像 Perl 这样不是一开始就被设计成用于 web 开发的语言中, 不包含你自己的头而直接发送输出会产生 ‘500 Internal Server Error’ 错误, 所以 Perl 的 web 开发者不得不立即学习关于头信息的知识</p>
+<p><a href="http://www.php.net/manual/function.header.php" target="_blank" rel="noopener"><code>header()</code></a> 函数发送 HTTP 响应头信息, 而且只做这件事</p>
+<p>使用这个函数, 你可以让你的脚本发送你选择的头信息给浏览器, 创造一个非常有用的动态结果. 但是, 你需要知道关于 <code>header()</code> 函数的第一件事就是你必须在 PHP 发送任何输出(这会使 PHP 自动发送默认的头信息)<strong>之前</strong>使用它</p>
+<p>我怀疑有哪个 PHP 程序员没有见到过如下的错误消息</p>
+<pre><code>Warning: Cannot modify header information - headers already sent by.....</code></pre><p>如我们所说的, 响应头信息用一个空白行和主要内容分割. 这意味你仅可以发送头信息一次, 如果你的脚本有任何输出 (即使一个在 <code>&lt;?php</code> 标签之前的空白行或空格), PHP 就会自动发送头信息. 例如, 看一下下面这个脚本, 看起来逻辑上很正常:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Welcome to my website!&lt;br /&gt;</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  <span class="keyword">if</span>($test)&#123;</span><br><span class="line">   <span class="keyword">echo</span> <span class="string">"You're in!"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    header(<span class="string">'Location: http://www.mysite.com/someotherpage.php'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这个脚本判断 <code>$test</code> 是否为 true, 如果不是则使用 <code>Location</code> 头重定向访问者. 看到问题所在了吗? ‘Welcome…’ 文字始终会发送出去, 所以默认的头信息会自动被发送. 在调用 <code>header()</code> 时已经太晚了: 用户只看到一条错误消息 (如果你把错误报告关掉了, 则只会看到 ‘Welcome…’ 文字), 而不是被重定向</p>
+<p>基本上有两种解决方法. 第一个就是重写代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  <span class="keyword">if</span>($test)&#123;</span><br><span class="line">   <span class="keyword">echo</span> <span class="string">'Welcome to my website&lt;br /&gt;You'</span>re in!<span class="string">';</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">  else&#123;</span></span><br><span class="line"><span class="string">    header('</span>Location: http:<span class="comment">//www.mysite.com/someotherpage.php');</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>第二个就是使用<a href="http://www.php.net/outcontrol" target="_blank" rel="noopener">输出缓冲</a>, 这个解决方法更为优雅易用. 在我们上面的例子中, 重写代码并不困难, 但是试想一下如果有很多 HTML 需要移动位置 - 这样做就会很麻烦, 也会让我们的代码更难追踪. 虽然我们第一个示例导致了错误, 但是逻辑上是没错的. 输出缓冲可以让你一直保留(‘缓冲’)输出(即使是 PHP 代码之外的 HTML)直到你明确指示了把输出发送给浏览器. 这样你就可以随意编写你的代码, 知道你指定了你需要指定的头信息, 然后明确指示发送这些输出. 两个相关的函数是 <a href="http://www.php.net/manual/function.ob-start.php" target="_blank" rel="noopener"><code>ob_start()</code></a> 和 <a href="http://www.php.net/manual/function.ob-flush.php" target="_blank" rel="noopener"><code>ob_flush()</code></a>, <code>ob_start()</code>用于打开输出缓冲, <code>ob_flush()</code> 会发送缓冲了的输出:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> ob_start();  <span class="comment">//开始输出缓冲</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">Welcome to my website!</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">   <span class="keyword">echo</span> <span class="string">"You're in!"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    header(<span class="string">'Location: http://www.mysite.com/someotherpage.php'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ob_flush(); <span class="comment">//输出缓冲中的数据</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我鼓励你读一下所有关于输出缓冲的函数, 非常有用. 你应当尽早的把输出缓冲发送出去, 尤其当你有许多东西想要发送的时候. 否则你的页面会看起来加载的很慢, 因为所有的内容只有被组装完毕后才发送, 而不是当可用的时候立即就被发送出去.</p>
+<p><strong>提示: 第二个参数</strong> 如果你调用 header() 不止一次发送同一个头, 这个头的值将会是_最后_调用的 header() 中设置的值. 如,</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">'Some-Header: Value-1'</span>);</span><br><span class="line">header(<span class="string">'Some-Header: Value-2'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>会产生 <code>Some-Header: Value-2</code> 这个结果. 你可以通过设置第二个参数来发送同一个头两次. 这个参数默认是 true. 如果你设置其为 false, 那么第二个头值不会替换第一个, 而是两个都被发送. 所以下面的代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">'Some-Header: Value-1'</span>);</span><br><span class="line">header(<span class="string">'Some-Header: Value-2'</span>, <span class="keyword">false</span>); <span class="comment">//不要替换第一个</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>将会产生 <code>Some-Header: Value-1, Value-2</code> 这个结果. 你很少会用到这个, 但是知道它也不错.</p>
+<p>知道了 HTTP header 和 PHP 如何配合之后, 让我们来看一些更为具体的例子.</p>
+<p>#PHP header(): 一些例子</p>
+<p><strong>提示</strong>: 下面这个代码片断都是截取自完整的工作代码. 当你在自己的程序中包含他们的时候, 记得定义所有你自己的变量, 赋给他们默认值, 以及遵循其他最佳实践.</p>
+<p>##使用 <code>Location</code> 头重定向</p>
+<p>我们已经在上面看到过几次了: 它会重定向浏览器.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">'Location: http/www.mysite.com/new_location.html'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>虽然你给它一个相对 URL 没准也能工作, 但是根据 HTTP 规范, 你真的应该使用一个绝对 URL.</p>
+<p>一个容易犯的错误就是在使用了 Location header 之后不立即使用 <a href="http://www.php.net/manual/function.exit.php" target="_blank" rel="noopener"><code>exit</code></a> 以结束执行 (你可能不是总是想要结束执行, 但是大部分时间是的). 之所以这是一个错误是因为 PHP 代码会继续执行, 即使用户已经被重定向到新的 URL. 在最好的情况下, 这会不必要的使用系统资源. 在最坏的情况下, 你可能会执行一些让自己后悔的操作. 看一下下面的代码:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//重定向访问级别低于 4 的用户</span></span><br><span class="line"><span class="keyword">if</span> (check_access_level($username) &lt; <span class="number">4</span>)&#123;</span><br><span class="line">  header(<span class="string">'Location: http://www.mysite.com/someotherpage.php'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//向高于访问级别 4 的用户发送秘密邮件</span></span><br><span class="line">mail_secret_code($username);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'The secret email is on its way!'</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>未授权用户的确被重定向了, 但是因为代码会继续执行, 他们同样会收到邮件. 为了避免这种情况, 针对已授权用户的代码可以写到 <code>else{}</code> 声明中, 但是直接在 <code>header()</code> 后面使用 <code>exit</code> 来结束代码执行会更为干净容易一些.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//重定向访问级别低于 4 的用户</span></span><br><span class="line"><span class="keyword">if</span> (check_access_level($username) &lt; <span class="number">4</span>)&#123;</span><br><span class="line">  header(<span class="string">'Location: http://www.mysite.com/someotherpage.php'</span>);</span><br><span class="line">  <span class="keyword">exit</span>; <span class="comment">//停止代码执行</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//向高于访问级别 4 的用户发送秘密邮件</span></span><br><span class="line">mail_secret_code($username);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'The secret email is on its way!'</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-Refresh-头重定向"><a href="#使用-Refresh-头重定向" class="headerlink" title="使用 Refresh 头重定向"></a>使用 <code>Refresh</code> 头重定向</h2><p><code>Refresh</code> 和 <code>Location</code> 一样可以重定向用户, 但是你可以延迟重定向. 例如, 下面的代码会在显示当前页面 10 秒钟后重定向用户到新的页面:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">'Refresh: 10; url=http://www.mysite.com/otherpage.php'</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'You will be redirected in 10 seconds'</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>另一个常见的用途就是通过重复的’重定向’一个页面到它自身来强制更新页面 (参见<a href="#secondConv">上面</a>的第二个 ‘对话’). 例如, 这里是一个简单的例子, 页面会从 10 开始向下数, 每个数字之间有 3 秒间隔:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>($_GET[<span class="string">'n'</span>]))&#123;</span><br><span class="line">    $_GET[<span class="string">'n'</span>] = <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($_GET[<span class="string">'n'</span>] &gt; <span class="number">0</span>)&#123;</span><br><span class="line">  header(<span class="string">'Refresh: 3; url='</span> . $_SERVER[<span class="string">'PHP_SELF'</span>].<span class="string">'?n='</span> . ($_GET[<span class="string">'n'</span>]<span class="number">-1</span>)  );</span><br><span class="line">  <span class="keyword">echo</span> $_GET[<span class="string">'n'</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">'BLAST OFF!'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>提示</strong>: 如果刷新时间设置成 0, 则 <code>Refresh</code> 头实际上和 <code>Location</code> 头完全一样</p>
+<h2 id="使用-Content-Type-头来提供不同类型的文件以及生成动态内容"><a href="#使用-Content-Type-头来提供不同类型的文件以及生成动态内容" class="headerlink" title="使用 Content-Type 头来提供不同类型的文件以及生成动态内容"></a>使用 <code>Content-Type</code> 头来提供不同类型的文件以及生成动态内容</h2><p>服务器用 <code>Content-Type</code> 头告诉浏览器自己将要发送什么类型的数据. 使用这个头信息, 你可以让 PHP 脚本输出任何类型的文件, 从纯文本文件到图片文件到 zip 文件等等. 下面的表格列举了最常用的一个 <a href="http://en.wikipedia.org/wiki/Mime_type" target="_blank" rel="noopener">MIME 类型</a>:</p>
+<p><strong>常用 MIME 类型:</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>text/html</td>
+<td>HTML (PHP 默认)</td>
+</tr>
+<tr>
+<td>text/plain</td>
+<td>纯文本</td>
+</tr>
+<tr>
+<td>image/gif</td>
+<td>GIF 图片</td>
+</tr>
+<tr>
+<td>image/jpeg</td>
+<td>JPEG 图片</td>
+</tr>
+<tr>
+<td>image/png</td>
+<td>PNG 图片</td>
+</tr>
+<tr>
+<td>video/mpeg</td>
+<td>MPEG 视频</td>
+</tr>
+<tr>
+<td>audio/wav</td>
+<td>WAV 音频</td>
+</tr>
+<tr>
+<td>audio/mpeg</td>
+<td>MP3 音频</td>
+</tr>
+<tr>
+<td>video/mov</td>
+<td>mov 视频</td>
+</tr>
+<tr>
+<td>video/quicktime</td>
+<td>Quicktime 视频</td>
+</tr>
+<tr>
+<td>video/x-ms-wmv</td>
+<td>Windows WMV 视频</td>
+</tr>
+<tr>
+<td>audio/x-ms-wma</td>
+<td>Windows WMA 音频</td>
+</tr>
+<tr>
+<td>audio/x-realaudio</td>
+<td>RealPlayer 音频/视频 (.rm)</td>
+</tr>
+<tr>
+<td>audio/x-pn-realaudio</td>
+<td>RealPlayer 音频/视频 (.ram)</td>
+</tr>
+<tr>
+<td>video/x-msvideo</td>
+<td>ms 视频</td>
+</tr>
+<tr>
+<td>video/avi</td>
+<td>AVI 视频</td>
+</tr>
+<tr>
+<td>application/pdf</td>
+<td>PDF 文档</td>
+</tr>
+<tr>
+<td>application/msword</td>
+<td>MS Word .doc 文件</td>
+</tr>
+<tr>
+<td>application/zip</td>
+<td>Zip 文件</td>
+</tr>
+<tr>
+<td>application/octet-stream</td>
+<td>其他. 数据. 用于强制下载或使用应用打开.*</td>
+</tr>
+<tr>
+<td>x-foo/x-bar</td>
+<td>其他. 数据. 用于强制下载或使用应用打开.*</td>
+</tr>
+</tbody></table>
+<p>你可以用此来做一些有趣的事情. 比如, 你可能想要向用户发用一个预先格式化过的文本文件, 而不是 HTML:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">'Content-Type: text/plain'</span>);</span><br><span class="line"><span class="keyword">echo</span> $plain_text_content;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>另或者你想要提示用户下载文件, 而不是在浏览器中查看它. 使用 <code>Content-Disposition</code> 头, 这很容易, 你甚至可以推荐一个文件名给用户:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">'Content-Type: application/octet-stream'</span>);</span><br><span class="line">header(<span class="string">'Content-Disposition: attachment; '</span></span><br><span class="line">       .<span class="string">'filename="plain_text_file.txt"'</span>);</span><br><span class="line"><span class="keyword">echo</span> $plain_text_content;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>另或者你需要提供文件文件, 但是又希望隐藏文件的真实路径和名字, 并且只让已登录的用户下载:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>($b_is_logged_in)&#123;</span><br><span class="line">   header(<span class="string">'Content-Type: application/octet-stream'</span>);</span><br><span class="line">   header(<span class="string">'Content-Disposition: attachment; '</span></span><br><span class="line">           .<span class="string">'filename="'</span>.$different_filename.<span class="string">'"'</span>);</span><br><span class="line">   readfile(<span class="string">'/path/to/files/'</span> . $filename);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">   <span class="keyword">echo</span> <span class="string">'You are not authorized to view this file'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>又或者你已经使用 PHP 的<a href="http://www.php.net/manual/ref.image.php" target="_blank" rel="noopener">图片函数</a>动态生成了一个图片, 想要展示给用户. 你可以创建一个 <code>build_image.php</code> 文件, 像这样</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">   <span class="comment">//生成图片, 然后</span></span><br><span class="line">   header(<span class="string">'Content-Type: image/jpeg'</span>);</span><br><span class="line">   imagejpeg($image_resouce);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>提示</strong>: 当心 <a href="http://www.php.net/magic_quotes" target="_blank" rel="noopener"><code>magic_quotes</code></a>! PHP 会自动使用反斜杠转移特殊字符, 这一开始看起来是个好主意, 但是大多数好的程序员认为 (a) 这会鼓励不去验证输入的粗心代码, 并且 (b) 在良好的代码中会产生本不该有 (如果 <code>magic_quote</code> 关闭) 的麻烦. 其中一个麻烦就是二进制数据被破坏. 在上面这个例子中, 如果 <a href="http://www.php.net/manual/en/ref.info.php#ini.magic-quotes-runtime" target="_blank" rel="noopener"><code>magic_quotes_runtime</code></a>被启用, 则 <code>readfile()</code> 输出的数据可能被添加反斜杠, 导致发送给用户的文件被破坏. 完美情况下, 你应该在 <code>php.ini</code> 文件中关闭 <code>magic_quotes_runtime</code> 选项, 但是如果你没有权限访问这个配置文件, 你可以使用 <a href="http://www.php.net/manual/en/function.set-magic-quotes-runtime.php" target="_blank" rel="noopener"><code>set_magic_quotes_runtime()</code></a> 函数 (给它传个数字 0) 关闭它.</p>
+<p>令人高兴的是, 最近的一次 PHP <a href="http://www.php.net/~derick/meeting-notes.html#magic-quotes" target="_blank" rel="noopener">开发者会议</a>显示, 在未来版本(6+) 的 PHP 中 <code>magic quotes</code> 会被弃用. 但是在所有人升级到这个版本的 PHP 之前, 记住这个导致的问题会节省你很多麻烦和疑问.</p>
+<p>你可以在 URL 中传递生成图片所需的参数, 然后使用 $_GET 获取它们. 然后在另一个页面, 你可以使用 img 标签来包含这个图片:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">"build_image.php&lt;?php echo "</span>?$user_id&amp;amp;$caption<span class="string">"; ?&gt;"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可用的地方几乎讲不完. 你 PHP 变成越多, 越会发现 <code>Content-Type</code> 头真的是你的好朋友</p>
+<p><strong>提示</strong>: 浏览器处理各式 <code>MIME类型</code> 的_预期_方式以及_实际_方式可能并不一致 (尤其是 Internet Explorer), 所以你最好是在你需要支持的浏览器中测试一下. PHP 参考中的<a href="http://www.php.net/manual/function.header.php#usernotes" target="_blank" rel="noopener">用户评论</a>有许多关于此的技巧.</p>
+<p>##防止页面缓存</p>
+<p>PHP 页面通常会生成非常动态的内容, 为了防止用户因为页面缓存而错过了更新过的页面, 告诉浏览器不要缓存特定的页面通常非常有用. 下面的代码在可能会访问你网站的浏览器中工作的很好:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">'Cache-Control: no-cache, no-store, must-revalidate'</span>); <span class="comment">//HTTP/1.1</span></span><br><span class="line">header(<span class="string">'Expires: Sun, 01 Jul 2005 00:00:00 GMT'</span>);</span><br><span class="line">header(<span class="string">'Pragma: no-cache'</span>); <span class="comment">//HTTP/1.0</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>Expires</code> 头可以是任何已经过去的日期. 对于 <code>MIME 类型</code>, 浏览器 (尤其是较老的) 可能不会总是正确的理解你的缓存指示 (虽然大部分现代浏览器会).</p>
+<h2 id="其他应用"><a href="#其他应用" class="headerlink" title="其他应用"></a>其他应用</h2><p>还有另外一个可以使用头信息的地方, 比如设置 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html" target="_blank" rel="noopener">HTTP 响应码</a>, 或者执行 <a href="http://www.php.net/manual/features.http-auth.php" target="_blank" rel="noopener">HTTP 认证</a> (如果你作为 <code>Apache</code> 模块来使用 PHP 的话). 现在, 你了解了 header() 如何工作及怎么使用它, 你可以用它做你之前想都没想到的许多事情了.</p>
+<h1 id="PHP-中的请求头信息"><a href="#PHP-中的请求头信息" class="headerlink" title="PHP 中的请求头信息"></a>PHP 中的请求头信息</h1><p>我们讲了怎么使用响应头信息了. 我们还可以从浏览器发给服务器的请求头信息中获取很多信息. 有两种方法来获取. 第一, 许多 [<code>$_SERVER</code>数组][server]中的值都是由传来的请求头信息决定的. 第二, 如果 PHP 是作为 <code>Apache</code> 模块使用的, <a href="http://www.php.net/manual/function.apache-request-headers.php" target="_blank" rel="noopener"><code>apache_request_headers()</code></a> 会返回一个包含所有请求头信息的数组 (甚至那些不在 <code>$_SERVER</code> 中的).</p>
+<h2 id="安全第一-不要信任请求头信息"><a href="#安全第一-不要信任请求头信息" class="headerlink" title="安全第一: 不要信任请求头信息"></a>安全第一: 不要信任请求头信息</h2><p>因为请求头信息发自浏览器, 浏览器又可以在客户端被控制, 所以你<strong>永远不要信任来自请求头, 又和你站点安全紧密相关的头信息</strong>. 一个很好的例子就是 <code>$_SERVER[&#39;HTTP_REFERER&#39;]</code>变量, 这个变量应该包含一个用户转自的源 URL. 一个新手的常见错误就是认为他们可以使用这个来确保用户只会通过特定路径来访问页面, 因此他们便无需关心服务器端的数据验证. 例如, 看看下面的代码, 它试着去确保数据是从一个特定的页面发送过来的, 而不是从另一个站点</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> <span class="keyword">if</span>($_SERVER[<span class="string">'HTTP_REFERER'</span>] != <span class="string">'http://www.mysite.com/myform.html'</span>)&#123;</span><br><span class="line">   header(<span class="string">'Refresh: 5; url=http://www.mysite.com/myform.html'</span>);</span><br><span class="line">   <span class="keyword">echo</span> <span class="string">'You must use the form on my site...redirecting now.'</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">else</span>&#123;</span><br><span class="line">   insert_data($_POST[<span class="string">'var1'</span>], $_POST[<span class="string">'var2'</span>]);</span><br><span class="line"> &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这或许会阻止那些不是很精通的黑客通过他的浏览器提交一个自定义的表单来提交数据, 但是任何一个稍微高深一些的黑客都可以通过使用 <code>telnet</code> 来提交数据, 包括请求头信息</p>
+<pre><code>Referer: http://www.mysite.com/myform.html</code></pre><p>然后轻易的躲过这层保护机制. 这里所要讲的重点是: 使用 HTTP 请求头信息来统计一些数据以便提供更好的用户体验 - 大部分的请求头信息都是发自真实的浏览器而且可以被信任…但是<strong>不要</strong>在有关安全的问题上依赖任何请求 header</p>
+<h2 id="使用-HTTP-请求头信息"><a href="#使用-HTTP-请求头信息" class="headerlink" title="使用 HTTP 请求头信息"></a>使用 HTTP 请求头信息</h2><p>你可以用它做几件事. 使用 <code>$_SERVER[&#39;HTTP_USER_AGENT&#39;]</code>你可以探测用户生成他使用的什么浏览器. 你可以检查 <code>$_SERVER[&#39;HTTP_ACCEPT_LANGUAGE&#39;]</code> (可能要配合 <code>$_SERVER[&#39;HTTP_ACCEPT_CHARSET&#39;]</code> 和一些 <a href="http://www.expertsrt.com/articles/Rod/city_country_IP.php" target="_blank" rel="noopener">IP 地理位置</a> ) 来决定向用户展示什么语言. 虽然 <code>$_SERVER[&#39;HTTP_REFERER&#39;]</code> 对于安全目的并不能被依赖, 但是可以用来统计你网站的流量, 或者根据用户的访问路径来定制显示内容. 如果因为某些原因你想要操作原始的请求字符串, 你可以使用 <code>$_SERVER[&#39;QUERY_STRING&#39;]</code>. 查看 <code>$_SERVER[&#39;REQUEST_METHOD&#39;]</code> 可以知道你的页面是通过 <code>GET</code> 还是 <code>POST</code> 方法访问的. 还有很多可以帮助你做许多有创意的事情的信息等着你去发现.</p>
+<p>#HTML <code>meta</code> 标签中的 HTTP 头信息 equivalents(对应物)</p>
+<p>很有可能在阅读本文之前, 你已经用过下面的 HTML meta 标签重定向用户了:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"refresh"</span> <span class="attr">content</span>=<span class="string">"0;http://www.mysite.com/somepage.html"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>看起来很熟悉? ‘http-equiv’ <code>meta</code> 标签即 HTTP 响应头的’对应物’, 引入它们是为了让没有服务器端编程能力的人在写 HTML 页面的时候也能使用强大的头信息功能. 使用这些 meta 标签很简单: 它们可以被放在文档 <code>&lt;head&gt;</code> 中的任何地方, <code>http-equiv</code> 属性包含头名, <code>content</code> 属性包含头值.</p>
+<p>我发现这些 meta 标签最开始也会和 HTTP 头一样让人困惑, 但是现在它们在你看来应该很简单了. 虽然我更喜欢使用 PHP 的 <code>header()</code> 函数, 但是 <code>meta</code> 标签的 HTTP equivalents 对于像指定字符集这样的事情会更顺手一些. 比如, 我经常在 HTML 页面中使用 (有时候 PHP 页面中也会用到):</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>提示</strong>: 使用 <code>meta</code> 标签来指定头信息并不被一致的支持, 所以通常来讲使用头信息本身会更加安全和快速. 另外很明显, 还有一些头的名值对并不能用 <code>meta equivalents</code> 来指定: 在真正的头信息被发送, 浏览器已经把文档读取为 HTML 之后, 你是不能再去设置 <code>Content-Type</code> 成 <code>image/png</code> 的 ;-)</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>现在我们讲完了, 你应该对 HTTP 的工作原理以及如何使用响应请求头信息以及如何把它们应用到自己的代码中有了很好的认识. 这些知识也会让你在 web 应用的效率和安全方面有更审慎的思考. 我希望在你继续编程的时候, 会发现你使用 HTTP 头信息更加顺手了, 也能通过使用它们让你的工作更加轻松, 你的页面更好了.</p>
+<p>还有额外一点, 记住头信息就像是词语: 它们交流信息并请求某些操作被执行, 但是本身并不强制任何事情. 99.9% 的情况下, 浏览器和服务器和谐合作, 事情发展很顺利. 但记住在现实中, 是不是你会遇到一些混蛋 (黑客), 或者一些只想按照自己意愿做事的东西 (Internet Explorer). web 开发从很多角度讲是一个客服性质的工作, 所以你应该尽全力避免这些东西, 满足客户的 ‘特殊需要’ :-)</p>
+<hr>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://locahost:4000/2020/03/11/2015-09-26-Http_headers_and_PHP_header()_function/" title="HTTP 头和 PHP header() 函数" target="_blank" rel="external">http://locahost:4000/2020/03/11/2015-09-26-Http_headers_and_PHP_header()_function/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fantasylion" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/owner.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fantasylion" target="_blank"><span class="text-dark">Serio</span><small class="ml-1x">Coder</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/03/11/2015-09-28-Understanding_the_diff_command_in_unix/" title="理解 diff 命令"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/03/11/2015-07-30-java-get-color-model/" title="java 获取图片属性"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://locahost:4000/2020/03/11/2015-09-26-Http_headers_and_PHP_header()_function/';
+        
+        this.page.identifier = '2015-09-26-Http_headers_and_PHP_header()_function';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'fantasyLion' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

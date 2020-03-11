@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Ebbinghaus Forgetting Curve | Serio&#39;s blog</title>
+  <meta name="description" content="The Shawshank Redemption">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ebbinghaus Forgetting Curve">
+<meta property="og:url" content="http://locahost:4000/2020/03/11/2018-01-31-The-Shawshank-Redemption/index.html">
+<meta property="og:site_name" content="Serio&#39;s blog">
+<meta property="og:description" content="The Shawshank Redemption">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-11T14:46:32.062Z">
+<meta property="article:modified_time" content="2020-01-07T08:03:58.000Z">
+<meta property="article:author" content="Serio">
+<meta property="article:tag" content="English">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://locahost:4000/2020/03/11/2018-01-31-The-Shawshank-Redemption/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Serio&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/fantasylion" target="_blank">
+          <img class="img-circle img-rotate" src="/images/owner.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Serio</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Coder</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> hangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LifeFeeling/">LifeFeeling</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">database</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/notes/">notes</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/program/">program</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">tool</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/translation/">translation</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/zookeeper/">zookeeper</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AE/" rel="tag">AE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DS/" rel="tag">DS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/framework/" rel="tag">framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tool/" rel="tag">tool</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uml/" rel="tag">uml</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%94%9F/" rel="tag">人生</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%B1/" rel="tag">爱</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/AE/" style="font-size: 13px;">AE</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/DS/" style="font-size: 13px;">DS</a> <a href="/tags/English/" style="font-size: 13.5px;">English</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/MongoDB/" style="font-size: 13.5px;">MongoDB</a> <a href="/tags/ffmpeg/" style="font-size: 13px;">ffmpeg</a> <a href="/tags/framework/" style="font-size: 13px;">framework</a> <a href="/tags/http/" style="font-size: 13px;">http</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/tool/" style="font-size: 13.5px;">tool</a> <a href="/tags/uml/" style="font-size: 13.5px;">uml</a> <a href="/tags/zookeeper/" style="font-size: 13px;">zookeeper</a> <a href="/tags/%E4%BA%BA%E7%94%9F/" style="font-size: 13px;">人生</a> <a href="/tags/%E7%88%B1/" style="font-size: 13px;">爱</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">26</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/tool/">tool</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2020-01-07-adding-extra-celery-configs-to-airflow/" class="title">Airflow 使用 Celery 时，如何添加 Celery 配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.070Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Tools/">Tools</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2019-01-17-How-to-use-EA/" class="title">如何使用 Enterprise Architect 画 UML</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.067Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/zookeeper/">zookeeper</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2018-03-20-zookeeper-guide-chinese/" class="title">zookeeper 应用指南中文版</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.065Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/English/">English</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2018-01-31-The-Shawshank-Redemption/" class="title">Ebbinghaus Forgetting Curve</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.062Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/English/">English</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2018-01-02-How-to-remember-sthing/" class="title">Ebbinghaus Forgetting Curve</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.060Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2018-01-31-The-Shawshank-Redemption" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Ebbinghaus Forgetting Curve
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/03/11/2018-01-31-The-Shawshank-Redemption/" class="article-date">
+	  <time datetime="2020-03-11T14:46:32.062Z" itemprop="datePublished">2020-03-11</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/English/">English</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/English/" rel="tag">English</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/03/11/2018-01-31-The-Shawshank-Redemption/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.6k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 9(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="The-Shawshank-Redemption"><a href="#The-Shawshank-Redemption" class="headerlink" title="The Shawshank Redemption"></a>The Shawshank Redemption</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br></pre></td><td class="code"><pre><span class="line">Mr.Dufresne, describe the confrontation you had with your wife the night she wwas murdered.</span><br><span class="line"></span><br><span class="line">It was very bitter.She said she was glad I knew that she hated all the sneaking around. </span><br><span class="line">And she said that she wanted a divorce in Reno.</span><br><span class="line"></span><br><span class="line">What was your reponse?</span><br><span class="line"></span><br><span class="line">I told her I would not grant one.</span><br><span class="line"></span><br><span class="line">I&#39;ll see you in hell before I see you in Reno. Those were your words, according to your neighbors.</span><br><span class="line"></span><br><span class="line">If they say so. I really don&#39;t remember. I was upset.</span><br><span class="line"></span><br><span class="line">What Happened after you argued with your wife?</span><br><span class="line"></span><br><span class="line">She packed a bag. She packed a bag to go and stay with Mr.Quentin.</span><br><span class="line"></span><br><span class="line">Glenn Quentin, golf pro at the Snowden Hills Country Club whom you had discovered was your wife&#39;s lover. Did you follow</span><br><span class="line">her?</span><br><span class="line"></span><br><span class="line">I went to a few bars first. Later, I drove to his house to confront them. They weren&#39;t home. </span><br><span class="line">So I parked in the turnout and waited.[Some errors here]</span><br><span class="line"></span><br><span class="line">With what intention?</span><br><span class="line"></span><br><span class="line">I&#39;m not sure. I was confused, drunk, I think mostly I wanted to scare them.</span><br><span class="line"></span><br><span class="line">When they arrived, you went up to the house and murdered them.</span><br><span class="line"></span><br><span class="line">No, I was sobering up.</span><br><span class="line"></span><br><span class="line">I got back in the car and I drove home to sleep it off.</span><br><span class="line"></span><br><span class="line">Along the way, I threw my gun into the Royal River. I&#39;ve been very clear on this point.</span><br><span class="line"></span><br><span class="line">Well I get hazy where the cleaning woman shows up the following morning, and finds your wife in bed with her lover riddled</span><br><span class="line">with 38-caliber bullets. Does that strike you as a fantastic coincidence, or is it just me?</span><br><span class="line"></span><br><span class="line">Yes it dose.</span><br><span class="line"></span><br><span class="line">Yet you still maintain you threw your gun into the river before the murders took place. That&#39;s very convenient.</span><br><span class="line"></span><br><span class="line">It&#39;s the truth.</span><br><span class="line"></span><br><span class="line">The police dragged that river for three days, and nary a gun was found, so no comparison could be made between your</span><br><span class="line">gun and the bullets taken from the bloodstained corpses of the victims. And that also is very convenient.</span><br><span class="line">Isn&#39;s it, Mr,Dufresne?</span><br><span class="line"></span><br><span class="line">Since I am innocent of this crime.I find it decidedly inconvenient that the gun was nerver found.</span><br><span class="line"></span><br><span class="line">Ladied and gentlemen, you&#39;ve heard all the evidence.[Lost some words] We have the accused at the scene of the crime.</span><br><span class="line">We have footprints. Bullets on the ground bearing his fingerprints. A broken bourbon bottle, likewise with fingerprints.</span><br><span class="line">And most of all, We have a beautifull young woman and her lover lying dead in each other&#39;s arms. They had sinned.</span><br><span class="line">But was their crime so great as to merit a death sentence? While you think about that,</span><br><span class="line">think about this: A revoiver holds six bullets, not eight. I submit that this was not a hot-blooded crime of passion.</span><br><span class="line">That at least could be understood, if not condoned. NO! This was revenge of a much more brutal, cold-blooded nature, </span><br><span class="line">Consider this: Four bullets per victim Not six shots fired, but eight. That means that he fired the gun empty</span><br><span class="line">and then stopped to reload so that he could shoot each of them again. And extra bullet per lover right in the head.</span><br><span class="line"></span><br><span class="line">You strike me as a particularly icy and remoreseless man, Mr.Dufresne. It chills my blood just to look at you.</span><br><span class="line">By the power vested in me by the state of Maine. I hereby order you to sever two life sentences back-to-back</span><br><span class="line">on for each of your victims. So be it!</span><br><span class="line"></span><br><span class="line">Sit.</span><br><span class="line"></span><br><span class="line">We see you&#39;ve served 20 year of a life sentence?</span><br><span class="line"></span><br><span class="line">Yes, sir.</span><br><span class="line"></span><br><span class="line">Your feel you&#39;ve been rehabilitated?</span><br><span class="line"></span><br><span class="line">Yes sir. Absolutely, sir. I mean, I learned my lessson. I can honestly say that I&#39;m a changed man. </span><br><span class="line">I&#39;m no longer a danger to society. That&#39;s God&#39;s honest truth.</span><br><span class="line"></span><br><span class="line">Hey red, How&#39;d it go?</span><br><span class="line"></span><br><span class="line">Same old shit, different day.</span><br><span class="line"></span><br><span class="line">Yeah, I know how you feel.</span><br><span class="line"></span><br><span class="line">I&#39;m up for rejection next week.</span><br><span class="line"></span><br><span class="line">Yeah, I got rejected last week.</span><br><span class="line"></span><br><span class="line">It happens.</span><br><span class="line"></span><br><span class="line">Hey, Red, bump me a deck.</span><br><span class="line"></span><br><span class="line">Get out of my face, man! You&#39;re into me for five packs already.</span><br><span class="line"></span><br><span class="line">Four!-Five!</span><br><span class="line"></span><br><span class="line">There must be a con like me in every prison in America. I&#39;m the guy who can get it for you. Cigarettes, a bag of reefer,</span><br><span class="line">if that&#39;s your thing... A bottle of brandy to celebrate your kids high school graduation. Damn near anything within reason.</span><br><span class="line">Yes sir. I&#39;m a regular sears an Roebuck.So when Andy Dufresne came to me in 1949 and asked me to smuggle Rita Hayworth</span><br><span class="line">into the prison for him. I told him, &quot;No problem&quot;</span><br><span class="line"></span><br><span class="line">Officers to main gate. Officers to main gate. Secure main gate.</span><br><span class="line"></span><br><span class="line">Andy came to Shawshank Prison in early 1947 for murdering his wife and the fella she was banging.On the outside, </span><br><span class="line">he&#39;d been vice president of a large Portland bank.Good work for a man so young.[Lost some words]</span><br><span class="line"></span><br><span class="line">Hey Red.</span><br><span class="line"></span><br><span class="line">You speak English, butt-steak? You follow this officer.</span><br><span class="line"></span><br><span class="line">I never seen such a sorry-looking heap of maggot shit in all my life.</span><br><span class="line"></span><br><span class="line">Hey, fish! Come over here!</span><br><span class="line"></span><br><span class="line">Taking bets today, Red?</span><br><span class="line"></span><br><span class="line">Smokers or coin? Bettor&#39;s choice.</span><br><span class="line"></span><br><span class="line">Smokes. Put me down for tow.</span><br><span class="line"></span><br><span class="line">All right, who&#39;s your horse?</span><br><span class="line"></span><br><span class="line">That little sack of shit.</span><br><span class="line"></span><br><span class="line">Eighth.He&#39;ll be first.-Bullshit! I&#39;ll take that action.</span><br><span class="line"></span><br><span class="line">You&#39;re out some smokes, son.</span><br><span class="line"></span><br><span class="line">If your&#39;re so smart, you call it.</span><br><span class="line"></span><br><span class="line">I&#39;ll take the chubby fat-ass three.The fifth one. Put me down for a quarter deck.</span><br><span class="line"></span><br><span class="line">Fresh fish today! We&#39;re reeling them in!</span><br><span class="line"></span><br><span class="line">I must admit I didn&#39;t think much of Andy first time I laid eyes on him. Looked like a stiff breeze would blow him over.</span><br><span class="line">That was my first impression of the man.</span><br><span class="line"></span><br><span class="line">What do you say?</span><br><span class="line"></span><br><span class="line">That tall drink of water the silver spoon up his ass.</span><br><span class="line"></span><br><span class="line">That guy?Never happen.</span><br><span class="line"></span><br><span class="line">Ten cigarettes-That&#39;s a rich bet. Who&#39;s going to prove me wrong? Heywood?Jigger?Skeets?Floyd!Four brave souls.</span><br><span class="line"></span><br><span class="line">Return to your cellblocks for evening count.All prisoners, return to your cellblocks.</span><br><span class="line"></span><br><span class="line">Turn o the right! Eyes front.</span><br><span class="line"></span><br><span class="line">This is Mr.Hadley. He&#39;s captain of the guards.I&#39;m Mr.Norton, the warden. You are conviceted felons.That&#39;s why they&#39;ve sent you to me.</span><br><span class="line">Rule number one: No blasphemy, I&#39;ll not have the lord&#39;s name taken in vain in my prison. The other rules, you&#39;ll figure out as you go</span><br><span class="line">along. Any questions?</span><br><span class="line"></span><br><span class="line">When do we eat?</span><br><span class="line"></span><br><span class="line">You eat when we say you eat. You shit when we say you shit, and piss when we say you piss. You got that, you maggot-dick motherfucker?</span><br><span class="line">On your feet.</span><br><span class="line"></span><br><span class="line">I believe in two things: Discipline and the Bible. Here, you&#39;ll receive both. Put your trust in the Lord. Your ass belongs to me.</span><br><span class="line">Welcome to Shawshank.</span><br><span class="line"></span><br><span class="line">Unhook them.</span><br><span class="line">[time is 14:19]</span><br><span class="line"></span><br><span class="line">Turn around.</span><br><span class="line"></span><br><span class="line">That&#39;s enough. Move to the end of the cage. Turn around. Delouse him. Turn around. Move out of the cage.</span><br><span class="line">Pick up your clohes and Bible. Next man up. To the right. Right. Right. Left. The first night&#39;s the toughest. No doubt about it.</span><br><span class="line">They march you in naked as the day you were born. Skin burning and half-blind from that delouing shit. And when they put you in </span><br><span class="line">that cell and those bars slam home. That&#39;s when you know it&#39;s for real. Old life blown away in the blink of an eye. Nothing left</span><br><span class="line">but all the time in the world to think about it. Most new fish come close to madness the first night. Somebody always breaks down crying. Hapens every time. The only question is who&#39;s it going to be? It&#39;s as good a thing to bet on as any, I guess. I had my</span><br><span class="line">money on Andy Dufresne.</span><br><span class="line"></span><br><span class="line">Lights out.</span><br><span class="line"></span><br><span class="line">I remember my first night.Seems like a long time ago.</span><br><span class="line"></span><br><span class="line">Hey fish, fish ,fish, what are you, scared of the dark? Bet you wish your daddy never dicked your mama? Piggy! Pork! I want me</span><br><span class="line">a port chop.</span><br><span class="line"></span><br><span class="line">Poke your ass out, give me a first look! Keep it down.</span><br><span class="line"></span><br><span class="line">The boys always go fishing with first-timers. And the don&#39;t quit till they reel someone in.</span><br><span class="line"></span><br><span class="line">Hey, Fat Ass. Take to me boy. I know your&#39;re there. I can hear you breathing. Don&#39;t you listen to these nitwits, you hear me?</span><br><span class="line">This place ain&#39;t so bad. Tell you what, I&#39;ll introduce you around, make you feel right at home.</span><br><span class="line">I konw a couple of big od bull queers that&#39;d just love to make your acquaintance. Especially that big,</span><br><span class="line">white, mushy butt of yours.</span><br><span class="line"></span><br><span class="line">Glod!</span><br><span class="line"></span><br><span class="line">I don&#39;t belong here!</span><br><span class="line"></span><br><span class="line">We have a winner!- I want to go home!</span><br><span class="line"></span><br><span class="line">And it&#39;s Fat Ass by a nose!</span><br><span class="line"></span><br><span class="line">Fresh fish! Fresh fish! Fresh fish!</span><br><span class="line"></span><br><span class="line">I don&#39;t belong here. I want to go home. I want my mother!</span><br><span class="line"></span><br><span class="line">I had your mother! She wasn&#39;t that great!</span><br><span class="line">[time is 18:01]</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://locahost:4000/2020/03/11/2018-01-31-The-Shawshank-Redemption/" title="Ebbinghaus Forgetting Curve" target="_blank" rel="external">http://locahost:4000/2020/03/11/2018-01-31-The-Shawshank-Redemption/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fantasylion" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/owner.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fantasylion" target="_blank"><span class="text-dark">Serio</span><small class="ml-1x">Coder</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/03/11/2018-03-20-zookeeper-guide-chinese/" title="zookeeper 应用指南中文版"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/03/11/2018-01-02-How-to-remember-sthing/" title="Ebbinghaus Forgetting Curve"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://locahost:4000/2020/03/11/2018-01-31-The-Shawshank-Redemption/';
+        
+        this.page.identifier = '2018-01-31-The-Shawshank-Redemption';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'fantasyLion' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

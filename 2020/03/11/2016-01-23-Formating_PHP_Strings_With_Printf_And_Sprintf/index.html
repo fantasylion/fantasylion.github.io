@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>使用 php printf() 和 sprintf() 格式化字符串 | Serio&#39;s blog</title>
+  <meta name="description" content="和其他许多编程语言一样, PHP 也有功能强大的 printf() 和 sprintf() 函数, 它们提供了很多格式化字符串的方式. 当你想要某些数据更易读, 或者需要传递数据给其他程式的时候, 这两个函数很有用. 这篇教程就会教你如何使用 printf() 和 sprintf() 来格式化字符串.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 php printf() 和 sprintf() 格式化字符串">
+<meta property="og:url" content="http://locahost:4000/2020/03/11/2016-01-23-Formating_PHP_Strings_With_Printf_And_Sprintf/index.html">
+<meta property="og:site_name" content="Serio&#39;s blog">
+<meta property="og:description" content="和其他许多编程语言一样, PHP 也有功能强大的 printf() 和 sprintf() 函数, 它们提供了很多格式化字符串的方式. 当你想要某些数据更易读, 或者需要传递数据给其他程式的时候, 这两个函数很有用. 这篇教程就会教你如何使用 printf() 和 sprintf() 来格式化字符串.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-11T14:46:32.029Z">
+<meta property="article:modified_time" content="2020-01-07T08:03:58.000Z">
+<meta property="article:author" content="Serio">
+<meta property="article:tag" content="php">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://locahost:4000/2020/03/11/2016-01-23-Formating_PHP_Strings_With_Printf_And_Sprintf/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Serio&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/fantasylion" target="_blank">
+          <img class="img-circle img-rotate" src="/images/owner.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Serio</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Coder</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> hangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LifeFeeling/">LifeFeeling</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">database</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/notes/">notes</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/program/">program</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">tool</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/translation/">translation</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/zookeeper/">zookeeper</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AE/" rel="tag">AE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DS/" rel="tag">DS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/framework/" rel="tag">framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tool/" rel="tag">tool</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uml/" rel="tag">uml</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%94%9F/" rel="tag">人生</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%B1/" rel="tag">爱</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/AE/" style="font-size: 13px;">AE</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/DS/" style="font-size: 13px;">DS</a> <a href="/tags/English/" style="font-size: 13.5px;">English</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/MongoDB/" style="font-size: 13.5px;">MongoDB</a> <a href="/tags/ffmpeg/" style="font-size: 13px;">ffmpeg</a> <a href="/tags/framework/" style="font-size: 13px;">framework</a> <a href="/tags/http/" style="font-size: 13px;">http</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/tool/" style="font-size: 13.5px;">tool</a> <a href="/tags/uml/" style="font-size: 13.5px;">uml</a> <a href="/tags/zookeeper/" style="font-size: 13px;">zookeeper</a> <a href="/tags/%E4%BA%BA%E7%94%9F/" style="font-size: 13px;">人生</a> <a href="/tags/%E7%88%B1/" style="font-size: 13px;">爱</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">26</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/tool/">tool</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2020-01-07-adding-extra-celery-configs-to-airflow/" class="title">Airflow 使用 Celery 时，如何添加 Celery 配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.070Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Tools/">Tools</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2019-01-17-How-to-use-EA/" class="title">如何使用 Enterprise Architect 画 UML</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.067Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/zookeeper/">zookeeper</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2018-03-20-zookeeper-guide-chinese/" class="title">zookeeper 应用指南中文版</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.065Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/English/">English</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2018-01-31-The-Shawshank-Redemption/" class="title">Ebbinghaus Forgetting Curve</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.062Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/English/">English</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/11/2018-01-02-How-to-remember-sthing/" class="title">Ebbinghaus Forgetting Curve</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-11T14:46:32.060Z" itemprop="datePublished">2020-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2016-01-23-Formating_PHP_Strings_With_Printf_And_Sprintf" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用 php printf() 和 sprintf() 格式化字符串
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/03/11/2016-01-23-Formating_PHP_Strings_With_Printf_And_Sprintf/" class="article-date">
+	  <time datetime="2020-03-11T14:46:32.029Z" itemprop="datePublished">2020-03-11</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/translation/">translation</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/php/" rel="tag">php</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/03/11/2016-01-23-Formating_PHP_Strings_With_Printf_And_Sprintf/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.8k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 6(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><em>原文在 2009/11/19 发表于 <a href="http://www.elated.com/articles/formatting-php-strings-printf-sprintf/" target="_blank" rel="noopener">http://www.elated.com/articles/formatting-php-strings-printf-sprintf/</a></em></p>
+<p>和其他许多编程语言一样, PHP 也有功能强大的 <a href="http://php.net/manual/en/function.printf.php" target="_blank" rel="noopener"><code>printf()</code></a> 和 <a href="http://php.net/manual/en/function.sprintf.php" target="_blank" rel="noopener"><code>sprintf()</code></a> 函数, 它们提供了很多格式化字符串的方式. 当你想要某些数据更易读, 或者需要传递数据给其他程式的时候, 这两个函数很有用.</p>
+<p>PHP 也有许多专门用途的格式化字符串的函数 - 比如 <a href="http://php.net/manual/en/function.date.php" target="_blank" rel="noopener"><code>date()</code></a> 函数, 适合用于格式化日期字符串. 而 <code>printf()</code> 和 <code>sprintf()</code> 则适合更为通用的格式化.</p>
+<p>这篇教程就会教你如何使用 <code>printf()</code> 和 <code>sprintf()</code> 来格式化字符串.</p>
+<p>#一个简单的 <code>printf()</code> 示例</p>
+<p>了解 <code>printf()</code> 的最简单方式就是通过示例. 下面这个例子打印一个包含了两个数字的字符串:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 打印 "Australia comprises 6 states and 10 territories"</span></span><br><span class="line">printf( <span class="string">"Australia comprises %d states and %d territories"</span>, <span class="number">6</span>, <span class="number">10</span> );</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意这个字符串在被打印出的时候, 第一个 <code>%d</code> 被第二个参数 <code>6</code> 替换, 第二个 <code>%d</code> 则被第三个参数 <code>10</code> 替换. 其工作原理即:</p>
+<ul>
+<li><p>第一个参数必须是一个字符串, 我们称之为目标字符串. 目标字符串包含普通的字符, 和一些可选的格式说明符 (比如 <code>%d</code>)</p>
+</li>
+<li><p>所有格式说明符都以 <code>%</code> 开头. 它按对应的顺序以特定方式格式化目标字符串之后的参数, 然后将其插入到最终的字符串中, 并显示到网页.</p>
+</li>
+</ul>
+<p><strong>NOTE:</strong> 如果想要打印 <code>%</code> 符, 使用 <code>%%</code>.</p>
+<p>#类型说明符</p>
+<p>上面那个例子使用的 <code>%d</code> 这个格式说明符, 会将参数按照有符号十进制数字格式化. 这个 <code>d</code> 被称为类型说明符. <code>printf()</code> 支持很多类型说明符. 下面是类型说明符的完整列表:</p>
+<table>
+<thead>
+<tr>
+<th>类型说明符</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>b</code></td>
+<td>将参数作为二进制数字(如 <code>10010110</code>)格式化</td>
+</tr>
+<tr>
+<td><code>c</code></td>
+<td>将参数作为 ASCII 码值格式化为对应的字符</td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>将参数作为有符号十进制数字格式化</td>
+</tr>
+<tr>
+<td><code>e</code></td>
+<td>将参数作为科学计数法(如 <code>1.234e+3</code>)格式化</td>
+</tr>
+<tr>
+<td><code>f</code></td>
+<td>将参数作为浮点数字, 并且使用地区设定(如在法国, 逗号被用作小数点)格式化</td>
+</tr>
+<tr>
+<td><code>F</code></td>
+<td>和上面相同, 不过不使用地区设定</td>
+</tr>
+<tr>
+<td><code>o</code></td>
+<td>将参数作为八进制数字格式化</td>
+</tr>
+<tr>
+<td><code>s</code></td>
+<td>将参数作为字符串格式化</td>
+</tr>
+<tr>
+<td><code>u</code></td>
+<td>将参数作为无符号十进制数字格式化</td>
+</tr>
+<tr>
+<td><code>x</code></td>
+<td>将参数作为小写十六进制数字(如 <code>4fdf87</code>)格式化</td>
+</tr>
+<tr>
+<td><code>X</code></td>
+<td>将参数作为大写十六进制数字(如 <code>4FDF87</code>)格式化</td>
+</tr>
+</tbody></table>
+<p>下面是一些类型说明符的示例:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">printf( <span class="string">"Here's the number %s as a float (%f), a binary integer (%b), an octal integer (%o), and a hex integer (%x)."</span>, <span class="number">543.21</span>, <span class="number">543.21</span>, <span class="number">543.21</span>, <span class="number">543.21</span>, <span class="number">543.21</span> );</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码会输出:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Here&#39;s the number 543.21 as a float (543.210000), a binary integer (1000011111), an octal integer (1037), and a hex integer (21f).</span><br></pre></td></tr></table></figure>
+
+<p>#符号说明符</p>
+<p>默认情况下, <code>printf()</code> 只会在负数前加正负符号:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">printf( <span class="string">"%d"</span>, <span class="number">36</span> );   <span class="comment">// 输出 "36"</span></span><br><span class="line">printf( <span class="string">"%d"</span>, <span class="number">-36</span> );  <span class="comment">// 输出 "-36"</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你也想让 <code>printf()</code> 在正数前加符号, 可以在类型说明符前指定一个符号说明符 <code>+</code>:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">printf( <span class="string">"%+d"</span>, <span class="number">36</span> );   <span class="comment">// 输出 "+36"</span></span><br><span class="line">printf( <span class="string">"%+d"</span>, <span class="number">-36</span> );  <span class="comment">// 输出 "-36"</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>#填充</p>
+<p><code>printf()</code> 允许你填充目标字符串到指定的长度. 你可以使用任何字符做填充字符, 也可以指定填充左边还是右边. 如果你希望在数字前补 <code>0</code> 或让字符串右对齐, 填充就派上用场了.</p>
+<p>通过在 <code>%</code> 前面插入一个填充说明符来指定填充规则. 填充说明符使用以下格式:</p>
+<p>&lt;填充符&gt;&lt;宽度&gt;:</p>
+<ul>
+<li><p>&lt;填充符&gt; 可以是 <code>0</code> 或空格. 如果你不指定则默认使用空格. 如果你想要指定其他填充符, 需在它之前加一个 <code>&#39;</code> 字符.</p>
+</li>
+<li><p>&lt;宽度&gt; 即想要填充到的宽度. 整数代表左填充, 负数代表右填充.</p>
+</li>
+</ul>
+<p>这是些填充说明符示例:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">printf( <span class="string">"%04d"</span>, <span class="number">12</span> );          <span class="comment">// 输出 "0012"</span></span><br><span class="line">printf( <span class="string">"%04d"</span>, <span class="number">1234</span> );        <span class="comment">// 输出 "1234"</span></span><br><span class="line">printf( <span class="string">"%04d"</span>, <span class="number">12345</span> );       <span class="comment">// 输出 "12345"</span></span><br><span class="line">printf( <span class="string">"% 10s"</span>, <span class="string">"Hello"</span> );    <span class="comment">// 输出 "     Hello"</span></span><br><span class="line">printf( <span class="string">"%10s"</span>, <span class="string">"Hello"</span> );     <span class="comment">// 输出 "     Hello"</span></span><br><span class="line">printf( <span class="string">"%'*10s"</span>, <span class="string">"Hello"</span> );   <span class="comment">// 输出 "*****Hello"</span></span><br><span class="line">printf( <span class="string">"%'*-10s"</span>, <span class="string">"Hello"</span> );  <span class="comment">// 输出 "Hello*****"</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>留意第三个示例, 填充说明符并不会导致目标字符串被截断为 4 个字符. <strong>填充只会在必要处增加字符</strong></p>
+<p>#数字精度</p>
+<p>当使用 <code>f</code> 或者 <code>F</code> 类型说明符格式化浮点数时, PHP 默认会取到小数点后面 6 位:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">printf( <span class="string">"%f"</span>, <span class="number">123.456</span> );  <span class="comment">// 输出 "123.456000"</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果要指定不同的精度, 就要用到精度说明符了. 精度说明符是一个 <code>.</code> 号后跟一个数字, 并应放到类型说明符之前. 如:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">printf( <span class="string">"%.2f"</span>, <span class="number">123.456</span> );   <span class="comment">// 输出 "123.46"</span></span><br><span class="line">printf( <span class="string">"%.10f"</span>, <span class="number">123.456</span> );  <span class="comment">// 输出 "123.4560000000"</span></span><br><span class="line">printf( <span class="string">"%.0f"</span>, <span class="number">123.456</span> );   <span class="comment">// 输出 "123"</span></span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你既指定了填充说明符又指定了精度说明符, <code>printf()</code> 会将整个数字(包括整数和小数部分)填充到指定长度:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">printf( <span class="string">"%08.2f"</span>, <span class="number">123.456</span> );  <span class="comment">// 输出 "00123.46"</span></span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你同时使用 <code>s</code> 类型说明符和精度说明符, <code>printf()</code> 会截断目标字符串到指定的长度:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">printf( <span class="string">"%.2s"</span>, <span class="string">"Hello"</span> );  <span class="comment">// 输出 "He"</span></span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>#参数交换</p>
+<p>默认情况下, 目标字符串的第一个格式说明符会格式化该字符串后的第一个参数, 目标字符串的第二个格式说明符会格式化该字符串后的第二个参数, 以此类推. 但是你可以更改这个顺序.</p>
+<p>要这样做, 在 <code>%</code> 符和类型说明符之间插入一个 <code>$</code> 号. 如:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="comment">// 输出 "Australia comprises 10 territories and 6 states"</span></span><br><span class="line">printf( <span class="string">'Australia comprises %2$d territories and %1$d states'</span>, <span class="number">6</span>, <span class="number">10</span> );</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子中, 第一个格式说明符是 <code>%2$d</code>. 意即: “将目标字符串后的第二个参数作为十进制整数格式化”. 第二个格式说明符 <code>%1$d</code> 即: “将目标字符串后的第一个参数作为十进制整数格式化”. 这样, 参数便以不同与默认的顺序格式化.</p>
+<p>在上面的例子中, 格式字符串使用单引号而非双引号包围. 这样是为了阻止 <code>$</code> 符号被 PHP 解释为变量名.</p>
+<p>#保存格式化后的结果</p>
+<p>那 <code>sprintf()</code> 又是干嘛的呢? 这个函数和 <code>printf()</code> 只有一点不同: 它会将格式化后的结果返回, 而不是直接输出. 这样你就可以将结果赋给变量, 进行其他操作等. 如果你想要在输出它之前进行额外的处理, 或者保存到数据库等, 那这点会很有用. 下面是示例:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">$result = sprintf( <span class="string">"Australia comprises %d states and %d territories"</span>, <span class="number">6</span>, <span class="number">10</span> );</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出 "Australia comprises 6 states and 10 territories"</span></span><br><span class="line"><span class="keyword">echo</span> $result;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>#相关函数</p>
+<p>其他相关的函数包括 <a href="http://php.net/manual/en/function.fprintf.php" target="_blank" rel="noopener"><code>fprintf()</code></a>, 用于将结果写到流(如文件). 还有 <a href="http://php.net/manual/en/function.vprintf.php" target="_blank" rel="noopener"><code>vprintf()</code></a>/<a href="http://php.net/manual/en/function.vsprintf.php" target="_blank" rel="noopener"><code>vsprintf()</code></a>/<a href="http://php.net/manual/en/function.vfprintf.php" target="_blank" rel="noopener"><code>vfprintf()</code></a>, 它们使用一个数组参数, 而非参数列表.</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://locahost:4000/2020/03/11/2016-01-23-Formating_PHP_Strings_With_Printf_And_Sprintf/" title="使用 php printf() 和 sprintf() 格式化字符串" target="_blank" rel="external">http://locahost:4000/2020/03/11/2016-01-23-Formating_PHP_Strings_With_Printf_And_Sprintf/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fantasylion" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/owner.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fantasylion" target="_blank"><span class="text-dark">Serio</span><small class="ml-1x">Coder</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/03/11/2016-02-19-my-grandma/" title="人生有感"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/03/11/2015-11-25-cant-modify-title-on-ios-wechat/" title="ios微信上不能更换标题解决办法"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://locahost:4000/2020/03/11/2016-01-23-Formating_PHP_Strings_With_Printf_And_Sprintf/';
+        
+        this.page.identifier = '2016-01-23-Formating_PHP_Strings_With_Printf_And_Sprintf';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'fantasyLion' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
