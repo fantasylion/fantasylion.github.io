@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Airflow 使用 Celery 时，如何添加 Celery 配置 | Serio&#39;s blog</title>
+  <meta name="description" content="Airflow 使用 Celery 时，如何添加 Celery 配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Airflow 使用 Celery 时，如何添加 Celery 配置">
+<meta property="og:url" content="https://fantasylion.github.io/tool/2020-01-07-adding-extra-celery-configs-to-airflow/index.html">
+<meta property="og:site_name" content="Serio&#39;s blog">
+<meta property="og:description" content="Airflow 使用 Celery 时，如何添加 Celery 配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-06T16:00:00.000Z">
+<meta property="article:author" content="Serio">
+<meta property="article:tag" content="tool">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://fantasylion.github.io/tool/2020-01-07-adding-extra-celery-configs-to-airflow/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Serio&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/fantasylion" target="_blank">
+          <img class="img-circle img-rotate" src="/images/owner.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Serio</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一名技术人</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> hangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LifeFeeling/">LifeFeeling</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">database</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/notes/">notes</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/program/">program</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">tool</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/translation/">translation</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/zookeeper/">zookeeper</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AE/" rel="tag">AE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DS/" rel="tag">DS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/framework/" rel="tag">framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/source/" rel="tag">source</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tool/" rel="tag">tool</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uml/" rel="tag">uml</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%94%9F/" rel="tag">人生</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%B1/" rel="tag">爱</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/AE/" style="font-size: 13px;">AE</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/DS/" style="font-size: 13px;">DS</a> <a href="/tags/English/" style="font-size: 13.5px;">English</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/MongoDB/" style="font-size: 13.5px;">MongoDB</a> <a href="/tags/ffmpeg/" style="font-size: 13px;">ffmpeg</a> <a href="/tags/framework/" style="font-size: 13px;">framework</a> <a href="/tags/http/" style="font-size: 13px;">http</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/source/" style="font-size: 13px;">source</a> <a href="/tags/tool/" style="font-size: 13.5px;">tool</a> <a href="/tags/uml/" style="font-size: 13.5px;">uml</a> <a href="/tags/zookeeper/" style="font-size: 13px;">zookeeper</a> <a href="/tags/%E4%BA%BA%E7%94%9F/" style="font-size: 13px;">人生</a> <a href="/tags/%E7%88%B1/" style="font-size: 13px;">爱</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/java/">java</a>
+              </p>
+              <p class="item-title">
+                <a href="/java/ConcurrentHashMap-source-code/" class="title">ConcurrentHashMap 源码分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-13T05:25:51.000Z" itemprop="datePublished">2020-03-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/tool/">tool</a>
+              </p>
+              <p class="item-title">
+                <a href="/tool/2020-01-07-adding-extra-celery-configs-to-airflow/" class="title">Airflow 使用 Celery 时，如何添加 Celery 配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-06T16:00:00.000Z" itemprop="datePublished">2020-01-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Tools/">Tools</a>
+              </p>
+              <p class="item-title">
+                <a href="/Tools/2019-01-17-How-to-use-EA/" class="title">如何使用 Enterprise Architect 画 UML</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-01-16T16:00:00.000Z" itemprop="datePublished">2019-01-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/zookeeper/">zookeeper</a>
+              </p>
+              <p class="item-title">
+                <a href="/zookeeper/2018-03-20-zookeeper-guide-chinese/" class="title">zookeeper 应用指南中文版</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-03-19T16:00:00.000Z" itemprop="datePublished">2018-03-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/English/">English</a>
+              </p>
+              <p class="item-title">
+                <a href="/English/2018-01-31-The-Shawshank-Redemption/" class="title">Ebbinghaus Forgetting Curve</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished">2018-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2020-01-07-adding-extra-celery-configs-to-airflow" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Airflow 使用 Celery 时，如何添加 Celery 配置
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/tool/2020-01-07-adding-extra-celery-configs-to-airflow/" class="article-date">
+	  <time datetime="2020-01-06T16:00:00.000Z" itemprop="datePublished">2020-01-07</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/tool/">tool</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/tool/" rel="tag">tool</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/tool/2020-01-07-adding-extra-celery-configs-to-airflow/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.8k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 10(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="背景"><a class="markdownIt-Anchor" href="#背景"></a> 背景</h2>
+<p>前段时间我选用了 <code>Airflow</code> 对 <code>wms</code> 进行数据归档，在运行一段时间后，经常发现会报以下错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">[2020-01-07 14:41:34,465: WARNING&#x2F;ForkPoolWorker-5] Failed operation _store_result.  Retrying 2 more times.</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;engine&#x2F;base.py&quot;, line 1245, in _execute_context</span><br><span class="line">    self.dialect.do_execute(</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;engine&#x2F;default.py&quot;, line 581, in do_execute</span><br><span class="line">    cursor.execute(statement, parameters)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;MySQLdb&#x2F;cursors.py&quot;, line 255, in execute</span><br><span class="line">    self.errorhandler(self, exc, value)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;MySQLdb&#x2F;connections.py&quot;, line 50, in defaulterrorhandler</span><br><span class="line">    raise errorvalue</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;MySQLdb&#x2F;cursors.py&quot;, line 252, in execute</span><br><span class="line">    res &#x3D; self._query(query)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;MySQLdb&#x2F;cursors.py&quot;, line 378, in _query</span><br><span class="line">    db.query(q)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;MySQLdb&#x2F;connections.py&quot;, line 280, in query</span><br><span class="line">    _mysql.connection.query(self, query)</span><br><span class="line">_mysql_exceptions.OperationalError: (2006, &#39;MySQL server has gone away&#39;)</span><br><span class="line"></span><br><span class="line">The above exception was the direct cause of the following exception:</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;celery&#x2F;backends&#x2F;database&#x2F;__init__.py&quot;, line 53, in _inner</span><br><span class="line">    return fun(*args, **kwargs)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;celery&#x2F;backends&#x2F;database&#x2F;__init__.py&quot;, line 107, in _store_result</span><br><span class="line">    task &#x3D; list(session.query(Task).filter(Task.task_id &#x3D;&#x3D; task_id))</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;orm&#x2F;query.py&quot;, line 3367, in __iter__</span><br><span class="line">    return self._execute_and_instances(context)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;orm&#x2F;query.py&quot;, line 3392, in _execute_and_instances</span><br><span class="line">    result &#x3D; conn.execute(querycontext.statement, self._params)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;engine&#x2F;base.py&quot;, line 982, in execute</span><br><span class="line">    return meth(self, multiparams, params)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;sql&#x2F;elements.py&quot;, line 287, in _execute_on_connection</span><br><span class="line">    return connection._execute_clauseelement(self, multiparams, params)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;engine&#x2F;base.py&quot;, line 1095, in _execute_clauseelement</span><br><span class="line">    ret &#x3D; self._execute_context(</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;engine&#x2F;base.py&quot;, line 1249, in _execute_context</span><br><span class="line">    self._handle_dbapi_exception(</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;engine&#x2F;base.py&quot;, line 1476, in _handle_dbapi_exception</span><br><span class="line">    util.raise_from_cause(sqlalchemy_exception, exc_info)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;util&#x2F;compat.py&quot;, line 398, in raise_from_cause</span><br><span class="line">    reraise(type(exception), exception, tb&#x3D;exc_tb, cause&#x3D;cause)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;util&#x2F;compat.py&quot;, line 152, in reraise</span><br><span class="line">    raise value.with_traceback(tb)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;engine&#x2F;base.py&quot;, line 1245, in _execute_context</span><br><span class="line">    self.dialect.do_execute(</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;sqlalchemy&#x2F;engine&#x2F;default.py&quot;, line 581, in do_execute</span><br><span class="line">    cursor.execute(statement, parameters)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;MySQLdb&#x2F;cursors.py&quot;, line 255, in execute</span><br><span class="line">    self.errorhandler(self, exc, value)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;MySQLdb&#x2F;connections.py&quot;, line 50, in defaulterrorhandler</span><br><span class="line">    raise errorvalue</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;MySQLdb&#x2F;cursors.py&quot;, line 252, in execute</span><br><span class="line">    res &#x3D; self._query(query)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;MySQLdb&#x2F;cursors.py&quot;, line 378, in _query</span><br><span class="line">    db.query(q)</span><br><span class="line">  File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;MySQLdb&#x2F;connections.py&quot;, line 280, in query</span><br><span class="line">    _mysql.connection.query(self, query)</span><br><span class="line">sqlalchemy.exc.OperationalError: (_mysql_exceptions.OperationalError) (2006, &#39;MySQL server has gone away&#39;)</span><br><span class="line">[SQL: SELECT celery_taskmeta.id AS celery_taskmeta_id, celery_taskmeta.task_id AS celery_taskmeta_task_id, celery_taskmeta.status AS celery_taskmeta_status, celery_tas</span><br><span class="line">kmeta.result AS celery_taskmeta_result, celery_taskmeta.date_done AS celery_taskmeta_date_done, celery_taskmeta.traceback AS celery_taskmeta_traceback </span><br><span class="line">FROM celery_taskmeta </span><br><span class="line">WHERE celery_taskmeta.task_id &#x3D; %s]</span><br><span class="line">[parameters: (&#39;e909b916-4284-47c4-bc5b-321bc32eb9f9&#39;,)]</span><br><span class="line">(Background on this error at: http:&#x2F;&#x2F;sqlalche.me&#x2F;e&#x2F;e3q8)</span><br></pre></td></tr></table></figure>
+<h3 id="解决过程"><a class="markdownIt-Anchor" href="#解决过程"></a> 解决过程</h3>
+<p>查了下资料一般情况下数据库服务器断开连接后，被连接池未收回将会导致以下错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MySQL server has gone away</span><br></pre></td></tr></table></figure>
+<p>所以看了下 <code>sqlalchemy</code> 的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">sql_alchemy_pool_enabled &#x3D; True</span><br><span class="line"></span><br><span class="line"># The SqlAlchemy pool size is the maximum number of database connections</span><br><span class="line"># in the pool. 0 indicates no limit.</span><br><span class="line">sql_alchemy_pool_size &#x3D; 5</span><br><span class="line"></span><br><span class="line"># The maximum overflow size of the pool.</span><br><span class="line"># When the number of checked-out connections reaches the size set in pool_size,</span><br><span class="line"># additional connections will be returned up to this limit.</span><br><span class="line"># When those additional connections are returned to the pool, they are disconnected and discarded.</span><br><span class="line"># It follows then that the total number of simultaneous connections the pool will allow is pool_size + max_overflow,</span><br><span class="line"># and the total number of &quot;sleeping&quot; connections the pool will allow is pool_size.</span><br><span class="line"># max_overflow can be set to -1 to indicate no overflow limit;</span><br><span class="line"># no limit will be placed on the total number of concurrent connections. Defaults to 10.</span><br><span class="line">sql_alchemy_max_overflow &#x3D; 10</span><br><span class="line"></span><br><span class="line"># The SqlAlchemy pool recycle is the number of seconds a connection</span><br><span class="line"># can be idle in the pool before it is invalidated. This config does</span><br><span class="line"># not apply to sqlite. If the number of DB connections is ever exceeded,</span><br><span class="line"># a lower config value will allow the system to recover faster.</span><br><span class="line">sql_alchemy_pool_recycle &#x3D; 1800</span><br><span class="line"></span><br><span class="line"># Check connection at the start of each connection pool checkout.</span><br><span class="line"># Typically, this is a simple statement like “SELECT 1”.</span><br><span class="line"># More information here: https:&#x2F;&#x2F;docs.sqlalchemy.org&#x2F;en&#x2F;13&#x2F;core&#x2F;pooling.html#disconnect-handling-pessimistic</span><br><span class="line">sql_alchemy_pool_pre_ping &#x3D; True</span><br><span class="line"></span><br><span class="line">sql_alchemy_pool_size &#x3D; 5</span><br><span class="line"></span><br><span class="line"># The maximum overflow size of the pool.</span><br><span class="line"># When the number of checked-out connections reaches the size set in pool_size,</span><br><span class="line"># additional connections will be returned up to this limit.</span><br><span class="line"># When those additional connections are returned to the pool, they are disconnected and discarded.</span><br><span class="line"># It follows then that the total number of simultaneous connections the pool will allow is pool_size + max_overflow,</span><br><span class="line"># and the total number of &quot;sleeping&quot; connections the pool will allow is pool_size.</span><br><span class="line"># max_overflow can be set to -1 to indicate no overflow limit;</span><br><span class="line"># no limit will be placed on the total number of concurrent connections. Defaults to 10.</span><br><span class="line">sql_alchemy_max_overflow &#x3D; 10</span><br><span class="line"></span><br><span class="line"># The SqlAlchemy pool recycle is the number of seconds a connection</span><br><span class="line"># can be idle in the pool before it is invalidated. This config does</span><br><span class="line"># not apply to sqlite. If the number of DB connections is ever exceeded,</span><br><span class="line"># a lower config value will allow the system to recover faster.</span><br><span class="line">sql_alchemy_pool_recycle &#x3D; 1800</span><br><span class="line"></span><br><span class="line"># Check connection at the start of each connection pool checkout.</span><br><span class="line"># Typically, this is a simple statement like “SELECT 1”.</span><br><span class="line"># More information here: https:&#x2F;&#x2F;docs.sqlalchemy.org&#x2F;en&#x2F;13&#x2F;core&#x2F;pooling.html#disconnect-handling-pessimistic</span><br><span class="line">sql_alchemy_pool_pre_ping &#x3D; True</span><br></pre></td></tr></table></figure>
+<p>该配的都配置上了，因为我们的任务是一天跑一次，查了下数据库变量 <code>waits_timeout</code> 是 <code>28800</code> ，所以直接改成25个小时。</p>
+<p>到了第二天发现还是报这个错，很奇怪该配的都配上了，到底是哪里的问题？</p>
+<p>仔细翻下报错日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">File &quot;&#x2F;usr&#x2F;local&#x2F;python38&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;celery&#x2F;backends&#x2F;database&#x2F;__init__.py&quot;, line 107, in _store_result</span><br><span class="line">    task &#x3D; list(session.query(Task).filter(Task.task_id &#x3D;&#x3D; task_id))</span><br></pre></td></tr></table></figure>
+<p>难道 <code>Airflow</code> 的 <code>sqlalchemy</code> 配置对 <code>celery</code> 不生效？</p>
+<p>翻阅下源码发现果然 <code>Airflow</code> 配置的 <code>sqlalchemy</code> 只对 <code>Airflow</code> 生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app &#x3D; Celery(</span><br><span class="line">    conf.get(&#39;celery&#39;, &#39;CELERY_APP_NAME&#39;),</span><br><span class="line">    config_source&#x3D;celery_configuration)</span><br></pre></td></tr></table></figure>
+<p>在继续翻阅 <code>Celery</code> 文档看有没有办法配置</p>
+<blockquote>
+<p>database_short_lived_sessions<br />
+Default: Disabled by default.</p>
+<p>Short lived sessions are disabled by default. If enabled they can drastically reduce performance, especially on systems processing lots of tasks. This option is useful on low-traffic workers that experience errors as a result of cached database connections going stale through inactivity. For example, intermittent errors like (OperationalError) (2006, ‘MySQL server has gone away’) can be fixed by enabling short lived sessions. This option only affects the database backend.</p>
+</blockquote>
+<p>文档告知通过<code>database_short_lived_sessions</code> 参数就可以避免这个问题，但是新的问题又来了，如何在 <code>Airflow</code> 中配置额外的 <code>Celery</code> 配置呢？</p>
+<h3 id="解决方案"><a class="markdownIt-Anchor" href="#解决方案"></a> 解决方案</h3>
+<p>找到以下文件拷贝到 <code>DAGS</code> 目录下，重新命名为 <code>my_celery_config</code> 随便起</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Python&#x2F;Python37&#x2F;site-packages&#x2F;airflow&#x2F;config_templates&#x2F;default_celery.py</span><br></pre></td></tr></table></figure>
+<p>修改 <code>Airflow.cfg</code> 配置<br />
+找到 <code>celery_config_options</code> 将配置改为<br />
+刚才起的名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery_config_options &#x3D; my_celery_config.DEFAULT_CELERY_CONFIG</span><br></pre></td></tr></table></figure>
+<p>在 <code>my_celery_config</code> 文件中的 <code>DEFAULT_CELERY_CONFIG</code> dict 中就可以随便加自己需要的 <code>Celery</code> 配置</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://fantasylion.github.io/tool/2020-01-07-adding-extra-celery-configs-to-airflow/" title="Airflow 使用 Celery 时，如何添加 Celery 配置" target="_blank" rel="external">https://fantasylion.github.io/tool/2020-01-07-adding-extra-celery-configs-to-airflow/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fantasylion" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/owner.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fantasylion" target="_blank"><span class="text-dark">Serio</span><small class="ml-1x">一名技术人</small></a></h3>
+        <div>喜欢新事物，关注技术动态，对新的技术有追求； 喜欢玩，喜欢疯，热爱 coding。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/java/ConcurrentHashMap-source-code/" title="ConcurrentHashMap 源码分析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/Tools/2019-01-17-How-to-use-EA/" title="如何使用 Enterprise Architect 画 UML"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipay.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpay.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://fantasylion.github.io/tool/2020-01-07-adding-extra-celery-configs-to-airflow/';
+        
+        this.page.identifier = '2020-01-07-adding-extra-celery-configs-to-airflow';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'fantasyLion' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

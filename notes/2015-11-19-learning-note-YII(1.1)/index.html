@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>YII(版本1) 权威指南学习笔记(未完结) | Serio&#39;s blog</title>
+  <meta name="description" content="Yii 是一个基于组件的高性能 PHP 框架, 用于快速开发大型 Web 应用. 它使 Web 开发中的 可复用度最大化, 可以显著提高你的 Web 应用开发速度. Yii 这个名字(读作易(Yee) 或 [ji:])代表 简单(easy), 高效(efficient) 和 可扩展(extensible).">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YII(版本1) 权威指南学习笔记(未完结)">
+<meta property="og:url" content="https://fantasylion.github.io/notes/2015-11-19-learning-note-YII(1.1)/index.html">
+<meta property="og:site_name" content="Serio&#39;s blog">
+<meta property="og:description" content="Yii 是一个基于组件的高性能 PHP 框架, 用于快速开发大型 Web 应用. 它使 Web 开发中的 可复用度最大化, 可以显著提高你的 Web 应用开发速度. Yii 这个名字(读作易(Yee) 或 [ji:])代表 简单(easy), 高效(efficient) 和 可扩展(extensible).">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-11-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2015-11-18T16:00:00.000Z">
+<meta property="article:author" content="Serio">
+<meta property="article:tag" content="php">
+<meta property="article:tag" content="framework">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://fantasylion.github.io/notes/2015-11-19-learning-note-YII(1.1)/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Serio&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/fantasylion" target="_blank">
+          <img class="img-circle img-rotate" src="/images/owner.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Serio</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一名技术人</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> hangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LifeFeeling/">LifeFeeling</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">database</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/notes/">notes</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/program/">program</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">tool</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/translation/">translation</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/zookeeper/">zookeeper</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AE/" rel="tag">AE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DS/" rel="tag">DS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/framework/" rel="tag">framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/source/" rel="tag">source</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tool/" rel="tag">tool</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uml/" rel="tag">uml</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%94%9F/" rel="tag">人生</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%B1/" rel="tag">爱</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/AE/" style="font-size: 13px;">AE</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/DS/" style="font-size: 13px;">DS</a> <a href="/tags/English/" style="font-size: 13.5px;">English</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/MongoDB/" style="font-size: 13.5px;">MongoDB</a> <a href="/tags/ffmpeg/" style="font-size: 13px;">ffmpeg</a> <a href="/tags/framework/" style="font-size: 13px;">framework</a> <a href="/tags/http/" style="font-size: 13px;">http</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/source/" style="font-size: 13px;">source</a> <a href="/tags/tool/" style="font-size: 13.5px;">tool</a> <a href="/tags/uml/" style="font-size: 13.5px;">uml</a> <a href="/tags/zookeeper/" style="font-size: 13px;">zookeeper</a> <a href="/tags/%E4%BA%BA%E7%94%9F/" style="font-size: 13px;">人生</a> <a href="/tags/%E7%88%B1/" style="font-size: 13px;">爱</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/java/">java</a>
+              </p>
+              <p class="item-title">
+                <a href="/java/ConcurrentHashMap-source-code/" class="title">ConcurrentHashMap 源码分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-13T05:25:51.000Z" itemprop="datePublished">2020-03-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/tool/">tool</a>
+              </p>
+              <p class="item-title">
+                <a href="/tool/2020-01-07-adding-extra-celery-configs-to-airflow/" class="title">Airflow 使用 Celery 时，如何添加 Celery 配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-06T16:00:00.000Z" itemprop="datePublished">2020-01-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Tools/">Tools</a>
+              </p>
+              <p class="item-title">
+                <a href="/Tools/2019-01-17-How-to-use-EA/" class="title">如何使用 Enterprise Architect 画 UML</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-01-16T16:00:00.000Z" itemprop="datePublished">2019-01-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/zookeeper/">zookeeper</a>
+              </p>
+              <p class="item-title">
+                <a href="/zookeeper/2018-03-20-zookeeper-guide-chinese/" class="title">zookeeper 应用指南中文版</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-03-19T16:00:00.000Z" itemprop="datePublished">2018-03-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/English/">English</a>
+              </p>
+              <p class="item-title">
+                <a href="/English/2018-01-31-The-Shawshank-Redemption/" class="title">Ebbinghaus Forgetting Curve</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished">2018-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2015-11-19-learning-note-YII(1.1)" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      YII(版本1) 权威指南学习笔记(未完结)
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/notes/2015-11-19-learning-note-YII(1.1)/" class="article-date">
+	  <time datetime="2015-11-18T16:00:00.000Z" itemprop="datePublished">2015-11-19</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/framework/" rel="tag">framework</a>, <a class="article-tag-link" href="/tags/php/" rel="tag">php</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/notes/2015-11-19-learning-note-YII(1.1)/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 8.6k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 39(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>#基础</p>
+<p>##入口脚本</p>
+<p>WEB 应用一般为 <code>index.php</code>, 控制台应用一般为 <code>yii.php</code> 并在文件开头加上 <code>#! /usr/bin/env php</code></p>
+<p>入口脚本是定义全局常量的好地方</p>
+<p>支持三个常量: <code>YII_DEBUG</code>, <code>YII_ENV</code>, <code>YII_ENABLE_ERROR_HANDLER</code></p>
+<p>WEB:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 定义全局常量</span></span><br><span class="line">defined(<span class="string">'YII_DEBUG'</span>) <span class="keyword">or</span> define(<span class="string">'YII_DEBUG'</span>, <span class="keyword">true</span>);</span><br><span class="line">defined(<span class="string">'YII_ENV'</span>) <span class="keyword">or</span> define(<span class="string">'YII_ENV'</span>, <span class="string">'dev'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注册 Composer 自动加载器</span></span><br><span class="line"><span class="keyword">require</span>(<span class="keyword">__DIR__</span> . <span class="string">'/../vendor/autoload.php'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 包含 Yii 类文件</span></span><br><span class="line"><span class="keyword">require</span>(<span class="keyword">__DIR__</span> . <span class="string">'/../vendor/yiisoft/yii2/Yii.php'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载应用配置</span></span><br><span class="line">$config = <span class="keyword">require</span>(<span class="keyword">__DIR__</span> . <span class="string">'/../config/web.php'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建、配置、运行一个应用</span></span><br><span class="line">(<span class="keyword">new</span> yii\web\Application($config))-&gt;run();</span><br></pre></td></tr></table></figure>
+<p>控制台:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">defined(<span class="string">'YII_DEBUG'</span>) <span class="keyword">or</span> define(<span class="string">'YII_DEBUG'</span>, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// fcgi 默认没有定义 STDIN 和 STDOUT</span></span><br><span class="line">defined(<span class="string">'STDIN'</span>) <span class="keyword">or</span> define(<span class="string">'STDIN'</span>, fopen(<span class="string">'php://stdin'</span>, <span class="string">'r'</span>));</span><br><span class="line">defined(<span class="string">'STDOUT'</span>) <span class="keyword">or</span> define(<span class="string">'STDOUT'</span>, fopen(<span class="string">'php://stdout'</span>, <span class="string">'w'</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注册 Composer 自动加载器</span></span><br><span class="line"><span class="keyword">require</span>(<span class="keyword">__DIR__</span> . <span class="string">'/vendor/autoload.php'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 包含 Yii 类文件</span></span><br><span class="line"><span class="keyword">require</span>(<span class="keyword">__DIR__</span> . <span class="string">'/vendor/yiisoft/yii2/Yii.php'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载应用配置</span></span><br><span class="line">$config = <span class="keyword">require</span>(<span class="keyword">__DIR__</span> . <span class="string">'/config/console.php'</span>);</span><br><span class="line"></span><br><span class="line">$application = <span class="keyword">new</span> yii\console\Application($config);</span><br><span class="line">$exitCode = $application-&gt;run();</span><br><span class="line"><span class="keyword">exit</span>($exitCode);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>##应用主体</p>
+<p>创建: <code>Yii::createWebApplication($configFile)</code></p>
+<p>访问: 可以在任何地方使用 <code>Yii::app()|YiiBase::app</code> 访问</p>
+<p>##控制器</p>
+<p>控制器路由格式: <code>moduleID/controllerID/actionID</code></p>
+<p>控制器创建决策步骤:</p>
+<ol>
+<li>如果指定了 <code>CWebApplication::catchAllRequest</code>, 用户指定的 ID 将被忽略. (通常用于设置应用为维护状态, 显示一个静态页面)</li>
+<li>如果在 <code>CWebApplication::controllerMap</code> 中找到 ID, 相应的控制器配置则被用于创建控制器</li>
+<li>如果 ID 为 <code>path/to/xyz</code> 形式, 则按控制器路由格式解析并创建</li>
+</ol>
+<p>创建:</p>
+<ul>
+<li>
+<p>默认控制器在 <code>CWebApplication::defaultController</code> 中定义, 默认动作为 <code>index</code>, 对应的方法名为 <code>actionIndex</code>, 可通过 <code>CController::defaultAction</code> 修改</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SiteController</span> <span class="keyword">extends</span> <span class="title">CController</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>也可以由一个动作类来定义动作, 以便重用动作:</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UpdateAction</span> <span class="keyword">extends</span> <span class="title">CAction</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// place the action logic here</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>然后需覆盖控制器类的 <code>actions</code> 方法:</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostController</span> <span class="keyword">extends</span> <span class="title">CController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actions</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'edit'</span>=&gt;<span class="string">'application.controllers.post.UpdateAction'</span>,</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>动作参数绑定:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// in PostController:</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actionCreate</span><span class="params">(array $category, $language = <span class="string">'en'</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 动作参数绑定功能将会把传入 action 的参数和 $_GET 中的数据绑定</span></span><br><span class="line">    <span class="comment">// 在此, 如果 $_GET 中没有 language 这一项, $language 默认为 'en'</span></span><br><span class="line">    <span class="comment">// 因为没有为 $category 提供默认值, 如果 $_GET 中没有 category 这一项则会报错</span></span><br><span class="line">    <span class="comment">// array 类型声明会确保 $category 为一个数组(自动将基本类型转换为数组)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>过滤器可被配置在动作执行之前或之后执行, 如访问控制过滤器, 性能过滤器(参见<a href="#accessControlFilter">访问控制过滤器</a>)</p>
+<ul>
+<li>
+<p>定义:</p>
+<ul>
+<li>可被定义为一个 <code>filter</code> 前缀的控制器方法:</li>
+</ul>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">filterAccessControl</span><span class="params">($filterChain)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 调用 $filterChain-&gt;run() 以继续后续过滤器与动作的执行。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>也可是一个 <code>CFilter</code> 或其子类的实例:</li>
+</ul>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PerformanceFilter</span> <span class="keyword">extends</span> <span class="title">CFilter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">preFilter</span><span class="params">($filterChain)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 动作被执行之前应用的逻辑</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// 如果动作不应被执行，此处返回 false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">postFilter</span><span class="params">($filterChain)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 动作执行之后应用的逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>配置使用: 需要覆盖控制器的 <code>filter()</code> 方法:</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostController</span> <span class="keyword">extends</span> <span class="title">CController</span> </span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">filters</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'postOnly + edit, create'</span>, <span class="comment">// 使用 filter 前缀方法定义的过滤器</span></span><br><span class="line">            <span class="keyword">array</span>(                     <span class="comment">// 使用类定义的过滤器</span></span><br><span class="line">                <span class="string">'application.filters.PerformanceFilter - edit, create'</span>,</span><br><span class="line">                <span class="string">'unit'</span>=&gt;<span class="string">'second'</span>,</span><br><span class="line">            ),</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>##模型</p>
+<p>Yii 实现了两种类型的模型: 表单模型和 Active Record, 二者都继承于 CModel</p>
+<p>如果用户输入被收集然后丢弃, 应该创建一个表单模型; 如果用户输入被收集后要保存到数据库, 应使用一个 Active Record</p>
+<p>详见<a href="#FormModel">表单模型</a>和<a href="#ActiveRecord">Active Record</a></p>
+<p>##视图</p>
+<p><code>CController::render('edit')</code> 将会在 <code>protected/views/ControllerID</code> 目录下寻找 <code>edit.php</code> 视图文件</p>
+<p>可以通过在视图中使用 <code>$this-&gt;propertyName</code> 访问控制器的任何属性, 也可以在控制器中将数据传递到视图中:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">$this</span>-&gt;render(<span class="string">'edit'</span>, <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'var1'</span>=&gt;$value1,</span><br><span class="line">    <span class="string">'var2'</span>=&gt;$value2,</span><br><span class="line">));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>protected/views/layouts/main.php</code> 是默认的<code>布局</code>文件, 可通过 <code>CWebApplication::layout</code> 自定义. 要渲染一个不带布局的视图, 需调用 <code>CController::renderPartial</code></p>
+<p><code>小物件</code>是 <code>CWidget</code> 或其子类的实例, 它也可以有自己的视图文件</p>
+<ul>
+<li>
+<p>定义</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyWidget</span> <span class="keyword">extends</span> <span class="title">CWidget</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 此方法会被 CController::beginWidget() 调用</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 此方法会被 CController::endWidget() 调用</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>按如下视图脚本来使用一个小物件:</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">$this</span>-&gt;beginWidget(<span class="string">'path.to.WidgetClass'</span>, $config); <span class="meta">?&gt;</span></span><br><span class="line">...可能会由小物件获取的内容主体...</span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">$this</span>-&gt;endWidget(); <span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">// 或</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">$this</span>-&gt;widget(<span class="string">'path.to.WidgetClass'</span>, $config); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>系统视图用于展示 Yii 的错误和日志消息, 如如果 CHttpException 抛出一个 404 错误, 那么 <code>error404</code> 就会被展示. Yii 在 <code>framework/views</code> 下提供了默认的系统视图, 也可以通过在 <code>protected/views/system</code> 下创建同名视图文件进行自定义</p>
+<p>##组件</p>
+<p>加载: 通过配置应用的 <code>components|CApplication::components</code> 属性</p>
+<ul>
+<li>可以配置 <code>enabled</code> 为 <code>false</code> 禁用组件</li>
+<li>组件是按需创建的, 但是可以将组件 ID 列入应用的 <code>preload|CWebApplication::preload</code> 属性中强制其加载</li>
+</ul>
+<p>访问: <code>Yii::app()-&gt;ComponentID</code></p>
+<p>预定义的核心应用组件:</p>
+<ul>
+<li>assetManager</li>
+<li>authManager</li>
+<li>cache</li>
+<li>clientScript</li>
+<li>coreMessage</li>
+<li>db</li>
+<li>errorHandler</li>
+<li>format</li>
+<li>messages</li>
+<li>request</li>
+<li>securityManager</li>
+<li>session</li>
+<li>statePersister</li>
+<li>urlManager</li>
+<li>user</li>
+<li>themeManager</li>
+</ul>
+<p>组件属性</p>
+<ul>
+<li>可以通过直接定义一个公共成员变量定义</li>
+<li>也可以使用 getter 和 setter 更灵活的定义</li>
+<li>通过 getter 和 setter 定义的属性和类成员变量有个区别: 他们是不区分大小写的</li>
+</ul>
+<p>组件事件</p>
+<ol>
+<li>
+<p>定义组件事件(<code>on</code> 开头)</p>
+ <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">onClicked</span><span class="params">($event)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;raiseEvent(<span class="string">'onClicked'</span>, $event);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义事件回调</p>
+ <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callbackName</span><span class="params">($event)</span> </span>&#123;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>绑定事件回调</p>
+ <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$component-&gt;onClicked=$callback;</span><br><span class="line"><span class="comment">// 或使用匿名函数</span></span><br><span class="line">$component-&gt;onclicked=<span class="function"><span class="keyword">function</span><span class="params">($event)</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>组件行为</p>
+<ul>
+<li>
+<p>行为类必须实现 <code>IBehavior</code></p>
+</li>
+<li>
+<p>大多数行为可继承自 <code>CBehavior</code>, 如果行为需要绑定到模型, 则也可以继承自 <code>CModelBehavior</code> 或 <code>CActiveRecordBehavior</code></p>
+</li>
+<li>
+<p>两个同名行为绑定到同一个组件下是有可能的, 在这种情况下, 先绑定的行为则拥有优先权</p>
+</li>
+<li>
+<p>当和 events, 一起使用时, 行为会更加强大. 当行为被绑定到组件时,行为里的一些方法就可以绑定到组件的一些事件上了. 这样一来,行为就有机观察或者改变组件的常规执行流程</p>
+</li>
+<li>
+<p>一个行为的属性也可以通过绑定到的组件来访问. 这些属性包含公共成员变量以及通过 getters 和/或 setters 方式设置的属性. 例如, 若一个行为有一个 <code>xyz</code> 的属性，此行为被绑定到组件 <code>$a</code>, 然后我们可以使用表达式 <code>$a-&gt;xyz</code> 访问此行为的属性</p>
+</li>
+<li>
+<p>绑定行为:</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// $name 在组件中实现了对行为的唯一识别</span></span><br><span class="line">$component-&gt;attachBehavior($name,$behavior);</span><br><span class="line"><span class="comment">// test() 是行为中的方法。</span></span><br><span class="line">$component-&gt;test();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>访问行为:</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$behavior=$component-&gt;tree;</span><br><span class="line"><span class="comment">// 等于下行代码：</span></span><br><span class="line"><span class="comment">// $behavior=$component-&gt;asa('tree');</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>禁用行为:</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$component-&gt;disableBehavior($name);</span><br><span class="line"><span class="comment">// 下面的代码将抛出一个异常</span></span><br><span class="line">$component-&gt;test();</span><br><span class="line">$component-&gt;enableBehavior($name);</span><br><span class="line"><span class="comment">// 现在就可以使用了</span></span><br><span class="line">$component-&gt;test();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>##模块</p>
+<p>模块是一个独立的软件单元，它包含 模型, 视图, 控制器 和其他支持的组件. 如 <code>forum</code> 模块的典型目录结构</p>
+<pre><code>forum/
+   ForumModule.php            模块类文件
+   components/                包含可复用的用户组件
+      views/                  包含小物件的视图文件
+   controllers/               包含控制器类文件
+      DefaultController.php   默认的控制器类文件
+   extensions/                包含第三方扩展
+   models/                    包含模块类文件
+   views/                     包含控制器视图和布局文件
+      layouts/                包含布局文件
+      default/                包含 DefaultController 的视图文件
+         index.php            首页视图文件
+</code></pre>
+<p>模块可以嵌套</p>
+<p>使用模块:</p>
+<ol>
+<li>
+<p>继承 CWebModule, 并命名为 ucfirst($id).‘Module’</p>
+</li>
+<li>
+<p>将模块目录放入 <code>modules</code> 目录中, 然后在应用的 <code>modules</code> 配置 属性中声明模块 ID. 模块也可以在配置是带有初始属性值</p>
+</li>
+<li>
+<p>使用 CController::module 访问</p>
+</li>
+</ol>
+<p>##路径别名和名字空间</p>
+<p><code>YiiBase::getPathOfAlias()</code> 获取别名的真实路径, <code>YiiBase::setPathOfAlias()</code> 设置新的别名的真实路径</p>
+<p>预定义的根别名</p>
+<ul>
+<li>system</li>
+<li>zii</li>
+<li>application</li>
+<li>webroot</li>
+<li>ext</li>
+<li>模块 ID</li>
+</ul>
+<p>使用别名导入类: <code>Yii::import('system.web.CController')</code>. (所有核心类已被预先导入)</p>
+<p>预导入: 在 <code>CWebApplication::run()</code> 之前执行:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">Yii::$classMap=<span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'ClassName1'</span> =&gt; <span class="string">'path/to/ClassName1.php'</span>,</span><br><span class="line">    <span class="string">'ClassName2'</span> =&gt; <span class="string">'path/to/ClassName2.php'</span>,</span><br><span class="line">    ......</span><br><span class="line">);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>导入目录: <code>Yii::import('system.web.*');</code></p>
+<p>#<a name="FormModel">使用表单</a></p>
+<p>##创建模型</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginForm</span> <span class="keyword">extends</span> <span class="title">CFormModel</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 定义特性(我们把用于存储用户输入或数据库数据的属性成为特性(attribute))</span></span><br><span class="line">    <span class="keyword">public</span> $username;</span><br><span class="line">    <span class="keyword">public</span> $password;</span><br><span class="line">    <span class="keyword">public</span> $rememberMe=<span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> $_identity;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证规则</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">rules</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 每个验证规则的格式为: </span></span><br><span class="line"><span class="comment">         * array('AttributeList', 'Validator', 'on'=&gt;'ScenarioList', ...附加选项)</span></span><br><span class="line"><span class="comment">         * 有三种方法指定 Validator</span></span><br><span class="line"><span class="comment">         * 1. 指定为模型类中的一个方法, 该方法定义格式为</span></span><br><span class="line"><span class="comment">         * public function ValidatiorName($attributes, $params) &#123;...&#125;</span></span><br><span class="line"><span class="comment">         * 2. 一个继承自 CValidator 的验证器类, 此时附加选项用于初始化实例的属性值</span></span><br><span class="line"><span class="comment">         * 3. 一个预定义的验证器类的别名, 以下是完整列表</span></span><br><span class="line"><span class="comment">         * boolean, captcha, compare, email, default, exists, file</span></span><br><span class="line"><span class="comment">         * filter, in, length, match, numerical, required, type, unique, url</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">            <span class="keyword">array</span>(<span class="string">'username, password'</span>, <span class="string">'required'</span>), <span class="comment">// 必填</span></span><br><span class="line">            <span class="keyword">array</span>(<span class="string">'rememberMe'</span>, <span class="string">'boolean'</span>),          <span class="comment">// 布尔</span></span><br><span class="line">            <span class="keyword">array</span>(<span class="string">'password'</span>, <span class="string">'authenticate'</span>),       <span class="comment">// 需验证</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * authenticate Validator</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">authenticate</span><span class="params">($attribute,$params)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;_identity=<span class="keyword">new</span> UserIdentity(<span class="keyword">$this</span>-&gt;username,<span class="keyword">$this</span>-&gt;password);</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;_identity-&gt;authenticate())</span><br><span class="line">            <span class="keyword">$this</span>-&gt;addError(<span class="string">'password'</span>,<span class="string">'错误的用户名或密码。'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a name="massiveAssign">块赋值(massive assignment)</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$model = <span class="keyword">new</span> LoginForm();</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'LoginForm'</span>])) &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 只有被认为 '安全' 的特性才会被赋值</span></span><br><span class="line"><span class="comment">     * 特性如果出现在相应场景的一个验证规则中, 即被认为是安全的</span></span><br><span class="line"><span class="comment">     * 也可以用特殊的 `safe` Validator 来让特性变为安全的</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * 为了使块赋值正确工作, 对应于模型类 `C` 中的特性 `a` 的表单域, 请命名其为  `C[a]`</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    $model-&gt;attributes = $_POST[<span class="string">'LoginForm'</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a name="triggerValidation">触发验证</a></p>
+<ul>
+<li>验证是基于 <code>场景(scenario)</code> 的</li>
+<li>可以手动调用 <code>CModel::validate()</code> 触发; 对于 <code>CActiveRecord</code>, 会在 <code>CAcitveRecord::save()</code> 时自动触发验证</li>
+<li>验证错误可以使用 <code>CModel::getError()</code> 或 <code>CModel::getErrors()</code> 获取</li>
+</ul>
+<p>标签</p>
+<ul>
+<li><code>CModel</code> 默认将返回特性的名字作为其标签</li>
+<li>也可使用 <code>CModel::attributesLabels</code> 方法自定义标签</li>
+</ul>
+<p>##创建动作</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actionLogin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    $model=<span class="keyword">new</span> LoginForm;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'LoginForm'</span>])) &#123;</span><br><span class="line">        <span class="comment">// 收集用户输入的数据</span></span><br><span class="line">        $model-&gt;attributes=$_POST[<span class="string">'LoginForm'</span>];</span><br><span class="line">        <span class="comment">// 验证用户输入，并在判断输入正确后重定向到前一页</span></span><br><span class="line">        <span class="keyword">if</span>($model-&gt;validate())</span><br><span class="line">            <span class="keyword">$this</span>-&gt;redirect(Yii::app()-&gt;user-&gt;returnUrl);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 显示登录表单</span></span><br><span class="line">    <span class="keyword">$this</span>-&gt;render(<span class="string">'login'</span>,<span class="keyword">array</span>(<span class="string">'model'</span>=&gt;$model));</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>##创建视图</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class="form"&gt;</span><br><span class="line"><span class="meta">&lt;?php</span> $form=<span class="keyword">$this</span>-&gt;beginWidget(<span class="string">'CActiveForm'</span>); <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form-&gt;errorSummary($model); <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">    &lt;div class="row"&gt;</span><br><span class="line">        <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form-&gt;label($model,<span class="string">'username'</span>); <span class="meta">?&gt;</span></span><br><span class="line">        <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form-&gt;textField($model,<span class="string">'username'</span>) <span class="meta">?&gt;</span></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class="row"&gt;</span><br><span class="line">        <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form-&gt;label($model,<span class="string">'password'</span>); <span class="meta">?&gt;</span></span><br><span class="line">        <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form-&gt;passwordField($model,<span class="string">'password'</span>) <span class="meta">?&gt;</span></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class="row rememberMe"&gt;</span><br><span class="line">        <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form-&gt;checkBox($model,<span class="string">'rememberMe'</span>); <span class="meta">?&gt;</span></span><br><span class="line">        <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form-&gt;label($model,<span class="string">'rememberMe'</span>); <span class="meta">?&gt;</span></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class="row submit"&gt;</span><br><span class="line">        <span class="meta">&lt;?php</span> <span class="keyword">echo</span> CHtml::submitButton(<span class="string">'Login'</span>); <span class="meta">?&gt;</span></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">$this</span>-&gt;endWidget(); <span class="meta">?&gt;</span></span><br><span class="line">&lt;/div&gt;&lt;!-- form --&gt;</span><br></pre></td></tr></table></figure>
+<p>##收集表格输入(批量)</p>
+<p>action:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actionBatchUpdate</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 假设每一项（item）是一个 'Item' 类的实例，</span></span><br><span class="line">    <span class="comment">// 提取要通过批量模式更新的项</span></span><br><span class="line">    $items=<span class="keyword">$this</span>-&gt;getItemsToUpdate();</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'Item'</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        $valid=<span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">foreach</span>($items <span class="keyword">as</span> $i=&gt;$item)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'Item'</span>][$i]))</span><br><span class="line">                $item-&gt;attributes=$_POST[<span class="string">'Item'</span>][$i];</span><br><span class="line">            $valid=$valid &amp;&amp; $item-&gt;validate();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>($valid)  <span class="comment">// 如果所有项目有效</span></span><br><span class="line">            <span class="comment">// ...则在此处做一些操作</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 显示视图收集表格输入</span></span><br><span class="line">    <span class="keyword">$this</span>-&gt;render(<span class="string">'batchUpdate'</span>,<span class="keyword">array</span>(<span class="string">'items'</span>=&gt;$items));</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>view:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class="form"&gt;</span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> CHtml::beginForm(); <span class="meta">?&gt;</span></span><br><span class="line">&lt;table&gt;</span><br><span class="line">&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Price&lt;/th&gt;&lt;th&gt;Count&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;</span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">foreach</span>($items <span class="keyword">as</span> $i=&gt;$item): <span class="meta">?&gt;</span></span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> CHtml::activeTextField($item,<span class="string">"[$i]name"</span>); <span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> CHtml::activeTextField($item,<span class="string">"[$i]price"</span>); <span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> CHtml::activeTextField($item,<span class="string">"[$i]count"</span>); <span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> CHtml::activeTextArea($item,<span class="string">"[$i]description"</span>); <span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">endforeach</span>; <span class="meta">?&gt;</span></span><br><span class="line">&lt;/table&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> CHtml::submitButton(<span class="string">'Save'</span>); <span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> CHtml::endForm(); <span class="meta">?&gt;</span></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>##使用表单生成器 @todo</p>
+<p>action:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actionLogin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    $model = <span class="keyword">new</span> LoginForm;</span><br><span class="line">    $form = <span class="keyword">new</span> CForm(<span class="string">'application.views.site.loginForm'</span>, $model);</span><br><span class="line">    <span class="keyword">if</span>($form-&gt;submitted(<span class="string">'login'</span>) &amp;&amp; $form-&gt;validate()) &#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;redirect(<span class="keyword">array</span>(<span class="string">'site/index'</span>));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;render(<span class="string">'login'</span>, <span class="keyword">array</span>(<span class="string">'form'</span>=&gt;$form));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>protected/views/site/loginForm.php:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'title'</span>=&gt;<span class="string">'Please provide your login credential'</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">'elements'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'username'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">            <span class="comment">// 可选 type: text, hidden, password, textarea, file, radio</span></span><br><span class="line">            <span class="comment">// checkbox, listbox, dropdownlist, checkboxlist, radiolist</span></span><br><span class="line">            <span class="string">'type'</span>=&gt;<span class="string">'text'</span>,</span><br><span class="line">            <span class="string">'maxlength'</span>=&gt;<span class="number">32</span>,</span><br><span class="line">        ),</span><br><span class="line">        <span class="string">'password'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'type'</span>=&gt;<span class="string">'password'</span>,</span><br><span class="line">            <span class="string">'maxlength'</span>=&gt;<span class="number">32</span>,</span><br><span class="line">        ),</span><br><span class="line">        <span class="string">'rememberMe'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'type'</span>=&gt;<span class="string">'checkbox'</span>,</span><br><span class="line">        )</span><br><span class="line">    ),</span><br><span class="line"></span><br><span class="line">    <span class="string">'buttons'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'login'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'type'</span>=&gt;<span class="string">'submit'</span>,</span><br><span class="line">            <span class="string">'label'</span>=&gt;<span class="string">'Login'</span>,</span><br><span class="line">        ),</span><br><span class="line">    ),</span><br><span class="line">);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>view:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;h1&gt;Login&lt;/h1&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class="form"&gt;</span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form; <span class="meta">?&gt;</span></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>#使用数据库</p>
+<p>##数据访问对象(DAO)</p>
+<p>建立数据库连接:</p>
+<ul>
+<li>使用 <code>CDbConnection</code>:</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$connection=<span class="keyword">new</span> CDbConnection($dsn,$username,$password);</span><br><span class="line"><span class="comment">// 建立连接。你可以使用  try...catch 捕获可能抛出的异常</span></span><br><span class="line">$connection-&gt;active=<span class="keyword">true</span>;</span><br><span class="line">......</span><br><span class="line">$connection-&gt;active=<span class="keyword">false</span>;  <span class="comment">// 关闭连接</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>作为应用组件配置, 然后使用 <code>Yii::app()-&gt;db</code> 访问</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">array</span>(</span><br><span class="line">    ......</span><br><span class="line">    <span class="string">'components'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">        ......</span><br><span class="line">        <span class="string">'db'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'class'</span>=&gt;<span class="string">'CDbConnection'</span>,</span><br><span class="line">            <span class="string">'connectionString'</span>=&gt;<span class="string">'mysql:host=localhost;dbname=testdb'</span>,</span><br><span class="line">            <span class="string">'username'</span>=&gt;<span class="string">'root'</span>,</span><br><span class="line">            <span class="string">'password'</span>=&gt;<span class="string">'password'</span>,</span><br><span class="line">            <span class="string">'emulatePrepare'</span>=&gt;<span class="keyword">true</span>,  <span class="comment">// needed by some MySQL installations</span></span><br><span class="line">        ),</span><br><span class="line">    ),</span><br><span class="line">)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>##执行 SQL 语句</p>
+<ol>
+<li>
+<p>创建 <code>CDbCommand</code> 实例</p>
+ <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$connection=Yii::app()-&gt;db;   <span class="comment">// 假设你已经建立了一个 "db" 连接</span></span><br><span class="line"><span class="comment">// 如果没有，你可能需要显式建立一个连接：</span></span><br><span class="line"><span class="comment">// $connection=new CDbConnection($dsn,$username,$password);</span></span><br><span class="line">$command=$connection-&gt;createCommand($sql);</span><br><span class="line"><span class="comment">// 如果需要，此 SQL 语句可通过如下方式修改：</span></span><br><span class="line"><span class="comment">// $command-&gt;text=$newSQL;</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用以下方法执行语句</p>
+ <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$rowCount=$command-&gt;execute();   <span class="comment">// 执行无查询 SQL(Insert, delete, update)</span></span><br><span class="line">$dataReader=$command-&gt;query();   <span class="comment">// 执行一个 SQL 查询(select), 返回 CDbDataReader 实例</span></span><br><span class="line">$rows=$command-&gt;queryAll();      <span class="comment">// 查询并返回结果中的所有行</span></span><br><span class="line">$row=$command-&gt;queryRow();       <span class="comment">// 查询并返回结果中的第一行</span></span><br><span class="line">$column=$command-&gt;queryColumn(); <span class="comment">// 查询并返回结果中的第一列</span></span><br><span class="line">$value=$command-&gt;queryScalar();  <span class="comment">// 查询并返回结果中第一行的第一个字段</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>获取查询结果</p>
+ <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$dataReader=$command-&gt;query();</span><br><span class="line"><span class="comment">// 重复调用 read() 直到它返回 false</span></span><br><span class="line"><span class="keyword">while</span>(($row=$dataReader-&gt;read())!==<span class="keyword">false</span>) &#123; ... &#125;</span><br><span class="line"><span class="comment">// 或使用 foreach 遍历数据中的每一行</span></span><br><span class="line"><span class="keyword">foreach</span>($dataReader <span class="keyword">as</span> $row) &#123; ... &#125;</span><br><span class="line"><span class="comment">// 一次性提取所有行到一个数组</span></span><br><span class="line">$rows=$dataReader-&gt;readAll();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用事务</p>
+ <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$transaction=$connection-&gt;beginTransaction();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    $connection-&gt;createCommand($sql1)-&gt;execute();</span><br><span class="line">    $connection-&gt;createCommand($sql2)-&gt;execute();</span><br><span class="line">    <span class="comment">//.... other SQL executions</span></span><br><span class="line">    $transaction-&gt;commit();</span><br><span class="line">&#125; <span class="keyword">catch</span>(<span class="keyword">Exception</span> $e) &#123; <span class="comment">// 如果有一条查询失败，则会抛出异常</span></span><br><span class="line">    $transaction-&gt;rollBack();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用 Prepare Statment</p>
+ <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 一条带有两个占位符 ":username" 和 ":email"的 SQL</span></span><br><span class="line">$sql=<span class="string">"INSERT INTO tbl_user (username, email) VALUES(:username,:email)"</span>;</span><br><span class="line">$command=$connection-&gt;createCommand($sql);</span><br><span class="line"><span class="comment">// 用实际的用户名替换占位符 ":username" </span></span><br><span class="line">$command-&gt;bindParam(<span class="string">":username"</span>,$username,PDO::PARAM_STR);</span><br><span class="line"><span class="comment">// 用实际的 Email 替换占位符 ":email" </span></span><br><span class="line">$command-&gt;bindParam(<span class="string">":email"</span>,$email,PDO::PARAM_STR);</span><br><span class="line">$command-&gt;execute();</span><br><span class="line"><span class="comment">// 使用新的参数集插入另一行</span></span><br><span class="line">$command-&gt;bindParam(<span class="string">":username"</span>,$username2,PDO::PARAM_STR);</span><br><span class="line">$command-&gt;bindParam(<span class="string">":email"</span>,$email2,PDO::PARAM_STR);</span><br><span class="line">$command-&gt;execute();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>绑定结果列</p>
+ <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$sql=<span class="string">"SELECT username, email FROM tbl_user"</span>;</span><br><span class="line">$dataReader=$connection-&gt;createCommand($sql)-&gt;query();</span><br><span class="line"><span class="comment">// 使用 $username 变量绑定第一列 (username) </span></span><br><span class="line">$dataReader-&gt;bindColumn(<span class="number">1</span>,$username);</span><br><span class="line"><span class="comment">// 使用 $email 变量绑定第二列 (email) </span></span><br><span class="line">$dataReader-&gt;bindColumn(<span class="number">2</span>,$email);</span><br><span class="line"><span class="keyword">while</span>($dataReader-&gt;read()!==<span class="keyword">false</span>) &#123;</span><br><span class="line">    <span class="comment">// $username 和 $email 含有当前行中的 username 和 email </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用表前缀</p>
+<p>配置 <code>CDbConnection::tablePrefix</code> 属性为所希望的表前缀, 然后便可以在 SQL 语句中使用 <code></code> 代表表的名字</p>
+</li>
+</ol>
+<p>##查询构建器</p>
+<p>查询构建器构建于一个 <code>CDbCommand</code> 实例上</p>
+<p>查询构建器不能用于修改一个已经存在的 SQL 查询</p>
+<p>可用的查询构建器示例:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 1. 数据查询</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// SELECT *</span></span><br><span class="line">select()</span><br><span class="line"><span class="comment">// SELECT `id`, `username`</span></span><br><span class="line">select(<span class="string">'id, username'</span>)</span><br><span class="line"><span class="comment">// SELECT `tbl_user`.`id`, `username` AS `name`</span></span><br><span class="line">select(<span class="string">'tbl_user.id, username as name'</span>)</span><br><span class="line"><span class="comment">// SELECT `id`, `username`</span></span><br><span class="line">select(<span class="keyword">array</span>(<span class="string">'id'</span>, <span class="string">'username'</span>))</span><br><span class="line"><span class="comment">// SELECT `id`, count(*) as num</span></span><br><span class="line">select(<span class="keyword">array</span>(<span class="string">'id'</span>, <span class="string">'count(*) as num'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// SELECT DISTINCT `id`, `username`</span></span><br><span class="line">selectDistinct(<span class="string">'id, username'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// FROM `tbl_user`</span></span><br><span class="line">from(<span class="string">'tbl_user'</span>)</span><br><span class="line"><span class="comment">// FROM `tbl_user` `u`, `public`.`tbl_profile` `p`</span></span><br><span class="line">from(<span class="string">'tbl_user u, public.tbl_profile p'</span>)</span><br><span class="line"><span class="comment">// FROM `tbl_user`, `tbl_profile`</span></span><br><span class="line">from(<span class="keyword">array</span>(<span class="string">'tbl_user'</span>, <span class="string">'tbl_profile'</span>))</span><br><span class="line"><span class="comment">// FROM `tbl_user`, (select * from tbl_profile) p</span></span><br><span class="line">from(<span class="keyword">array</span>(<span class="string">'tbl_user'</span>, <span class="string">'(select * from tbl_profile) p'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// WHERE id=1 or id=2</span></span><br><span class="line">where(<span class="string">'id=1 or id=2'</span>)</span><br><span class="line"><span class="comment">// WHERE id=:id1 or id=:id2</span></span><br><span class="line">where(<span class="string">'id=:id1 or id=:id2'</span>, <span class="keyword">array</span>(<span class="string">':id1'</span>=&gt;<span class="number">1</span>, <span class="string">':id2'</span>=&gt;<span class="number">2</span>))</span><br><span class="line"><span class="comment">// WHERE id=1 OR id=2</span></span><br><span class="line">where(<span class="keyword">array</span>(<span class="string">'or'</span>, <span class="string">'id=1'</span>, <span class="string">'id=2'</span>))</span><br><span class="line"><span class="comment">// WHERE id=1 AND (type=2 OR type=3)</span></span><br><span class="line">where(<span class="keyword">array</span>(<span class="string">'and'</span>, <span class="string">'id=1'</span>, <span class="keyword">array</span>(<span class="string">'or'</span>, <span class="string">'type=2'</span>, <span class="string">'type=3'</span>)))</span><br><span class="line"><span class="comment">// WHERE `id` IN (1, 2)</span></span><br><span class="line">where(<span class="keyword">array</span>(<span class="string">'in'</span>, <span class="string">'id'</span>, <span class="keyword">array</span>(<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line"><span class="comment">// WHERE `id` NOT IN (1, 2)</span></span><br><span class="line">where(<span class="keyword">array</span>(<span class="string">'not in'</span>, <span class="string">'id'</span>, <span class="keyword">array</span>(<span class="number">1</span>,<span class="number">2</span>)))</span><br><span class="line"><span class="comment">// when using LIKE, remember to escape user inputed `%` and `_`</span></span><br><span class="line"><span class="comment">// WHERE `name` LIKE '%Qiang%'</span></span><br><span class="line">where(<span class="keyword">array</span>(<span class="string">'like'</span>, <span class="string">'name'</span>, <span class="string">'%Qiang%'</span>))</span><br><span class="line"><span class="comment">// WHERE `name` LIKE '%Qiang' AND `name` LIKE '%Xue'</span></span><br><span class="line">where(<span class="keyword">array</span>(<span class="string">'like'</span>, <span class="string">'name'</span>, <span class="keyword">array</span>(<span class="string">'%Qiang'</span>, <span class="string">'%Xue'</span>)))</span><br><span class="line"><span class="comment">// WHERE `name` LIKE '%Qiang' OR `name` LIKE '%Xue'</span></span><br><span class="line">where(<span class="keyword">array</span>(<span class="string">'or like'</span>, <span class="string">'name'</span>, <span class="keyword">array</span>(<span class="string">'%Qiang'</span>, <span class="string">'%Xue'</span>)))</span><br><span class="line"><span class="comment">// WHERE `name` NOT LIKE '%Qiang%'</span></span><br><span class="line">where(<span class="keyword">array</span>(<span class="string">'not like'</span>, <span class="string">'name'</span>, <span class="string">'%Qiang%'</span>))</span><br><span class="line"><span class="comment">// WHERE `name` NOT LIKE '%Qiang%' OR `name` NOT LIKE '%Xue%'</span></span><br><span class="line">where(<span class="keyword">array</span>(<span class="string">'or not like'</span>, <span class="string">'name'</span>, <span class="keyword">array</span>(<span class="string">'%Qiang%'</span>, <span class="string">'%Xue%'</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment">// WHERE ... OR ...</span></span><br><span class="line">orWhere()</span><br><span class="line"></span><br><span class="line"><span class="comment">// WHERE ... AND ...</span></span><br><span class="line">andWhere()</span><br><span class="line"></span><br><span class="line"><span class="comment">// ORDER BY `name`, `id` DESC</span></span><br><span class="line">order(<span class="string">'name, id desc'</span>)</span><br><span class="line"><span class="comment">// ORDER BY `tbl_profile`.`name`, `id` DESC</span></span><br><span class="line">order(<span class="keyword">array</span>(<span class="string">'tbl_profile.name'</span>, <span class="string">'id desc'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// LIMIT 10</span></span><br><span class="line">limit(<span class="number">10</span>)</span><br><span class="line"><span class="comment">// LIMIT 10 OFFSET 20</span></span><br><span class="line">limit(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// OFFSET 20</span></span><br><span class="line">offset(<span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// JOIN `tbl_profile` ON user_id=id</span></span><br><span class="line">join(<span class="string">'tbl_profile'</span>, <span class="string">'user_id=id'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// LEFT JOIN `pub`.`tbl_profile` `p` ON p.user_id=id AND type=1</span></span><br><span class="line">leftJoin(<span class="string">'pub.tbl_profile p'</span>, <span class="string">'p.user_id=id AND type=:type'</span>, <span class="keyword">array</span>(<span class="string">':type'</span>=&gt;<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// RIGHT JOIN</span></span><br><span class="line">rightJoin()</span><br><span class="line"></span><br><span class="line"><span class="comment">// CROSS JOIN</span></span><br><span class="line">crossJoin()</span><br><span class="line"></span><br><span class="line"><span class="comment">// NATURAL JOIN</span></span><br><span class="line">natrualJoin()</span><br><span class="line"></span><br><span class="line"><span class="comment">// GROUP BY `name`, `id`</span></span><br><span class="line">group(<span class="string">'name, id'</span>)</span><br><span class="line"><span class="comment">// GROUP BY `tbl_profile`.`name`, `id`</span></span><br><span class="line">group(<span class="keyword">array</span>(<span class="string">'tbl_profile.name'</span>, <span class="string">'id'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// HAVING id=1 or id=2</span></span><br><span class="line">having(<span class="string">'id=1 or id=2'</span>)</span><br><span class="line"><span class="comment">// HAVING id=1 OR id=2</span></span><br><span class="line">having(<span class="keyword">array</span>(<span class="string">'or'</span>, <span class="string">'id=1'</span>, <span class="string">'id=2'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// UNION (select * from tbl_profile)</span></span><br><span class="line">union(<span class="string">'select * from tbl_profile'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 数据操作(不同于数据查询, 数据操作会立即执行)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// INSERT INTO `tbl_user` (`name`, `email`) VALUES (:name, :email)</span></span><br><span class="line">$command-&gt;insert(<span class="string">'tbl_user'</span>, <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'name'</span>=&gt;<span class="string">'Tester'</span>,</span><br><span class="line">    <span class="string">'email'</span>=&gt;<span class="string">'tester@example.com'</span>,</span><br><span class="line">));</span><br><span class="line"></span><br><span class="line"><span class="comment">// UPDATE `tbl_user` SET `name`=:name WHERE id=:id</span></span><br><span class="line">$command-&gt;update(<span class="string">'tbl_user'</span>, <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'name'</span>=&gt;<span class="string">'Tester'</span>,</span><br><span class="line">), <span class="string">'id=:id'</span>, <span class="keyword">array</span>(<span class="string">':id'</span>=&gt;<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// DELETE FROM `tbl_user` WHERE id=:id</span></span><br><span class="line">$command-&gt;delete(<span class="string">'tbl_user'</span>, <span class="string">'id=:id'</span>, <span class="keyword">array</span>(<span class="string">':id'</span>=&gt;<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. Schema 操作</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// CREATE TABLE `tbl_user` (</span></span><br><span class="line"><span class="comment">//     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,</span></span><br><span class="line"><span class="comment">//     `username` varchar(255) NOT NULL,</span></span><br><span class="line"><span class="comment">//     `location` point</span></span><br><span class="line"><span class="comment">// ) ENGINE=InnoDB</span></span><br><span class="line">createTable(<span class="string">'tbl_user'</span>, <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'id'</span> =&gt; <span class="string">'pk'</span>,</span><br><span class="line">    <span class="string">'username'</span> =&gt; <span class="string">'string NOT NULL'</span>,</span><br><span class="line">    <span class="string">'location'</span> =&gt; <span class="string">'point'</span>,</span><br><span class="line">), <span class="string">'ENGINE=InnoDB'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// RENAME TABLE `tbl_users` TO `tbl_user`</span></span><br><span class="line">renameTable(<span class="string">'tbl_users'</span>, <span class="string">'tbl_user'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// DROP TABLE `tbl_user`</span></span><br><span class="line">dropTable(<span class="string">'tbl_user'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// TRUNCATE TABLE `tbl_user`</span></span><br><span class="line">truncateTable(<span class="string">'tbl_user'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ALTER TABLE `tbl_user` ADD `email` varchar(255) NOT NULL</span></span><br><span class="line">addColumn(<span class="string">'tbl_user'</span>, <span class="string">'email'</span>, <span class="string">'string NOT NULL'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ALTER TABLE `tbl_user` DROP COLUMN `location`</span></span><br><span class="line">dropColumn(<span class="string">'tbl_user'</span>, <span class="string">'location'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ALTER TABLE `tbl_users` CHANGE `name` `username` varchar(255) NOT NULL</span></span><br><span class="line">renameColumn(<span class="string">'tbl_user'</span>, <span class="string">'name'</span>, <span class="string">'username'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ALTER TABLE `tbl_user` CHANGE `username` `username` varchar(255) NOT NULL</span></span><br><span class="line">alterColumn(<span class="string">'tbl_user'</span>, <span class="string">'username'</span>, <span class="string">'string NOT NULL'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ALTER TABLE `tbl_profile` ADD CONSTRAINT `fk_profile_user_id`</span></span><br><span class="line"><span class="comment">// FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`)</span></span><br><span class="line"><span class="comment">// ON DELETE CASCADE ON UPDATE CASCADE</span></span><br><span class="line">addForeignKey(<span class="string">'fk_profile_user_id'</span>, <span class="string">'tbl_profile'</span>, <span class="string">'user_id'</span>,</span><br><span class="line">    <span class="string">'tbl_user'</span>, <span class="string">'id'</span>, <span class="string">'CASCADE'</span>, <span class="string">'CASCADE'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ALTER TABLE `tbl_profile` DROP FOREIGN KEY `fk_profile_user_id`</span></span><br><span class="line">dropForeignKey(<span class="string">'fk_profile_user_id'</span>, <span class="string">'tbl_profile'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// CREATE INDEX `idx_username` ON `tbl_user` (`username`)</span></span><br><span class="line">createIndex(<span class="string">'idx_username'</span>, <span class="string">'tbl_user'</span>, <span class="string">'username'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// DROP INDEX `idx_username` ON `tbl_user`</span></span><br><span class="line">dropIndex(<span class="string">'idx_username'</span>, <span class="string">'tbl_user'</span>)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>也可通过使用属性赋值方式:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$command-&gt;select = <span class="keyword">array</span>(<span class="string">'id'</span>, <span class="string">'username'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>或在创建 <code>CDbCommand</code> 是传配置参数的方式构建:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$row = Yii::app()-&gt;db-&gt;createCommand(<span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'select'</span> =&gt; <span class="keyword">array</span>(<span class="string">'id'</span>, <span class="string">'username'</span>),</span><br><span class="line">    <span class="string">'from'</span> =&gt; <span class="string">'tbl_user'</span>,</span><br><span class="line">    <span class="string">'where'</span> =&gt; <span class="string">'id=:id'</span>,</span><br><span class="line">    <span class="string">'params'</span> =&gt; <span class="keyword">array</span>(<span class="string">':id'</span>=&gt;<span class="number">1</span>),</span><br><span class="line">))-&gt;queryRow();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>构建完成后, 可以使用在<a href="#runSql">执行 SQL 语句</a>中讲到的方法执行之; 也可使用 <code>CDbCommand::getText()</code> 获取最后构建完工后的 SQL 语句, 绑定的参数被保存在 <code>CDbCommand::params</code> 中</p>
+<p>同一个 <code>CDbCommand</code> 实例可用于多次构建不同的查询, 但是记得要再另一次之前调用 <code>CDbCommand::reset()</code> 以清理上次的查询</p>
+<p>##<a name="ActiveRecord">Active Record</a></p>
+<p>每个 AR 类代表一个数据表(或视图), 数据表(或视图)的列在 AR 类中体现为类的属性, 一个 AR 实例则表示表中的一行</p>
+<p>最佳应用是模型化数据表为 PHP 结构和执行不包含复杂 SQL 语句的查询. 对于复杂查询的场景, 应使用 Yii DAO</p>
+<p>如果你数据库的表结构很少改动, 你应该通过配置 <code>CDbConnection::schemaCachingDuration</code> 属性的值为一个大于零的值开启表结构缓存</p>
+<p>通过 AR 使用多个数据库有两种方式. 如果数据库的结构不同, 你可以创建不同的 AR 基类实现不同的 <code>getDbConnection()</code>; 否则, 动态改变静态变量 <code>CActiveRecord::db</code> 是一个好主意</p>
+<p>由于 AR 类经常在多处被引用, 我们可以导入包含 AR 类的整个目录, 而不是一个个导入. 见<a href="#">路径别名和命名空间</a></p>
+<p>通过 Yii 的日志功能, 可以查看 AR 在背后到底执行了那些语句</p>
+<p>定义 AR 类:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Post</span> <span class="keyword">extends</span> <span class="title">CActiveRecord</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">model</span><span class="params">($className=__CLASS__)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">parent</span>::model($className);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认情况下, AR 类的名字和数据表的名字相同. 如果不同, 请覆盖 `CActiveRecord::tableName` 方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">tableName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'tbl_post'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * AR 依靠表中良好定义的主键. 如果一个表没有主键，则必须在相应的 AR 类中通过如下方式覆盖 primaryKey() 方法指定哪一列或哪几列作为主键:</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">primaryKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'id'</span>;</span><br><span class="line">        <span class="comment">// 对于复合主键，要返回一个类似如下的数组</span></span><br><span class="line">        <span class="comment">// return array('pk1', 'pk2');</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>创建记录:</p>
+<ul>
+<li>如果表的主键是自增的, 在插入完成后, AR 实例将包含一个更新的主键</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$post=<span class="keyword">new</span> Post;</span><br><span class="line">$post-&gt;title=<span class="string">'sample post'</span>;</span><br><span class="line">$post-&gt;content=<span class="string">'content for the sample post'</span>;</span><br><span class="line"><span class="comment">// 如果要使用 Mysql 的 NOW(), 必须使用 CDbExpression, 单纯的 'NOW()' 将会被作为字符串对待</span></span><br><span class="line">$post-&gt;create_time=<span class="keyword">new</span> CDbExpression(<span class="string">'NOW()'</span>);</span><br><span class="line">$post-&gt;save();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>读取记录:</p>
+<ul>
+<li><code>find</code> 系列返回一个 AR 实例, 或者 <code>null</code></li>
+<li><code>findAll</code> 系列返回 AR 实例数组, 或者空数组</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 1. 常规</span></span><br><span class="line"><span class="comment">// 查找满足指定条件的结果中的第一行</span></span><br><span class="line">$post=Post::model()-&gt;find($condition,$params);</span><br><span class="line">$post=Post::model()-&gt;find(<span class="string">'postID=:postID'</span>, <span class="keyword">array</span>(<span class="string">':postID'</span>=&gt;<span class="number">10</span>));</span><br><span class="line"><span class="comment">// 查找具有指定主键值的那一行</span></span><br><span class="line">$post=Post::model()-&gt;findByPk($postID,$condition,$params);</span><br><span class="line"><span class="comment">// 查找具有指定属性值的行</span></span><br><span class="line">$post=Post::model()-&gt;findByAttributes($attributes,$condition,$params);</span><br><span class="line"><span class="comment">// 通过指定的 SQL 语句查找结果中的第一行</span></span><br><span class="line">$post=Post::model()-&gt;findBySql($sql,$params);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查找满足指定条件的所有行</span></span><br><span class="line">$posts=Post::model()-&gt;findAll($condition,$params);</span><br><span class="line"><span class="comment">// 查找带有指定主键的所有行</span></span><br><span class="line">$posts=Post::model()-&gt;findAllByPk($postIDs,$condition,$params);</span><br><span class="line"><span class="comment">// 查找带有指定属性值的所有行</span></span><br><span class="line">$posts=Post::model()-&gt;findAllByAttributes($attributes,$condition,$params);</span><br><span class="line"><span class="comment">// 通过指定的SQL语句查找所有行</span></span><br><span class="line">$posts=Post::model()-&gt;findAllBySql($sql,$params);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取满足指定条件的行数</span></span><br><span class="line">$n=Post::model()-&gt;count($condition,$params);</span><br><span class="line"><span class="comment">// 通过指定的 SQL 获取结果行数</span></span><br><span class="line">$n=Post::model()-&gt;countBySql($sql,$params);</span><br><span class="line"><span class="comment">// 检查是否至少有一行复合指定的条件</span></span><br><span class="line">$exists=Post::model()-&gt;exists($condition,$params);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 使用 `CDbCriteria`</span></span><br><span class="line">$criteria=<span class="keyword">new</span> CDbCriteria;</span><br><span class="line">$criteria-&gt;select=<span class="string">'title'</span>;  <span class="comment">// 只选择 'title' 列</span></span><br><span class="line">$criteria-&gt;condition=<span class="string">'postID=:postID'</span>;</span><br><span class="line">$criteria-&gt;params=<span class="keyword">array</span>(<span class="string">':postID'</span>=&gt;<span class="number">10</span>);</span><br><span class="line">$post=Post::model()-&gt;find($criteria); <span class="comment">// $params 不需要了</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 传递数组</span></span><br><span class="line">$post=Post::model()-&gt;find(<span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'select'</span>=&gt;<span class="string">'title'</span>,</span><br><span class="line">    <span class="string">'condition'</span>=&gt;<span class="string">'postID=:postID'</span>,</span><br><span class="line">    <span class="string">'params'</span>=&gt;<span class="keyword">array</span>(<span class="string">':postID'</span>=&gt;<span class="number">10</span>),</span><br><span class="line">));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>更新记录:</p>
+<ul>
+<li>
+<p>如果一个 AR 实例是使用 new 操作符创建的, 调用 <code>CActiveRecord::save</code> 将会向数据表中插入一行新数据; 如果 AR 实例是某个 find 或 findAll 方法的结果, 调用 <code>CActiveRecord::save</code> 将更新表中现有的行. 实际上, 我们是使用 <code>CActiveRecord::isNewRecord</code> 说明一个 AR 实例是不是新的</p>
+</li>
+<li>
+<p>直接更新数据表中的一行或多行而不首先载入也是可行的:</p>
+</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 更新符合指定条件的行</span></span><br><span class="line">Post::model()-&gt;updateAll($attributes,$condition,$params);</span><br><span class="line"><span class="comment">// 更新符合指定条件和主键的行</span></span><br><span class="line">Post::model()-&gt;updateByPk($pk,$attributes,$condition,$params);</span><br><span class="line"><span class="comment">// 更新满足指定条件的行的计数列</span></span><br><span class="line">Post::model()-&gt;updateCounters($counters,$condition,$params);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>删除记录:</p>
+<ul>
+<li>实例化后删除: 这样删除之后, AR 实例仍不改变</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$post=Post::model()-&gt;findByPk(<span class="number">10</span>); <span class="comment">// 假设有一个帖子，其 ID 为 10</span></span><br><span class="line">$post-&gt;delete(); <span class="comment">// 从数据表中删除此行</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>不实例化直接删除</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 删除符合指定条件的行</span></span><br><span class="line">Post::model()-&gt;deleteAll($condition,$params);</span><br><span class="line"><span class="comment">// 删除符合指定条件和主键的行</span></span><br><span class="line">Post::model()-&gt;deleteByPk($pk,$condition,$params);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果要确定两个 AR 是否是同一个记录, 只需对比它们的主键值, 或直接调用 <code>CActiveRecord::equals()</code></p>
+<p>通过以下几个占位符方法, 可以自定义 AR 的工作流:</p>
+<table>
+<thead>
+<tr>
+<th>占位符方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>beforeValidate, afterValidate</td>
+<td>在验证之前(后)执行</td>
+</tr>
+<tr>
+<td>beforeSave, afterSave</td>
+<td>在保存 AR 实例之前(后)执行</td>
+</tr>
+<tr>
+<td>beforeFind, afterFind</td>
+<td>在执行查询之前(后)执行</td>
+</tr>
+<tr>
+<td>afterConstruct</td>
+<td>在 AR 实例化之后执行</td>
+</tr>
+</tbody>
+</table>
+<p>数据验证和块赋值参见<a href="#triggerValidation">触发验证</a>和<a href="#massiveAssign">块赋值</a></p>
+<p>事务处理, 参见<a href="#">使用事务</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$model=Post::model();</span><br><span class="line">$transaction=$model-&gt;dbConnection-&gt;beginTransaction();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 查找和保存是可能由另一个请求干预的两个步骤</span></span><br><span class="line">    <span class="comment">// 这样我们使用一个事务以确保其一致性和完整性</span></span><br><span class="line">    $post=$model-&gt;findByPk(<span class="number">10</span>);</span><br><span class="line">    $post-&gt;title=<span class="string">'new post title'</span>;</span><br><span class="line">    $post-&gt;save();</span><br><span class="line">    $transaction-&gt;commit();</span><br><span class="line">&#125; <span class="keyword">catch</span>(<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">    $transaction-&gt;rollBack();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>命名范围: 即查询时的过滤器</p>
+<ul>
+<li>定义</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Post</span> <span class="keyword">extends</span> <span class="title">CActiveRecord</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认命名范围, 隐式应用于所有关于此模型的 SELECT 查询</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">defaultScope</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'condition'</span>=&gt;<span class="string">"language='"</span>.Yii::app()-&gt;language.<span class="string">"'"</span>,</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 这里定义的命名范围可以被显式应用于 SELECT,UPDATE,CREATE,DELETE 操作</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> &#123;[type]&#125; [description]</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">scopes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'published'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">                <span class="string">'condition'</span>=&gt;<span class="string">'status=1'</span>,</span><br><span class="line">            ),</span><br><span class="line">            <span class="string">'recently'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">                <span class="string">'order'</span>=&gt;<span class="string">'create_time DESC'</span>,</span><br><span class="line">                <span class="string">'limit'</span>=&gt;<span class="number">5</span>,</span><br><span class="line">            ),</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$posts=Post::model()-&gt;published()-&gt;recently()-&gt;findAll();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>##关系型 Active Record</p>
+<p>为了使用关系型 AR, 建议在关联的表中定义主键-外键约束</p>
+<p>关系包括: <code>BELONGS_TO</code>, <code>HAS_MANY</code>, <code>HAS_ONE</code>, <code>MANY_MANY</code>, <code>STAT</code></p>
+<p>使用 <code>STAT</code> 关系已获取统计数据</p>
+<p>适当使用 <code>together</code> 查询选项, 会加快查询速度</p>
+<p>在 AR 查询中, 基础表的别名为 <code>t</code>, 其他关联表的别名和关系的名称一样</p>
+<p>声明关系</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Post</span> <span class="keyword">extends</span> <span class="title">CActiveRecord</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">relations</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'author'</span>=&gt;<span class="keyword">array</span>(<span class="keyword">self</span>::BELONGS_TO, <span class="string">'User'</span>, <span class="string">'author_id'</span>),</span><br><span class="line">            <span class="string">'categories'</span>=&gt;<span class="keyword">array</span>(<span class="keyword">self</span>::MANY_MANY, <span class="string">'Category'</span>,</span><br><span class="line">                <span class="string">'tbl_post_category(post_id, category_id)'</span>),</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">CActiveRecord</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">relations</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'posts'</span>=&gt;<span class="keyword">array</span>(<span class="keyword">self</span>::HAS_MANY, <span class="string">'Post'</span>, <span class="string">'author_id'</span>),</span><br><span class="line">            <span class="string">'profile'</span>=&gt;<span class="keyword">array</span>(<span class="keyword">self</span>::HAS_ONE, <span class="string">'Profile'</span>, <span class="string">'owner_id'</span>),</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用额外的选项</span></span><br><span class="line"><span class="comment">// 可用选项包括: select, condition, params, on, order, with, joinType, alias, together, join, group, having, index</span></span><br><span class="line"><span class="comment">// 当使用 `STAT` 关系时, 可用的选项包括: select, defaultValue, condition, params, order, group, having</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">CActiveRecord</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">relations</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'posts'</span>=&gt;<span class="keyword">array</span>(<span class="keyword">self</span>::HAS_MANY, <span class="string">'Post'</span>, <span class="string">'author_id'</span>,</span><br><span class="line">                            <span class="string">'order'</span>=&gt;<span class="string">'posts.create_time DESC'</span>,</span><br><span class="line">                            <span class="string">'with'</span>=&gt;<span class="string">'categories'</span>),</span><br><span class="line">            <span class="string">'profile'</span>=&gt;<span class="keyword">array</span>(<span class="keyword">self</span>::HAS_ONE, <span class="string">'Profile'</span>, <span class="string">'owner_id'</span>),</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>执行关联查询</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 1. 懒惰式加载: </span></span><br><span class="line"><span class="comment">// 获取 ID 为 10 的帖子</span></span><br><span class="line">$post=Post::model()-&gt;findByPk(<span class="number">10</span>);</span><br><span class="line"><span class="comment">// 获取帖子的作者(author): 此处将执行一个关联查询。</span></span><br><span class="line">$author=$post-&gt;author;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 渴求式加载(比懒惰式高效)</span></span><br><span class="line"><span class="comment">// 2.1 常规方式</span></span><br><span class="line"><span class="comment">// 获取 post 及其作者和分类</span></span><br><span class="line">$posts=Post::model()-&gt;with(<span class="string">'author'</span>)-&gt;findAll();</span><br><span class="line"><span class="comment">// 获取 post 及其作者和分类, 以及作者简介(author.profile) 和帖子(author.posts)</span></span><br><span class="line">$posts=Post::model()-&gt;with(</span><br><span class="line">    <span class="string">'author.profile'</span>,</span><br><span class="line">    <span class="string">'author.posts'</span>,</span><br><span class="line">    <span class="string">'categories'</span>)-&gt;findAll();</span><br><span class="line"><span class="comment">// 2.2 指定 `CDbCeteria::with` 属性</span></span><br><span class="line">$criteria=<span class="keyword">new</span> CDbCriteria;</span><br><span class="line">$criteria-&gt;with=<span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'author.profile'</span>,</span><br><span class="line">    <span class="string">'author.posts'</span>,</span><br><span class="line">    <span class="string">'categories'</span>,</span><br><span class="line">);</span><br><span class="line">$posts=Post::model()-&gt;findAll($criteria);</span><br><span class="line"><span class="comment">// 2.3 配置数组</span></span><br><span class="line">$posts=Post::model()-&gt;findAll(<span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'with'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'author.profile'</span>,</span><br><span class="line">        <span class="string">'author.posts'</span>,</span><br><span class="line">        <span class="string">'categories'</span>,</span><br><span class="line">    )</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 动态</span></span><br><span class="line"><span class="comment">// 3.1</span></span><br><span class="line">User::model()-&gt;with(<span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'posts'</span>=&gt;<span class="keyword">array</span>(<span class="string">'order'</span>=&gt;<span class="string">'posts.create_time ASC'</span>),</span><br><span class="line">    <span class="string">'profile'</span>,</span><br><span class="line">))-&gt;findAll();</span><br><span class="line"><span class="comment">// 3.2</span></span><br><span class="line">$user=User::model()-&gt;findByPk(<span class="number">1</span>);</span><br><span class="line">$posts=$user-&gt;posts(<span class="keyword">array</span>(<span class="string">'condition'</span>=&gt;<span class="string">'status=1'</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果关系中没有相关的实例，则相应的属性将为 null(BELONGS_TO, HAS_ONE) 或一个空数组(HAS_MANY, MANY_MANY)</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用命名空间</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 1.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">CActiveRecord</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">relations</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'posts'</span>=&gt;<span class="keyword">array</span>(<span class="keyword">self</span>::HAS_MANY, <span class="string">'Post'</span>, <span class="string">'author_id'</span>,</span><br><span class="line">                <span class="string">'with'</span>=&gt;<span class="string">'comments:approved'</span>),</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 2.</span></span><br><span class="line">$posts=Post::model()-&gt;published()-&gt;recently()-&gt;with(<span class="string">'comments'</span>)-&gt;findAll();</span><br><span class="line"><span class="comment">// 3.</span></span><br><span class="line">$posts=Post::model()-&gt;published()-&gt;recently()-&gt;with(<span class="string">'comments'</span>)-&gt;findAll();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>##数据库迁移 @todo</p>
+<p>#专题</p>
+<p>##验证</p>
+<p>验证即核查一个人是否真实他声称的那个人(用户名, 密码); 授权即检查是否有权操作特定的资源</p>
+<p>定义身份类:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserIdentity</span> <span class="keyword">extends</span> <span class="title">CUserIdentity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $_id;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 这是身份类的主要工作, 实现验证</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">authenticate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 使用 User AR 获取数据</span></span><br><span class="line">        $record=User::model()-&gt;findByAttributes(<span class="keyword">array</span>(<span class="string">'username'</span>=&gt;<span class="keyword">$this</span>-&gt;username));</span><br><span class="line">        <span class="keyword">if</span>($record===<span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;errorCode=<span class="keyword">self</span>::ERROR_USERNAME_INVALID;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> &#123;</span><br><span class="line">            ($record-&gt;password!==md5(<span class="keyword">$this</span>-&gt;password))</span><br><span class="line">            <span class="keyword">$this</span>-&gt;errorCode=<span class="keyword">self</span>::ERROR_PASSWORD_INVALID;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;_id=$record-&gt;id;</span><br><span class="line">            <span class="comment">// 使用 setState 把 title 信息存储为状态传递给 CWebUser</span></span><br><span class="line">            <span class="comment">// 之后便可以使用 Yii::app()-&gt;user-&gt;title 访问</span></span><br><span class="line">            <span class="comment">// CWebUser 默认会存储状态信息到 session, 但如果 CWebUser::allowAutoLogin 为 true, 则会存到 cookie, 切勿将敏感信息存入 cookie</span></span><br><span class="line">            <span class="keyword">$this</span>-&gt;setState(<span class="string">'title'</span>, $record-&gt;title);</span><br><span class="line">            <span class="keyword">$this</span>-&gt;errorCode=<span class="keyword">self</span>::ERROR_NONE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> !<span class="keyword">$this</span>-&gt;errorCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 重写 getId, 默认的实现是直接返回用户名</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;_id;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>登录和注销:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 1. 使用提供的用户名和密码登录用户</span></span><br><span class="line">$identity=<span class="keyword">new</span> UserIdentity($username,$password);</span><br><span class="line"><span class="keyword">if</span>($identity-&gt;authenticate()) &#123;</span><br><span class="line">    <span class="comment">// 将用户身份信息存入持久存储(默认为 Session)</span></span><br><span class="line">    <span class="comment">// 之后便可以用 `Yii::app-&gt;user-&gt;isGuest` 判断用户是否登录</span></span><br><span class="line">    Yii::app()-&gt;user-&gt;login($identity);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> $identity-&gt;errorMessage;</span><br><span class="line">&#125;</span><br><span class="line">......</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注销当前用户</span></span><br><span class="line">Yii::app()-&gt;user-&gt;logout();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 使用 Cookie 登录</span></span><br><span class="line"><span class="comment">// 要确保用户部件的allowAutoLogin被设置为true。</span></span><br><span class="line"><span class="comment">// 保留用户登陆状态时间7天</span></span><br><span class="line">Yii::app()-&gt;user-&gt;login($identity,<span class="number">3600</span>*<span class="number">24</span>*<span class="number">7</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果使用 cookie 登录, 要确保不要保存敏感信息到 State, 而是保存到持久存储(数据库) 上, 最好(参见<a href="#security">安全</a>):</p>
+<ul>
+<li>当用户成功登录时, 保存同一个随机串到 cookie State 和数据库</li>
+<li>在之后的的自动 cookie 登录时, 对比 cookie 中和数据库中的随机串是否一致</li>
+<li>如果用户通过登录表单登录, 刷新这个随机串</li>
+</ul>
+<p>##授权</p>
+<p>访问控制过滤器的定义参见<a href="#filter">过滤器</a></p>
+<p>过滤器定义之后, 还要通过重载 <code>CController::accessRules</code> 指定具体授权规则</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostController</span> <span class="keyword">extends</span> <span class="title">CController</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 配置数组的值可为</span></span><br><span class="line"><span class="comment">     * 第一项: `deny` 或者 `allow`</span></span><br><span class="line"><span class="comment">     * actions: action 名字</span></span><br><span class="line"><span class="comment">     * users: *: 任何用户, ?: 匿名用户, @: 验证通过的用户 </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">accessRules</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">            <span class="keyword">array</span>(<span class="string">'deny'</span>,</span><br><span class="line">                <span class="string">'actions'</span>=&gt;<span class="keyword">array</span>(<span class="string">'create'</span>, <span class="string">'edit'</span>),</span><br><span class="line">                <span class="string">'users'</span>=&gt;<span class="keyword">array</span>(<span class="string">'?'</span>),</span><br><span class="line">            ),</span><br><span class="line">            <span class="keyword">array</span>(<span class="string">'allow'</span>,</span><br><span class="line">                <span class="string">'actions'</span>=&gt;<span class="keyword">array</span>(<span class="string">'delete'</span>),</span><br><span class="line">                <span class="string">'roles'</span>=&gt;<span class="keyword">array</span>(<span class="string">'admin'</span>),</span><br><span class="line">            ),</span><br><span class="line">            <span class="keyword">array</span>(<span class="string">'deny'</span>,</span><br><span class="line">                <span class="string">'actions'</span>=&gt;<span class="keyword">array</span>(<span class="string">'delete'</span>),</span><br><span class="line">                <span class="string">'users'</span>=&gt;<span class="keyword">array</span>(<span class="string">'*'</span>),</span><br><span class="line">            ),</span><br><span class="line">            <span class="comment">// 为了确保某类动作在没允许情况下不被执行</span></span><br><span class="line">            <span class="keyword">array</span>(<span class="string">'deny'</span>,</span><br><span class="line">                    <span class="string">'action'</span>=&gt;<span class="string">'delete'</span>,</span><br><span class="line">            )</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果授权失败</p>
+<ul>
+<li>
+<p>已经配置 <code>CWebUser::loingUrl</code>, 则重定向到此 URL, 可以这样配置:</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">array</span>(</span><br><span class="line">    ......</span><br><span class="line">    <span class="string">'components'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'user'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">            <span class="comment">// 这实际上是默认值</span></span><br><span class="line">            <span class="string">'loginUrl'</span>=&gt;<span class="keyword">array</span>(<span class="string">'site/login'</span>),</span><br><span class="line">        ),</span><br><span class="line">    ),</span><br><span class="line">)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>否则显示一个 401 HTTP 例外</p>
+</li>
+</ul>
+<p>如果希望在用户登录成功后转到之前页面:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">Yii::app()-&gt;request-&gt;redirect(Yii::app()-&gt;user-&gt;returnUrl);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>##基于角色的访问控制(Role-Based Access Control)</p>
+<p><code>授权项目</code>可分为<code>操作(operations)</code>, <code>任务(tasks)</code> 和<code>角色(roles)</code> 一个角色由若干任务组成, 一个任务由若干操作组成， 而一个操作就是一个<code>许可</code>, 不可再分. Yii 还允许一个角色包含其他角色或操作, 一个任务可以包含其他操作, 一个操作可以包括其他操作. 授权项目是通过它的名字唯一识别的</p>
+<p>一个授权项目可能与一个<code>业务规则</code>关联. 业务规则是一段 PHP 代码, 在进行涉及授权项目的访问检查时将会被执行. 仅在执行返回 <code>true</code> 时, 用户才会被视为拥有此授权项目所代表的权限许可</p>
+<p>Yii 提供了两种授权管理器： <code>CPhpAuthManager</code> 和 <code>CDbAuthManager</code>. 前者将授权数据存储在一个 PHP 脚本文件中而后者存储在数据库中.  配置 <code>CWebApplication::authManager</code> 应用组件时, 我们需要指定使用哪个授权管理器组件类, 以及所选授权管理器组件的初始化属性值:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'components'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'db'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'class'</span>=&gt;<span class="string">'CDbConnection'</span>,</span><br><span class="line">            <span class="string">'connectionString'</span>=&gt;<span class="string">'sqlite:path/to/file.db'</span>,</span><br><span class="line">        ),</span><br><span class="line">        <span class="string">'authManager'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'class'</span>=&gt;<span class="string">'CDbAuthManager'</span>,</span><br><span class="line">            <span class="string">'connectionID'</span>=&gt;<span class="string">'db'</span>,</span><br><span class="line">        ),</span><br><span class="line">    ),</span><br><span class="line">);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然后, 我们便可以使用 <code>Yii::app()-&gt;authManager</code> 访问</p>
+<p>定义授权等级体总共分三步</p>
+<ol>
+<li>定义授权项目
+<ul>
+<li><code>CAuthManager::createRole</code></li>
+<li><code>CAuthManager::createTask</code></li>
+<li><code>CAuthManager::createOperation</code></li>
+</ul>
+</li>
+<li>建立授权项目之间的关系
+<ul>
+<li><code>CAuthManager::addItemChild</code></li>
+<li><code>CAuthManager::removeItemChild</code></li>
+<li><code>CAuthItem::addChild</code></li>
+<li><code>CAuthItem::removeChild</code></li>
+</ul>
+</li>
+<li>分配角色给用户
+<ul>
+<li><code>CAuthManager::assign</code></li>
+<li><code>CAuthManager::revoke</code></li>
+</ul>
+</li>
+</ol>
+<p>如:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 并不需要在每个请求中都要运行</span></span><br><span class="line">$auth=Yii::app()-&gt;authManager;</span><br><span class="line"></span><br><span class="line">$auth-&gt;createOperation(<span class="string">'createPost'</span>,<span class="string">'create a post'</span>);</span><br><span class="line">$auth-&gt;createOperation(<span class="string">'readPost'</span>,<span class="string">'read a post'</span>);</span><br><span class="line">$auth-&gt;createOperation(<span class="string">'updatePost'</span>,<span class="string">'update a post'</span>);</span><br><span class="line">$auth-&gt;createOperation(<span class="string">'deletePost'</span>,<span class="string">'delete a post'</span>);</span><br><span class="line"></span><br><span class="line">$bizRule=<span class="string">'return Yii::app()-&gt;user-&gt;id==$params["post"]-&gt;authID;'</span>;</span><br><span class="line">$task=$auth-&gt;createTask(<span class="string">'updateOwnPost'</span>,<span class="string">'update a post by author himself'</span>,$bizRule);</span><br><span class="line">$task-&gt;addChild(<span class="string">'updatePost'</span>);</span><br><span class="line"></span><br><span class="line">$role=$auth-&gt;createRole(<span class="string">'reader'</span>);</span><br><span class="line">$role-&gt;addChild(<span class="string">'readPost'</span>);</span><br><span class="line"></span><br><span class="line">$role=$auth-&gt;createRole(<span class="string">'author'</span>);</span><br><span class="line">$role-&gt;addChild(<span class="string">'reader'</span>);</span><br><span class="line">$role-&gt;addChild(<span class="string">'createPost'</span>);</span><br><span class="line">$role-&gt;addChild(<span class="string">'updateOwnPost'</span>);</span><br><span class="line"></span><br><span class="line">$role=$auth-&gt;createRole(<span class="string">'editor'</span>);</span><br><span class="line">$role-&gt;addChild(<span class="string">'reader'</span>);</span><br><span class="line">$role-&gt;addChild(<span class="string">'updatePost'</span>);</span><br><span class="line"></span><br><span class="line">$role=$auth-&gt;createRole(<span class="string">'admin'</span>);</span><br><span class="line">$role-&gt;addChild(<span class="string">'editor'</span>);</span><br><span class="line">$role-&gt;addChild(<span class="string">'author'</span>);</span><br><span class="line">$role-&gt;addChild(<span class="string">'deletePost'</span>);</span><br><span class="line"></span><br><span class="line">$auth-&gt;assign(<span class="string">'reader'</span>,<span class="string">'readerA'</span>);</span><br><span class="line">$auth-&gt;assign(<span class="string">'author'</span>,<span class="string">'authorB'</span>);</span><br><span class="line">$auth-&gt;assign(<span class="string">'editor'</span>,<span class="string">'editorC'</span>);</span><br><span class="line">$auth-&gt;assign(<span class="string">'admin'</span>,<span class="string">'adminD'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>权限检查:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(Yii::app()-&gt;user-&gt;checkAccess(<span class="string">'createPost'</span>)) &#123;</span><br><span class="line">    <span class="comment">// 创建帖子</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 也可传参</span></span><br><span class="line">$params=<span class="keyword">array</span>(<span class="string">'post'</span>=&gt;$post);</span><br><span class="line"><span class="keyword">if</span>(Yii::app()-&gt;user-&gt;checkAccess(<span class="string">'updateOwnPost'</span>,$params)) &#123;</span><br><span class="line">    <span class="comment">// 更新帖子</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>默认角色就是一个隐式分配给每个用户的角色, 这些用户包括通过身份验证的用户和游客</p>
+<p>配置:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'components'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'authManager'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'class'</span>=&gt;<span class="string">'CDbAuthManager'</span>,</span><br><span class="line">            <span class="string">'defaultRoles'</span>=&gt;<span class="keyword">array</span>(<span class="string">'authenticated'</span>, <span class="string">'guest'</span>),</span><br><span class="line">        ),</span><br><span class="line">    ),</span><br><span class="line">);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>定义:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$bizRule=<span class="string">'return !Yii::app()-&gt;user-&gt;isGuest;'</span>;</span><br><span class="line">$auth-&gt;createRole(<span class="string">'authenticated'</span>, <span class="string">'authenticated user'</span>, $bizRule);</span><br><span class="line"></span><br><span class="line">$bizRule=<span class="string">'return Yii::app()-&gt;user-&gt;isGuest;'</span>;</span><br><span class="line">$auth-&gt;createRole(<span class="string">'guest'</span>, <span class="string">'guest user'</span>, $bizRule);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>##安全</p>
+<ul>
+<li>
+<p>XSS: 跨站脚本攻击</p>
+<p>定义: 攻击者常常向易受攻击的 web 应用注入 JavaScript, VBScript, ActiveX, HTML 或 Flash 来迷惑访问者以收集访问者的信息</p>
+<p>防范: 在显示用户输入的内容之前进行检查</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里将 CHtmlPurifier 作为一个 Widget 来过滤用户输入</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">$this</span>-&gt;beginWidget(<span class="string">'CHtmlPurifier'</span>); <span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">//...这里显示用户输入的内容...</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">$this</span>-&gt;endWidget(); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>CSRF: 跨站请求伪造</p>
+<p>定义: 攻击者在用户浏览器在访问恶意网站的时候, 让用户的浏览器向一个受信任的网站发起攻击者指定的请求</p>
+<p>防范: GET 请求只允许检索数据而不能修改服务器上的任何数据, 而 POST 请求应当含有一些可以被服务器识别的随机数值, 用来保证表单数据的来源和运行结果发送的去向是相同的</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 启用 CsrfValidation 组件</span></span><br><span class="line"><span class="comment">// 该组件会自动在用 CHtml::form 生成的表单中嵌入一个保存随机值的隐藏项, 在表单提交的时候发送到服务器进行验证</span></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'components'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'request'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'enableCsrfValidation'</span>=&gt;<span class="keyword">true</span>,</span><br><span class="line">        ),</span><br><span class="line">    ),</span><br><span class="line">);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Cookie 攻击</p>
+<p>定义: session ID 通常存储在  Cookie中, 如果攻击者窃取到了一个有效的 session ID, 他就可以使用这个 session ID 对应的 session 信息</p>
+<p>防范:</p>
+<ul>
+<li>您可以使用 SSL 来产生一个安全通道, 且只通过 HTTPS 连接来传送验证 cookie</li>
+<li>设置 cookie 的过期时间, 对所有的 cookie 和 session 令牌也这样做</li>
+<li>防范跨站代码攻击, 因为它可以在用户的浏览器触发任意代码, 这些代码可能会泄露用户的 cookie</li>
+<li>在 cookie 有变动的时候验证 cookie 的内容</li>
+</ul>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 1. 启用 CookieValidation 组件 </span></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'components'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'request'</span>=&gt;<span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'enableCookieValidation'</span>=&gt;<span class="keyword">true</span>,</span><br><span class="line">        ),</span><br><span class="line">    ),</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 然后只使用 CHttpRequest::cookies 进行 cookie 操作(而不是 $_COOKIES)</span></span><br><span class="line"><span class="comment">// 检索一个名为$name的cookie值</span></span><br><span class="line">$cookie=Yii::app()-&gt;request-&gt;cookies[$name];</span><br><span class="line">$value=$cookie-&gt;value;</span><br><span class="line">......</span><br><span class="line"><span class="comment">// 设置一个cookie</span></span><br><span class="line">$cookie=<span class="keyword">new</span> CHttpCookie($name,$value);</span><br><span class="line">Yii::app()-&gt;request-&gt;cookies[$name]=$cookie;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://fantasylion.github.io/notes/2015-11-19-learning-note-YII(1.1)/" title="YII(版本1) 权威指南学习笔记(未完结)" target="_blank" rel="external">https://fantasylion.github.io/notes/2015-11-19-learning-note-YII(1.1)/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fantasylion" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/owner.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fantasylion" target="_blank"><span class="text-dark">Serio</span><small class="ml-1x">一名技术人</small></a></h3>
+        <div>喜欢新事物，关注技术动态，对新的技术有追求； 喜欢玩，喜欢疯，热爱 coding。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/program/2015-11-25-cant-modify-title-on-ios-wechat/" title="ios微信上不能更换标题解决办法"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/translation/2015-09-28-Understanding_the_diff_command_in_unix/" title="理解 diff 命令"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipay.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpay.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://fantasylion.github.io/notes/2015-11-19-learning-note-YII(1.1)/';
+        
+        this.page.identifier = '2015-11-19-learning-note-YII(1.1)';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'fantasyLion' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
