@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Sentinel 熔断等指标如何统计以及如何判断熔断点 | Serio&#39;s blog</title>
+  <meta name="description" content="Sentinel 熔断等指标如何统计以及如何判断熔断点  Sentinel 使用 在分析源码之前首先看下，Sentinel 如何使用  建立规则 12345678910111213&#x2F;&#x2F; 建立规则List&lt;DegradeRule&gt; rule &#x3D; new ArrayList&lt;DegradeRule&gt;();DegradeRule ruleRatio &#x3D; new DegradeR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sentinel 熔断等指标如何统计以及如何判断熔断点">
+<meta property="og:url" content="https://fantasylion.github.io/java/2020-07-29-Sentinel-Source-code-analysis/index.html">
+<meta property="og:site_name" content="Serio&#39;s blog">
+<meta property="og:description" content="Sentinel 熔断等指标如何统计以及如何判断熔断点  Sentinel 使用 在分析源码之前首先看下，Sentinel 如何使用  建立规则 12345678910111213&#x2F;&#x2F; 建立规则List&lt;DegradeRule&gt; rule &#x3D; new ArrayList&lt;DegradeRule&gt;();DegradeRule ruleRatio &#x3D; new DegradeR">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/1AD25B53EDBD4EDD81103BD302296467?method=download&amp;shareKey=8ea22ed909a257924ca94194bfc76aab">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/56B9E3EE9D89479F93F62FB5E16DE7DE?method=download&amp;shareKey=e6bfd5cf37270f55437be94f1a7d2efa">
+<meta property="article:published_time" content="2020-07-29T06:14:51.000Z">
+<meta property="article:modified_time" content="2020-07-29T06:14:51.000Z">
+<meta property="article:author" content="Serio">
+<meta property="article:tag" content="source">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/api/personal/file/1AD25B53EDBD4EDD81103BD302296467?method=download&amp;shareKey=8ea22ed909a257924ca94194bfc76aab">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://fantasylion.github.io/java/2020-07-29-Sentinel-Source-code-analysis/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Serio&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/fantasylion" target="_blank">
+          <img class="img-circle img-rotate" src="/images/owner.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Serio</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一名技术人</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> hangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LifeFeeling/">LifeFeeling</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">database</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/notes/">notes</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/program/">program</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">tool</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/translation/">translation</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/zookeeper/">zookeeper</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AE/" rel="tag">AE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DS/" rel="tag">DS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/framework/" rel="tag">framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/source/" rel="tag">source</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tool/" rel="tag">tool</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uml/" rel="tag">uml</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%94%9F/" rel="tag">人生</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%B1/" rel="tag">爱</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/AE/" style="font-size: 13px;">AE</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/DS/" style="font-size: 13px;">DS</a> <a href="/tags/English/" style="font-size: 13.33px;">English</a> <a href="/tags/JavaScript/" style="font-size: 13.67px;">JavaScript</a> <a href="/tags/MongoDB/" style="font-size: 13.33px;">MongoDB</a> <a href="/tags/ffmpeg/" style="font-size: 13px;">ffmpeg</a> <a href="/tags/framework/" style="font-size: 13px;">framework</a> <a href="/tags/http/" style="font-size: 13px;">http</a> <a href="/tags/java/" style="font-size: 13.67px;">java</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/php/" style="font-size: 13.67px;">php</a> <a href="/tags/source/" style="font-size: 13.33px;">source</a> <a href="/tags/tool/" style="font-size: 14px;">tool</a> <a href="/tags/uml/" style="font-size: 13.33px;">uml</a> <a href="/tags/zookeeper/" style="font-size: 13px;">zookeeper</a> <a href="/tags/%E4%BA%BA%E7%94%9F/" style="font-size: 13px;">人生</a> <a href="/tags/%E7%88%B1/" style="font-size: 13px;">爱</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/java/">java</a>
+              </p>
+              <p class="item-title">
+                <a href="/java/2020-07-29-Sentinel-Source-code-analysis/" class="title">Sentinel 熔断等指标如何统计以及如何判断熔断点</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-07-29T06:14:51.000Z" itemprop="datePublished">2020-07-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/java/">java</a>
+              </p>
+              <p class="item-title">
+                <a href="/java/ConcurrentHashMap-source-code/" class="title">ConcurrentHashMap 源码分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-13T05:25:51.000Z" itemprop="datePublished">2020-03-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/tool/">tool</a>
+              </p>
+              <p class="item-title">
+                <a href="/tool/2020-01-07-adding-extra-celery-configs-to-airflow/" class="title">Airflow 使用 Celery 时，如何添加 Celery 配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-06T16:00:00.000Z" itemprop="datePublished">2020-01-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/tool/">tool</a>
+              </p>
+              <p class="item-title">
+                <a href="/tool/2019-11-25-airflow-remote-dev/" class="title">Windows 本地搭建 Airflow 开发环境</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-06T16:00:00.000Z" itemprop="datePublished">2020-01-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Tools/">Tools</a>
+              </p>
+              <p class="item-title">
+                <a href="/Tools/2019-01-17-How-to-use-EA/" class="title">如何使用 Enterprise Architect 画 UML</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-01-16T16:00:00.000Z" itemprop="datePublished">2019-01-17</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2020-07-29-Sentinel-Source-code-analysis" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Sentinel 熔断等指标如何统计以及如何判断熔断点
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/java/2020-07-29-Sentinel-Source-code-analysis/" class="article-date">
+	  <time datetime="2020-07-29T06:14:51.000Z" itemprop="datePublished">2020-07-29</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/source/" rel="tag">source</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/java/2020-07-29-Sentinel-Source-code-analysis/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 5.4k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 24(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="sentinel-熔断等指标如何统计以及如何判断熔断点"><a class="markdownIt-Anchor" href="#sentinel-熔断等指标如何统计以及如何判断熔断点"></a> Sentinel 熔断等指标如何统计以及如何判断熔断点</h1>
+<h4 id="sentinel-使用"><a class="markdownIt-Anchor" href="#sentinel-使用"></a> Sentinel 使用</h4>
+<p>在分析源码之前首先看下，Sentinel 如何使用</p>
+<h5 id="建立规则"><a class="markdownIt-Anchor" href="#建立规则"></a> 建立规则</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 建立规则</span></span><br><span class="line">List&lt;DegradeRule&gt; rule = <span class="keyword">new</span> ArrayList&lt;DegradeRule&gt;();</span><br><span class="line">DegradeRule ruleRatio = <span class="keyword">new</span> DegradeRule();</span><br><span class="line">ruleRatio.setResource(<span class="string">"sourceTest"</span>);</span><br><span class="line">ruleRatio.setCount(<span class="number">100</span>);</span><br><span class="line">ruleRatio.setGrade(<span class="number">1</span>);</span><br><span class="line">ruleRatio.setTimeWindow(<span class="number">60</span>)</span><br><span class="line">ruleRatio.setMinRequestAmount(<span class="number">2</span>);</span><br><span class="line">ruleRatio.setRtSlowRequestAmount(<span class="number">2</span>);</span><br><span class="line">rules.add(ruleRatio);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载规则</span></span><br><span class="line">DegradeRuleManager.loadRules(rules);</span><br></pre></td></tr></table></figure>
+<h5 id="使用规则"><a class="markdownIt-Anchor" href="#使用规则"></a> 使用规则</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Entry entry = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    entry = SphU.entry( <span class="string">"sourceTest"</span> )</span><br><span class="line">    print(<span class="string">"Do something."</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span>( DegradeException degradeException ) &#123;</span><br><span class="line">    logger.error(<span class="string">"触发熔断,熔断器：&#123;&#125;"</span>, JSON.toJSONString(degradeException.rule) )</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> DegradeException(<span class="string">"触发熔断"</span>+degradeException.rule.resource, degradeException)</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    Tracer.trace(e)</span><br><span class="line">    logger.error(<span class="string">"有异常"</span>)</span><br><span class="line">    <span class="keyword">throw</span> e</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (entry != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 退出 Entry 并统计</span></span><br><span class="line">        entry.exit()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的代码中大致可以看出，sentinel 通过 <code>SphU.entry</code> 验证规则并开始统计，如果其中某条规则不通过将会抛出对应的异常， 通过 <code>entry.exit()</code> 结束统计。</p>
+<p>下面进入到源码中分析具体的实现原理<br />
+<img src="https://note.youdao.com/yws/api/personal/file/1AD25B53EDBD4EDD81103BD302296467?method=download&amp;shareKey=8ea22ed909a257924ca94194bfc76aab" alt="CtSph类图" /></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Sph sph = <span class="keyword">new</span> CtSph();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Entry <span class="title">entry</span><span class="params">(String name)</span> <span class="keyword">throws</span> BlockException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Env.sph.entry(name, EntryType.OUT, <span class="number">1</span>, OBJECTS0); <span class="comment">// @1 -&gt; @2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// @2</span></span><br><span class="line"><span class="comment">// Env.sph.entry</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Entry <span class="title">entry</span><span class="params">(String name, EntryType type, <span class="keyword">int</span> count, Object... args)</span> <span class="keyword">throws</span> BlockException </span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个资源名包装类</span></span><br><span class="line">    StringResourceWrapper resource = <span class="keyword">new</span> StringResourceWrapper(name, type);</span><br><span class="line">    <span class="keyword">return</span> entry(resource, count, args); <span class="comment">// @3 -&gt; @4</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// @4</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Entry <span class="title">entry</span><span class="params">(ResourceWrapper resourceWrapper, <span class="keyword">int</span> count, Object... args)</span> <span class="keyword">throws</span> BlockException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> entryWithPriority(resourceWrapper, count, <span class="keyword">false</span>, args); <span class="comment">// @5 -&gt; @6</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// @6</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Entry <span class="title">entryWithPriority</span><span class="params">(ResourceWrapper resourceWrapper, <span class="keyword">int</span> count, <span class="keyword">boolean</span> prioritized, Object... args)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> BlockException </span>&#123;</span><br><span class="line">    <span class="comment">// 从线程变量中获取当前上下文</span></span><br><span class="line">    Context context = ContextUtil.getContext();</span><br><span class="line">    <span class="comment">// ... 省略部分代码</span></span><br><span class="line">    <span class="keyword">if</span> (context == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// Using default context.</span></span><br><span class="line">        <span class="comment">// 如果没有上下文，创建一个默认的上下文和一个EntranceNode</span></span><br><span class="line">        context = InternalContextUtil.internalEnter(Constants.CONTEXT_DEFAULT_NAME);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果全局开关关闭，不需要检查规则和统计</span></span><br><span class="line">    <span class="comment">// Global switch is close, no rule checking will do.</span></span><br><span class="line">    <span class="keyword">if</span> (!Constants.ON) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CtEntry(resourceWrapper, <span class="keyword">null</span>, context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到所有的处理责任链【责任链模式】</span></span><br><span class="line">    ProcessorSlot&lt;Object&gt; chain = lookProcessChain(resourceWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 说明责任链数量已经超出最大允许数量，后面将没有规则会被检查</span></span><br><span class="line"><span class="comment">     * Means amount of resources (slot chain) exceeds &#123;@link Constants.MAX_SLOT_CHAIN_SIZE&#125;,</span></span><br><span class="line"><span class="comment">     * so no rule checking will be done.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">if</span> (chain == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CtEntry(resourceWrapper, <span class="keyword">null</span>, context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建当前条目</span></span><br><span class="line">    Entry e = <span class="keyword">new</span> CtEntry(resourceWrapper, chain, context);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 触发责任链（从第一个开始执行到最后一个责任链节点，主要有创建节点、统计指标、验证各种规则...）</span></span><br><span class="line">        chain.entry(context, resourceWrapper, <span class="keyword">null</span>, count, prioritized, args);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (BlockException e1) &#123;</span><br><span class="line">        <span class="comment">// 被阻塞后退出当前条目，并统计指标</span></span><br><span class="line">        e.exit(count, args);</span><br><span class="line">        <span class="keyword">throw</span> e1;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable e1) &#123;</span><br><span class="line">        <span class="comment">// This should not happen, unless there are errors existing in Sentinel internal.</span></span><br><span class="line">        RecordLog.info(<span class="string">"Sentinel unexpected exception"</span>, e1);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="责任链模式"><a class="markdownIt-Anchor" href="#责任链模式"></a> 责任链模式</h3>
+<p>以上 <code>entryWithPriority</code> 源码中可以 sentinel 用到了责任链模式，通过责任链创建节点、统计指标、验证规则…。<br />
+接下看下 Sentinel 是如何实现责任链模式又是如何统计指标和验证规则的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在没有调用链，并且调用链没有超过最大允许数时，初始化一个</span></span><br><span class="line">chain = SlotChainProvider.newSlotChain();</span><br><span class="line">Map&lt;ResourceWrapper, ProcessorSlotChain&gt; newMap = <span class="keyword">new</span> HashMap&lt;ResourceWrapper, ProcessorSlotChain&gt;(</span><br><span class="line">    chainMap.size() + <span class="number">1</span>);</span><br><span class="line">newMap.putAll(chainMap);</span><br><span class="line">newMap.put(resourceWrapper, chain);</span><br><span class="line">chainMap = newMap;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取到一个默认的slot调用链构建器，并开始构建</span></span><br><span class="line">slotChainBuilder = SpiLoader.loadFirstInstanceOrDefault(SlotChainBuilder<span class="class">.<span class="keyword">class</span>, <span class="title">DefaultSlotChainBuilder</span>.<span class="title">class</span>)</span>;</span><br><span class="line">slotChainBuilder.build();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ProcessorSlotChain <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建调用链对象</span></span><br><span class="line">    ProcessorSlotChain chain = <span class="keyword">new</span> DefaultProcessorSlotChain();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Note: the instances of ProcessorSlot should be different, since they are not stateless.</span></span><br><span class="line">    <span class="comment">// 通过SPI发现并加载并排序所有的调用链节点</span></span><br><span class="line">    List&lt;ProcessorSlot&gt; sortedSlotList = SpiLoader.loadPrototypeInstanceListSorted(ProcessorSlot<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    <span class="keyword">for</span> (ProcessorSlot slot : sortedSlotList) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!(slot <span class="keyword">instanceof</span> AbstractLinkedProcessorSlot)) &#123;</span><br><span class="line">            RecordLog.warn(<span class="string">"The ProcessorSlot("</span> + slot.getClass().getCanonicalName() + <span class="string">") is not an instance of AbstractLinkedProcessorSlot, can't be added into ProcessorSlotChain"</span>);</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 按顺序依次将调用链节点添加都最后一个，并关联下一个节点</span></span><br><span class="line">        chain.addLast((AbstractLinkedProcessorSlot&lt;?&gt;) slot);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> chain;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">loadPrototypeInstanceListSorted</span><span class="params">(Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// @1</span></span><br><span class="line">        <span class="comment">// Not use SERVICE_LOADER_MAP, to make sure the instances loaded are different.</span></span><br><span class="line">        ServiceLoader&lt;T&gt; serviceLoader = ServiceLoaderUtil.getServiceLoader(clazz);</span><br><span class="line"></span><br><span class="line">        List&lt;SpiOrderWrapper&lt;T&gt;&gt; orderWrappers = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> ( T spi : serviceLoader ) &#123;</span><br><span class="line">            <span class="comment">// @2</span></span><br><span class="line">            <span class="keyword">int</span> order = SpiOrderResolver.resolveOrder(spi);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// @3</span></span><br><span class="line">            <span class="comment">// Since SPI is lazy initialized in ServiceLoader, we use online sort algorithm here.</span></span><br><span class="line">            SpiOrderResolver.insertSorted(orderWrappers, spi, order);</span><br><span class="line">            RecordLog.debug(<span class="string">"[SpiLoader] Found &#123;&#125; SPI: &#123;&#125; with order &#123;&#125;"</span>, clazz.getSimpleName(),</span><br><span class="line">                    spi.getClass().getCanonicalName(), order);</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;T&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;(orderWrappers.size());</span><br><span class="line">        <span class="comment">// @4</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; orderWrappers.size(); i++) &#123;</span><br><span class="line">            list.add(orderWrappers.get(i).spi);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">        RecordLog.error(<span class="string">"[SpiLoader] ERROR: loadPrototypeInstanceListSorted failed"</span>, t);</span><br><span class="line">        t.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>@1 SPI 发现并加载ProcessorSlot接口对象集合。通过[META-INF/services/com.alibaba.csp.sentinel.slotchain.ProcessorSlot]找到所有的调用链节点</li>
+<li>@2 每个实现类上都有一个注解 <code>@SpiOrder</code> 取出注解上的值，用于后续的排序</li>
+<li>@3 按 <code>@SpiOrder</code> 从小到大冒泡排序，将 <code>spi</code> 插入到 <code>orderWrappers</code> 中</li>
+<li>@4 创建一个新的集合并将 <code>spi</code> 按顺序存入</li>
+</ul>
+<p>在完成以上步骤后，调用链将被初始化成</p>
+<table>
+<thead>
+<tr>
+<th>顺序</th>
+<th>节点</th>
+<th>作用</th>
+<th>下一个节点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>DefaultProcessorSlotChain</td>
+<td>第一个节点</td>
+<td>NodeSelectorSlot</td>
+</tr>
+<tr>
+<td>2</td>
+<td>NodeSelectorSlot</td>
+<td>创建当前Node</td>
+<td>ClusterBuilderSlot</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ClusterBuilderSlot</td>
+<td>创建全局Cluster节点</td>
+<td>LogSlot</td>
+</tr>
+<tr>
+<td>4</td>
+<td>LogSlot</td>
+<td>记录日志</td>
+<td>StatisticSlot</td>
+</tr>
+<tr>
+<td>5</td>
+<td>StatisticSlot</td>
+<td>统计各项指标</td>
+<td>AuthoritySlot</td>
+</tr>
+<tr>
+<td>6</td>
+<td>AuthoritySlot</td>
+<td>验证认证规则</td>
+<td>SystemSlot</td>
+</tr>
+<tr>
+<td>7</td>
+<td>SystemSlot</td>
+<td>验证系统指标（CPU等指标）</td>
+<td>FlowSlot</td>
+</tr>
+<tr>
+<td>8</td>
+<td>FlowSlot</td>
+<td>验证限流指标</td>
+<td>DegradeSlot</td>
+</tr>
+<tr>
+<td>9</td>
+<td>DegradeSlot</td>
+<td>验证熔断指标</td>
+<td>Null</td>
+</tr>
+</tbody>
+</table>
+<h3 id="责任链调用"><a class="markdownIt-Anchor" href="#责任链调用"></a> 责任链调用</h3>
+<h4 id="nodeselectorslot-源码分析"><a class="markdownIt-Anchor" href="#nodeselectorslot-源码分析"></a> NodeSelectorSlot 源码分析</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">DefaultNode node = map.get(context.getName());</span><br><span class="line"><span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">        node = map.get(context.getName());</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">            node = <span class="keyword">new</span> DefaultNode(resourceWrapper, <span class="keyword">null</span>);</span><br><span class="line">            HashMap&lt;String, DefaultNode&gt; cacheMap = <span class="keyword">new</span> HashMap&lt;String, DefaultNode&gt;(map.size());</span><br><span class="line">            cacheMap.putAll(map);</span><br><span class="line">            cacheMap.put(context.getName(), node);</span><br><span class="line">            map = cacheMap;</span><br><span class="line">            <span class="comment">// Build invocation tree</span></span><br><span class="line">            ((DefaultNode) context.getLastNode()).addChild(node);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">context.setCurNode(node);</span><br><span class="line">fireEntry(context, resourceWrapper, node, count, prioritized, args);</span><br></pre></td></tr></table></figure>
+<p><code>NodeSelectorSlot</code> 源码比较简单，主要逻辑就是根据 <code>context</code> 名找到一个对应的 <code>Node</code> 如果没有就创建一个，并标记为 <code>context</code> 的<br />
+当前 <code>node</code></p>
+<h4 id="clusterbuilderslot-源码分析"><a class="markdownIt-Anchor" href="#clusterbuilderslot-源码分析"></a> ClusterBuilderSlot 源码分析</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (clusterNode == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">        <span class="keyword">if</span> (clusterNode == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// Create the cluster node.</span></span><br><span class="line">            clusterNode = <span class="keyword">new</span> ClusterNode(resourceWrapper.getName(), resourceWrapper.getResourceType());</span><br><span class="line">            HashMap&lt;ResourceWrapper, ClusterNode&gt; newMap = <span class="keyword">new</span> HashMap&lt;&gt;(Math.max(clusterNodeMap.size(), <span class="number">16</span>));</span><br><span class="line">            newMap.putAll(clusterNodeMap);</span><br><span class="line">            newMap.put(node.getId(), clusterNode);</span><br><span class="line"></span><br><span class="line">            clusterNodeMap = newMap;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">node.setClusterNode(clusterNode);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>clusterNode 是相对资源唯一</li>
+<li>因为一个资源只会有一个责任链，只有在初始化的时候需要进行缓存，所以这里只需要用 HashMap 用来存储这个 clusterNode， 并且在初始化的时候加上锁就可以了（后续只会读）。</li>
+</ul>
+<h4 id="logslot-源码分析"><a class="markdownIt-Anchor" href="#logslot-源码分析"></a> LogSlot 源码分析</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// @1</span></span><br><span class="line">    fireEntry(context, resourceWrapper, obj, count, prioritized, args);</span><br><span class="line">&#125; <span class="keyword">catch</span> (BlockException e) &#123;</span><br><span class="line">    <span class="comment">// @2</span></span><br><span class="line">    EagleEyeLogUtil.log(resourceWrapper.getName(), e.getClass().getSimpleName(), e.getRuleLimitApp(),</span><br><span class="line">        context.getOrigin(), count);</span><br><span class="line">    <span class="keyword">throw</span> e;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">    <span class="comment">// @3</span></span><br><span class="line">    RecordLog.warn(<span class="string">"Unexpected entry exception"</span>, e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>@1 先调用后面的责任链节点</li>
+<li>@2 当后面的责任链节点触发 BlockException 异常后记录 Block 次数到鹰眼</li>
+<li>@3 当后面的责任链触发其他异常后打出警告日志</li>
+</ul>
+<h4 id="statisticslot-源码分析"><a class="markdownIt-Anchor" href="#statisticslot-源码分析"></a> StatisticSlot 源码分析</h4>
+<p><code>StatisticSlot</code> 是 <code>Sentinel</code> 核心的一个类，统计各项指标用于后续的限流、熔断、系统保护等策略，接下来看下 <code>Sentinel</code> 是如何通过 <code>StatisticSlot</code> 进行指标统计的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...省略部分代码</span></span><br><span class="line"><span class="comment">// Do some checking.</span></span><br><span class="line"><span class="comment">// @1</span></span><br><span class="line">fireEntry(context, resourceWrapper, node, count, prioritized, args);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Request passed, add thread count and pass count.</span></span><br><span class="line"><span class="comment">// @2</span></span><br><span class="line">node.increaseThreadNum();</span><br><span class="line">node.addPassRequest(count);</span><br><span class="line"><span class="comment">// ...省略部分代码</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>@1 触发后面的责任链节点</li>
+<li>@2 记录通过的线程数<code>+1</code>和通过请求 <code>+count</code><br />
+这里的 <code>node</code> 就是第二个责任链节点 <code>NodeSelectorSlot</code> 创建的 <code>DefaultNode</code><br />
+在分析源码前可以先简单了解下 <code>Context</code>、<code>Entry</code>、<code>DefaultNode</code>、<code>ClusterNode</code> 的关系<br />
+<img src="https://note.youdao.com/yws/api/personal/file/56B9E3EE9D89479F93F62FB5E16DE7DE?method=download&amp;shareKey=e6bfd5cf37270f55437be94f1a7d2efa" alt="Context 关系图" /></li>
+<li><code>Context</code> 每个线程是独享的，但是不同线程的 <code>Context</code> 可以使用同一个名字</li>
+<li><code>EntranceNode</code> 是根据 <code>Context</code> 名共享的，也就是说一个 <code>Context.name</code> 对应一个 <code>EntranceNode</code>。每次调用的时候都会创建，用于记录</li>
+<li><code>Entry</code> 是相对于每个 <code>Context</code> 独享的即是同一个 <code>Context.name</code>，包含了资源名、curNode（当前统计节点）、originNode（来源统计节点）等信息</li>
+<li><code>DefaultNode</code> 一个 <code>Context.name</code> 对应一个统计某资源调用链路上的指标</li>
+<li><code>ClusterNode</code> 一个资源对应一个，统计一个资源维度的指标</li>
+<li><code>DefaultNode</code> 和 <code>ClusterNode</code> 都继承至 <code>StatisticNode</code> 都包含两个 <code>ArrayMetric</code> 类型的字段 <code>rollingCounterInSecond</code>、<code>rollingCounterInMinute</code> 分别用于存储秒级和分钟级统计指标</li>
+<li>而 <code>ArrayMetric</code> 类包含了一个 <code>LeapArray&lt;MetricBucket&gt;</code> 类型字段 <code>data</code>, <code>data</code> 中存放了一个 <code>WindowWrap&lt;MetricBucket&gt;</code> 元素的数组（滑动窗口）, 而这个数组就是各项指标最终存储的位置</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node.increaseThreadNum();</span><br></pre></td></tr></table></figure>
+<p>这行代码其实就是对 <code>StatisticNode.curThreadNum</code> 进行自增操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addPassRequest</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.addPassRequest(count);</span><br><span class="line">    <span class="keyword">this</span>.clusterNode.addPassRequest(count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加通过的数量， 除了 <code>DefaultNode</code> 记录一次外，在 <code>ClusterNode</code> 上也需要记录一次【注意：<code>ClusterNode</code> 是按照资源维度统计的，这里指向的 <code>ClusterNode</code> 与同一资源不同 <code>Context</code> 指向的 <code>ClusterNode</code> 是同一个】。一个 <code>Node</code> 在调用了 <code>addPassRequest</code><br />
+后发生了什么呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addPassRequest</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">    rollingCounterInSecond.addPass(count);</span><br><span class="line">    rollingCounterInMinute.addPass(count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在以上代码可以看到 <code>rollingCounterInSecond</code> 、<code>rollingCounterInMinute</code> 两个字段，它们分别用来统计秒级指标和分钟级指标。而实际上这两个字段使用了滑动时间窗口数据结构用于存储指标。接下来看下 <code>Sentinel</code> 滑动窗口的设计:<br />
+时间滑动窗口主要用到的几个类有：</p>
+<ul>
+<li>ArrayMetric: 负责初始化时间滑动窗口和维护</li>
+<li>LeapArray: 一个滑动时间窗口主体</li>
+<li>WindowWrap: 一个时间窗口主体</li>
+<li>LongAdder：指标统计的计数类</li>
+</ul>
+<p><code>ArrayMetric</code> 构造器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayMetric</span><span class="params">(<span class="keyword">int</span> sampleCount, <span class="keyword">int</span> intervalInMs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.data = <span class="keyword">new</span> OccupiableBucketLeapArray(sampleCount, intervalInMs);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayMetric</span><span class="params">(<span class="keyword">int</span> sampleCount, <span class="keyword">int</span> intervalInMs, <span class="keyword">boolean</span> enableOccupy)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (enableOccupy) &#123;</span><br><span class="line">        <span class="keyword">this</span>.data = <span class="keyword">new</span> OccupiableBucketLeapArray(sampleCount, intervalInMs);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.data = <span class="keyword">new</span> BucketLeapArray(sampleCount, intervalInMs);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * For unit test.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayMetric</span><span class="params">(LeapArray&lt;MetricBucket&gt; array)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.data = array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>ArrayMetric</code> 主要有三种构造器，最后一种只是用来跑单元测试使用，而前两种构造器主要为了初始化 <code>data</code> 字段。<br />
+从代码中我们可以看到 <code>LeapArray</code> 有两种实现方式 <code>OccupiableBucketLeapArray</code> 和 <code>BucketLeapArray</code>，而两种都继承至 <code>LeapArray</code>。</p>
+<p><em>LeapArray 类图</em><br />
+<a href="https://note.youdao.com/yws/api/personal/file/F75D9590517F4F899ACB4F5D58989F2A?method=download&amp;shareKey=7143a970038fb64081b92019d9633390" target="_blank" rel="noopener">LeapArray类图</a><br />
+<code>LeapArray</code> 类主要包含以下几个字段：</p>
+<ul>
+<li><code>int windowLengthInMs</code> 一个时间窗口的长度，用毫秒表示</li>
+<li><code>int sampleCount</code> 表示用几个时间窗口统计</li>
+<li><code>int intervalInMs</code> 轮回时间，也就是所有时间窗口加起来的总时长</li>
+<li><code>AtomicReferenceArray&lt;WindowWrap&lt;T&gt;&gt; array</code>  时间窗口实例集合，数组的长度等于 <code>sampleCount</code></li>
+</ul>
+<p>那么我们在回头看下 <code>rollingCounterInSecond</code> 、<code>rollingCounterInMinute</code> 用到了哪种 <code>LeapArray</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * SampleCountProperty.SAMPLE_COUNT = 2</span></span><br><span class="line"><span class="comment"> * IntervalProperty.INTERVAL = 1000</span></span><br><span class="line"><span class="comment"> * Holds statistics of the recent &#123;<span class="doctag">@code</span> INTERVAL&#125; seconds. The &#123;<span class="doctag">@code</span> INTERVAL&#125; is divided into time spans</span></span><br><span class="line"><span class="comment"> * by given &#123;<span class="doctag">@code</span> sampleCount&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Metric rollingCounterInSecond = <span class="keyword">new</span> ArrayMetric(SampleCountProperty.SAMPLE_COUNT,</span><br><span class="line">    IntervalProperty.INTERVAL);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Holds statistics of the recent 60 seconds. The windowLengthInMs is deliberately set to 1000 milliseconds,</span></span><br><span class="line"><span class="comment"> * meaning each bucket per second, in this way we can get accurate statistics of each second.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> Metric rollingCounterInMinute = <span class="keyword">new</span> ArrayMetric(<span class="number">60</span>, <span class="number">60</span> * <span class="number">1000</span>, <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+<p>从上述代码中我们可以看到秒级统计初始化了一个 <code>OccupiableBucketLeapArray</code> 轮回时间为 1000ms 也就是 1s，分两个时间窗口每个各 500ms，而分钟级统计初始化了 <code>BucketLeapArray</code> 轮回时间为 60000ms 也就是 1Min ，分 60 个时间窗口每个窗口 1s。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ArrayMetric.addPass</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addPass</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">    WindowWrap&lt;MetricBucket&gt; wrap = data.currentWindow();</span><br><span class="line">    wrap.value().addPass(count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在添加通过指标前先获取到当前的时间窗口，再将通过数量统计到窗口对应的 <code>MetricBucket</code> 中，那么如何获取当前窗口呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> WindowWrap&lt;T&gt; <span class="title">currentWindow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> currentWindow(TimeUtil.currentTimeMillis());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> WindowWrap&lt;T&gt; <span class="title">currentWindow</span><span class="params">(<span class="keyword">long</span> timeMillis)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (timeMillis &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//     private int calculateTimeIdx(long timeMillis) &#123;</span></span><br><span class="line">    <span class="comment">//         long timeId = timeMillis / windowLengthInMs;</span></span><br><span class="line">    <span class="comment">//         // Calculate current index so we can map the timestamp to the leap array.</span></span><br><span class="line">    <span class="comment">//         return (int)(timeId % array.length());</span></span><br><span class="line">    <span class="comment">//     &#125;</span></span><br><span class="line">    <span class="keyword">int</span> idx = calculateTimeIdx(timeMillis);</span><br><span class="line">    <span class="comment">// Calculate current bucket start time.</span></span><br><span class="line">    <span class="keyword">long</span> windowStart = calculateWindowStart(timeMillis);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Get bucket item at given time from the array.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * (1) Bucket is absent, then just create a new bucket and CAS update to circular array.</span></span><br><span class="line"><span class="comment">     * (2) Bucket is up-to-date, then just return the bucket.</span></span><br><span class="line"><span class="comment">     * (3) Bucket is deprecated, then reset current bucket and clean all deprecated buckets.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        WindowWrap&lt;T&gt; old = array.get(idx);</span><br><span class="line">        <span class="keyword">if</span> (old == <span class="keyword">null</span>) &#123;</span><br><span class="line">            WindowWrap&lt;T&gt; window = <span class="keyword">new</span> WindowWrap&lt;T&gt;(windowLengthInMs, windowStart, newEmptyBucket(timeMillis));</span><br><span class="line">            <span class="keyword">if</span> (array.compareAndSet(idx, <span class="keyword">null</span>, window)) &#123;</span><br><span class="line">                <span class="keyword">return</span> window;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Thread.yield();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (windowStart == old.windowStart()) &#123;</span><br><span class="line">            <span class="keyword">return</span> old;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (windowStart &gt; old.windowStart()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (updateLock.tryLock()) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">// Successfully get the update lock, now we reset the bucket.</span></span><br><span class="line">                    <span class="keyword">return</span> resetWindowTo(old, windowStart);</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    updateLock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// Contention failed, the thread will yield its time slice to wait for bucket available.</span></span><br><span class="line">                Thread.yield();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (windowStart &lt; old.windowStart()) &#123;</span><br><span class="line">            <span class="comment">// Should not go through here, as the provided time is already behind.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> WindowWrap&lt;T&gt;(windowLengthInMs, windowStart, newEmptyBucket(timeMillis));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一步首先获取到当前的时间戳毫秒，通过时间戳计算出时间窗口数组的下标。在计算下标时首先将当前时间戳除以单个窗口时长，计算出当前所在从0ms开始到现在的第几个窗，再对窗口数取模得出当前窗口的在数组中所在下标。从这里我们大概可以看出，这里数组中的时间窗口对象是反复使用的只是代表的时间不同了。<br />
+我们以秒级统计为例模拟计算下，当前时间戳为：<code>1595495124658</code>，按照 <code>timeMillis / windowLengthInMs</code> 可以得出 <code>timeId</code> 为 <code>3190990249</code>。 <code>(int)(timeId % array.length())</code> 就是 <code>3190990249 % 2</code> 算出结果为 <code>1</code>，也就是说 <code>1</code> 下标位置的时间窗口是当前时间窗口。</p>
+<p>第二步在计算出当前窗口所在下标后，需要计算出当前窗口的开始时间 <code>timeMillis - timeMillis % windowLengthInMs</code>，<code>timeMillis % windowLengthInMs</code> 表示当前窗口开始时间到当前时间的时长，所有当前时间减去时长即可得出当前窗口的开始时间，按上面的例子算出的结果就是 <code>1595495124500</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">WindowWrap&lt;T&gt; old = array.get(idx);</span><br><span class="line"><span class="keyword">if</span> (old == <span class="keyword">null</span>) &#123;</span><br><span class="line">    WindowWrap&lt;T&gt; window = <span class="keyword">new</span> WindowWrap&lt;T&gt;(windowLengthInMs, windowStart, newEmptyBucket(timeMillis));</span><br><span class="line">    <span class="keyword">if</span> (array.compareAndSet(idx, <span class="keyword">null</span>, window)) &#123;</span><br><span class="line">        <span class="keyword">return</span> window;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        Thread.yield();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第三步根据下标取出我们的当前窗口的实例，如果实例还没有被创建过新建一个窗口实例并初始化同时通过 <code>CAS</code> 的方式更新到窗口数组中，如果更新失败让出 <code>CPU</code> 等待下次 <code>CPU</code> 执行本线程。</p>
+<p>第四步如果下标位置已经存在一个窗口实例，并且窗口的开始时间跟本次窗口开始时间一致（同一个窗口），直接返回下标中的窗口</p>
+<p>第五步如果当前窗口的开始时间大于下标窗口的开始时间，说明下标窗口已过期，需要重置数组下标中的窗口（把下标窗口的开始时间改完当前窗口时间，并将指标计数都置成 0 ）</p>
+<p>第六步当前窗口时间小于下标窗口时间，重新实例化一个窗口（不太有这个可能，<code>sentinel</code> 内部实现了自己的时间戳）</p>
+<p>在拿到当前时间所在窗口后，将当前的指标累加记录到 <code>MetriBucket</code> 中</p>
+<ul>
+<li>MetriBucket 累加通过指标 *</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addPass</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    add(MetricEvent.PASS, n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> MetricBucket <span class="title">add</span><span class="params">(MetricEvent event, <span class="keyword">long</span> n)</span> </span>&#123;</span><br><span class="line">    counters[event.ordinal()].add(n);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>counters</code> 是一个 <code>LongAdder</code> 类型的数组</li>
+<li><code>MetricEvent</code> 是指标类型，分别有：PASS 通过、BLOCK 阻塞、 EXCEPTION 异常、 SUCCESS 成功、 RT 平均响应时间、 OCCUPIED_PASS 通过未来的配额</li>
+<li><code>counters[event.ordinal()].add(n)</code> 在指定的指标计数器上累加计数</li>
+</ul>
+<p>看到这里我们知道了 <code>pass</code> 指标是在资源通过 <code>StatisticSlot</code> 后几个节点的验证后立即进行指标计数，那么剩下的 <code>BLOCK</code>、 <code>EXCEPTION</code>、 <code>SUCCESS</code>、 <code>RT</code>、 <code>OCCUPIED_PASS</code> 这几个是在什么时候做记录的呢?</p>
+<h5 id="block-统计"><a class="markdownIt-Anchor" href="#block-统计"></a> BLOCK 统计</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">...省略部分代码...</span><br><span class="line">&#125; <span class="keyword">catch</span> (BlockException e) &#123;</span><br><span class="line">    ...省略部分代码...</span><br><span class="line">    <span class="comment">// Add block count.</span></span><br><span class="line">    node.increaseBlockQps(count);</span><br><span class="line">    <span class="keyword">if</span> (context.getCurEntry().getOriginNode() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        context.getCurEntry().getOriginNode().increaseBlockQps(count);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (resourceWrapper.getEntryType() == EntryType.IN) &#123;</span><br><span class="line">        <span class="comment">// Add count for global inbound entry node for global statistics.</span></span><br><span class="line">        Constants.ENTRY_NODE.increaseBlockQps(count);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Handle block event with registered entry callback handlers.</span></span><br><span class="line">    <span class="keyword">for</span> (ProcessorSlotEntryCallback&lt;DefaultNode&gt; handler : StatisticSlotCallbackRegistry.getEntryCallbacks()) &#123;</span><br><span class="line">        handler.onBlocked(e, context, resourceWrapper, node, count, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">throw</span> e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在后续的责任链节点中（<code>StatisticSlot</code> 之后的节点），如果捕获到了阻塞异常，将对 <code>DefaultNode</code>、<code>OriginNode</code>、<code>ENTRY_NODE</code> 几个 <code>node</code> 进行指标累计。同样也是添加到当前窗口 <code>MetricBucket</code> 中不再进行过多描述</p>
+<h5 id="exception-统计"><a class="markdownIt-Anchor" href="#exception-统计"></a> EXCEPTION 统计</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// Do some checking.</span></span><br><span class="line">    fireEntry(context, resourceWrapper, node, count, prioritized, args);</span><br><span class="line">    ...省略部分代码</span><br><span class="line">&#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">    <span class="comment">// Unexpected error, set error to current entry.</span></span><br><span class="line">    context.getCurEntry().setError(e);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// This should not happen.</span></span><br><span class="line">    node.increaseExceptionQps(count);</span><br><span class="line">    <span class="keyword">if</span> (context.getCurEntry().getOriginNode() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        context.getCurEntry().getOriginNode().increaseExceptionQps(count);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (resourceWrapper.getEntryType() == EntryType.IN) &#123;</span><br><span class="line">        Constants.ENTRY_NODE.increaseExceptionQps(count);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>类似的 <code>exception</code> 统计在后续的责任链节点中（<code>StatisticSlot</code> 之后的节点），如果捕获到了异常，将对 <code>DefaultNode</code>、<code>OriginNode</code>、<code>ENTRY_NODE</code> 几个 <code>node</code> 进行指标累计。</p>
+<p>除了 <code>StatisticSlot</code> 自动捕获异常外，在资源调用过程中如果出现了异常将通过调用 <code>Tracer.trace(e)</code> 手动统计异常指标</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">trace</span><span class="params">(Throwable e, <span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">    traceContext(e, count, ContextUtil.getContext());</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">traceContext</span><span class="params">(Throwable e, <span class="keyword">int</span> count, Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!shouldTrace(e)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (context == <span class="keyword">null</span> || context <span class="keyword">instanceof</span> NullContext) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    DefaultNode curNode = (DefaultNode)context.getCurNode();</span><br><span class="line">    traceExceptionToNode(e, count, context.getCurEntry(), curNode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先从线程变量中出去当前线程的 <code>Context</code> 在从中取出 DefaultNode 和 ClusterNode 并进行异常指标累计</p>
+<h5 id="success-rt-统计"><a class="markdownIt-Anchor" href="#success-rt-统计"></a> <code>SUCCESS</code>、 <code>RT</code> 统计</h5>
+<p>平均响应时间和成功次数的统计是在资源退出的时候调用 <code>entry.exit()</code> 进行统计，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// StatisticSlot#exit()</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exit</span><span class="params">(Context context, ResourceWrapper resourceWrapper, <span class="keyword">int</span> count, Object... args)</span> </span>&#123;</span><br><span class="line">    DefaultNode node = (DefaultNode)context.getCurNode();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (context.getCurEntry().getError() == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// Calculate response time (max RT is statisticMaxRt from SentinelConfig).</span></span><br><span class="line">        <span class="keyword">long</span> rt = TimeUtil.currentTimeMillis() - context.getCurEntry().getCreateTime();</span><br><span class="line">        <span class="keyword">int</span> maxStatisticRt = SentinelConfig.statisticMaxRt();</span><br><span class="line">        <span class="keyword">if</span> (rt &gt; maxStatisticRt) &#123;</span><br><span class="line">            rt = maxStatisticRt;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Record response time and success count.</span></span><br><span class="line">        node.addRtAndSuccess(rt, count);</span><br><span class="line">        <span class="keyword">if</span> (context.getCurEntry().getOriginNode() != <span class="keyword">null</span>) &#123;</span><br><span class="line">            context.getCurEntry().getOriginNode().addRtAndSuccess(rt, count);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        node.decreaseThreadNum();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (context.getCurEntry().getOriginNode() != <span class="keyword">null</span>) &#123;</span><br><span class="line">            context.getCurEntry().getOriginNode().decreaseThreadNum();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (resourceWrapper.getEntryType() == EntryType.IN) &#123;</span><br><span class="line">            Constants.ENTRY_NODE.addRtAndSuccess(rt, count);</span><br><span class="line">            Constants.ENTRY_NODE.decreaseThreadNum();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Error may happen.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Handle exit event with registered exit callback handlers.</span></span><br><span class="line">    Collection&lt;ProcessorSlotExitCallback&gt; exitCallbacks = StatisticSlotCallbackRegistry.getExitCallbacks();</span><br><span class="line">    <span class="keyword">for</span> (ProcessorSlotExitCallback handler : exitCallbacks) &#123;</span><br><span class="line">        handler.onExit(context, resourceWrapper, count, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fireExit(context, resourceWrapper, count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>退出也是责任链调用退出每个节点，这里直接跳过了大部分代码。退出统计大致流程如下：</p>
+<ul>
+<li>获取得到当前时间戳和资源调用的时间，相减算出这次整个资源调用所花费的总时间</li>
+<li>将总时间记录和成功次数累加记录当前窗口，本次总时间如果超过最大统计时间以最大统计时间作为本次统计时间</li>
+<li>对 Node 扣减一次当前线程数</li>
+<li>触发下一个责任链节点退出</li>
+</ul>
+<h3 id="longadder-源码分析"><a class="markdownIt-Anchor" href="#longadder-源码分析"></a> LongAdder 源码分析</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">long</span> x)</span> </span>&#123;</span><br><span class="line">    Cell[] as = cells;</span><br><span class="line">    <span class="keyword">long</span> b = base;</span><br><span class="line">    <span class="keyword">long</span> v;</span><br><span class="line">    HashCode hc;</span><br><span class="line">    Cell a;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="keyword">if</span> (cells != <span class="keyword">null</span> || !casBase(base, b + x)) &#123;</span><br><span class="line">        <span class="keyword">boolean</span> uncontended = <span class="keyword">true</span>;</span><br><span class="line">        hc = threadHashCode.get()</span><br><span class="line">        <span class="keyword">int</span> h = hc.code;</span><br><span class="line">        n = as.length;</span><br><span class="line">        a = as[(n - <span class="number">1</span>) &amp; h]</span><br><span class="line">        uncontended = a.cas(v = a.value, v + x)</span><br><span class="line">        <span class="keyword">if</span> (as == <span class="keyword">null</span> || as.length &lt; <span class="number">1</span> ||</span><br><span class="line">            a == <span class="keyword">null</span> ||</span><br><span class="line">            !uncontended) &#123;</span><br><span class="line">             retryUpdate(x, hc, uncontended);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>LongAdder 中有一个Cell数组用于存储数值，当高并发时对数组中某个值进行加法运算减少同一个数值并发。（+1） 或者 （+ -1）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">sum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> sum = base;</span><br><span class="line">    Cell[] as = cells;</span><br><span class="line">    <span class="keyword">if</span> (as != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> n = as.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            Cell a = as[i];</span><br><span class="line">            <span class="keyword">if</span> (a != <span class="keyword">null</span>) &#123; sum += a.value; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>取值时把 Cell 数组中所有元素的取出算总数</p>
+<h4 id="熔点判断"><a class="markdownIt-Anchor" href="#熔点判断"></a> 熔点判断</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">DegradeRuleManager.checkDegrade(resourceWrapper, context, node, count);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">checkDegrade</span><span class="params">(ResourceWrapper resource, Context context, DefaultNode node, <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> BlockException </span>&#123;</span><br><span class="line"></span><br><span class="line">    Set&lt;DegradeRule&gt; rules = degradeRules.get(resource.getName());</span><br><span class="line">    <span class="keyword">if</span> (rules == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (DegradeRule rule : rules) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!rule.passCheck(context, node, count)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> DegradeException(rule.getLimitApp(), rule);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>熔点的判断是由 <code>DegradeRuleManager</code> 管理。 <code>DegradeRuleManager</code> 会根据资源名取出所有的熔断规则，然后检查所有的规则如果触发其中一个直接抛出 <code>DegradeException</code> 异常触发熔断机制。</p>
+<ul>
+<li>RT *</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> rt = clusterNode.avgRt();</span><br><span class="line"><span class="keyword">if</span> (rt &lt; <span class="keyword">this</span>.count) &#123;</span><br><span class="line">    passCount.set(<span class="number">0</span>); <span class="comment">// 计数，用于判断连续超 RT 多少次</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Sentinel will degrade the service only if count exceeds.</span></span><br><span class="line"><span class="keyword">if</span> (passCount.incrementAndGet() &lt; rtSlowRequestAmount) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...省略部分代码</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>从 <code>clusterNode</code> 中计算出平均响应时间</li>
+<li>如果平均响应时间小于规则设置时间，将统计连续超时计数器重置为<code>0</code></li>
+<li>如果平均响应时间大于规则设置时间，并且连续超时计数器超过了规则设置的大小，判为到达熔断点抛出熔断异常</li>
+</ul>
+<p>统计平均 RT 的方法（秒级）：</p>
+<ul>
+<li>取出所有窗口（秒级只定义了两个时间窗口）的 RT，并求总和</li>
+<li>取出所有窗口（秒级只定义了两个时间窗口）的 success，并求总和</li>
+<li>所有窗口的 RT 总和 除以 success 总和 得出平均RT</li>
+</ul>
+<p>异常比例熔断也是类似的逻辑（秒级）</p>
+<ul>
+<li>取出所有窗口的 exception 数求和，并除以一个间隔时间（秒为单位）【每秒总异常数】</li>
+<li>取出所有窗口的 success 数求总和，并除以一个间隔时间（秒为单位）【每秒总退出成功数，包含了异常数】</li>
+<li>取出所有窗口的 pass 总和 加上所有窗口 block 总数，并除以一个间隔时间（秒为单位）【算每秒总调用量】</li>
+<li>如果每秒总调用量小于 minRequestAmount 判为未到达熔断点</li>
+<li>如果每秒总异常数没有超过 minRequestAmount 判为未到达熔断点</li>
+<li>每秒总退出成功数 / 每秒总异常数（异常比例）如果超过规则指定比例，判为到达熔断点抛出熔断异常</li>
+</ul>
+<p>异常数就比例（分钟级）</p>
+<ul>
+<li>取出所有窗口的 exception 数总和，判断如果超过规则配置数，抛出熔断异常</li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>Sentinel 通过责任链，触发节点创建、监控统计、日志、认证、系统限流、限流、熔断，因为Sentinl 是由 SPI 创建的责任链所以我们可以自定义链节点拿到指标根据自己的业务逻辑定义。<br />
+Sentinel 通过将所有的指标统计到时间窗口中，记录在 MetricBucket 类实例中</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://fantasylion.github.io/java/2020-07-29-Sentinel-Source-code-analysis/" title="Sentinel 熔断等指标如何统计以及如何判断熔断点" target="_blank" rel="external">https://fantasylion.github.io/java/2020-07-29-Sentinel-Source-code-analysis/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fantasylion" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/owner.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fantasylion" target="_blank"><span class="text-dark">Serio</span><small class="ml-1x">一名技术人</small></a></h3>
+        <div>喜欢新事物，关注技术动态，对新的技术有追求； 喜欢玩，喜欢疯，热爱 coding。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/java/ConcurrentHashMap-source-code/" title="ConcurrentHashMap 源码分析"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipay.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpay.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/fantasylion" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/5633848784/profile?topnav=1&wvr=6" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/fantasylions" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/serio.shi" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://fantasylion.github.io/java/2020-07-29-Sentinel-Source-code-analysis/';
+        
+        this.page.identifier = '2020-07-29-Sentinel-Source-code-analysis';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'fantasyLion' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

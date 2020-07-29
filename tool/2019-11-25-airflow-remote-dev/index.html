@@ -17,16 +17,29 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>分类: notes | Serio&#39;s blog</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Serio&#39;s blog">
-<meta property="og:url" content="https://fantasylion.github.io/categories/notes/index.html">
+  <title>Windows 本地搭建 Airflow 开发环境 | Serio&#39;s blog</title>
+  <meta name="description" content="Windows 本地搭建 Airflow 开发环境">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 本地搭建 Airflow 开发环境">
+<meta property="og:url" content="https://fantasylion.github.io/tool/2019-11-25-airflow-remote-dev/index.html">
 <meta property="og:site_name" content="Serio&#39;s blog">
+<meta property="og:description" content="Windows 本地搭建 Airflow 开发环境">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/AF4C7F7C9CEA4981AB96EBB4CAE8D671?method=download&amp;shareKey=288bb922aec53c40f32eda03527a0a3d">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/223F24C94A664EDE8B9B8B47907C5940?method=download&amp;shareKey=7b8027d61c707934baef6bfa4eeb38b4">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/4AA9A0DA28A447A8A273A09C4F013CCB?method=download&amp;shareKey=fe00c67b07e9ba4db5f37fd8275fe346">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/13C3E5878F3549CF83B26A17DD756400?method=download&amp;shareKey=80cfb246dbf60b87631bce27eaf652bc">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/526F8AE46EA6411EAC2B0A168CF200BD?method=download&amp;shareKey=8a99c3eb58b6cda8c008f617358cf3ab">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/F3E9D418B3BD4886AB4513820D846898?method=download&amp;shareKey=60d802a2b06d092ad1ea1b7f2d0549b8">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/F02A108263F24069BC0B40EF02C148CF?method=download&amp;shareKey=6f7c67705cb87decd66d32c876b7c494">
+<meta property="article:published_time" content="2020-01-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-06T16:00:00.000Z">
 <meta property="article:author" content="Serio">
+<meta property="article:tag" content="tool">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/api/personal/file/AF4C7F7C9CEA4981AB96EBB4CAE8D671?method=download&amp;shareKey=288bb922aec53c40f32eda03527a0a3d">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://fantasylion.github.io/categories/notes/index.html">
+  <link rel="canonical" href="https://fantasylion.github.io/tool/2019-11-25-airflow-remote-dev/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Serio&#39;s blog" type="application/atom+xml">
   
@@ -340,79 +353,216 @@
 </aside>
 
   
-  <main class="main" role="main">
-  <article class="content article article-categories article-type-list" itemscope="">
-    <header class="article-header">
-      <h1 itemprop="name" class="hidden-xs">分类: notes</h1>
-      <p class="hidden-xs">共 2 篇文章</p>
-      <nav role="navigation" id="nav-main" class="okayNav">
-        <ul>
-          <li><a href="/categories">All</a></li>
-          
-          <li><a href="/categories/tool/">tool</a></li>
-          
-          <li><a href="/categories/program/">program</a></li>
-          
-          <li><a href="/categories/translation/">translation</a></li>
-          
-          <li><a href="/categories/LifeFeeling/">LifeFeeling</a></li>
-          
-          <li><a href="/categories/database/">database</a></li>
-          
-          <li><a href="/categories/notes/">notes</a></li>
-          
-          <li><a href="/categories/tools/">tools</a></li>
-          
-          <li><a href="/categories/Tools/">Tools</a></li>
-          
-          <li><a href="/categories/English/">English</a></li>
-          
-          <li><a href="/categories/java/">java</a></li>
-          
-          <li><a href="/categories/zookeeper/">zookeeper</a></li>
-          
-        </ul>
-      </nav>
-    </header>
-    <!-- /header -->
-    <div class="article-body">
-      <div class="panel panel-default b-no">
-    <div class="panel-heading" role="tab">
-        <h4 class="panel-title">
-            <a data-toggle="collapse" href="#collapsenotes" aria-expanded="true">
-              <i class="icon icon-folder text-active"></i><i class="icon icon-folder-open text"></i>
-              notes
-            </a>
-            <small class="text-muted">(Total 2 articles)</small>
-        </h4>
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2019-11-25-airflow-remote-dev" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Windows 本地搭建 Airflow 开发环境
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/tool/2019-11-25-airflow-remote-dev/" class="article-date">
+	  <time datetime="2020-01-06T16:00:00.000Z" itemprop="datePublished">2020-01-07</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/tool/">tool</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/tool/" rel="tag">tool</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/tool/2019-11-25-airflow-remote-dev/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 305(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+	
+
+      </div>
     </div>
-    <div id="collapsenotes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingnotes">
-        <div class="panel-body">
-            <div class="collection">
-              
-                
-<a href="/notes/2016-02-27-data-structure-for-sort/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2016-02-26T16:00:00.000Z" itemprop="datePublished">2016-02-27</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 排序算法总计(未完结)
-</a>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="背景"><a class="markdownIt-Anchor" href="#背景"></a> 背景</h2>
+<p>因为 Airflow 无法在windows搭建开发环境导致开发过程比较麻烦。下面提供一个方法用来在windows环境中debug。以下方法的前提是在 Pycharm IDE中开发</p>
+<h4 id="第一步本地开启-debug-端口"><a class="markdownIt-Anchor" href="#第一步本地开启-debug-端口"></a> 第一步：本地开启 debug 端口</h4>
+<p><img src="https://note.youdao.com/yws/api/personal/file/AF4C7F7C9CEA4981AB96EBB4CAE8D671?method=download&amp;shareKey=288bb922aec53c40f32eda03527a0a3d" alt="图1" /></p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/223F24C94A664EDE8B9B8B47907C5940?method=download&amp;shareKey=7b8027d61c707934baef6bfa4eeb38b4" alt="图2" /></p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/4AA9A0DA28A447A8A273A09C4F013CCB?method=download&amp;shareKey=fe00c67b07e9ba4db5f37fd8275fe346" alt="图3" /></p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/13C3E5878F3549CF83B26A17DD756400?method=download&amp;shareKey=80cfb246dbf60b87631bce27eaf652bc" alt="图4" /></p>
+<h4 id="第二步给远程服务器安装pydevd模块"><a class="markdownIt-Anchor" href="#第二步给远程服务器安装pydevd模块"></a> 第二步：给远程服务器安装<code>pydevd</code>模块</h4>
+<p>图2中的断点代码拷贝到服务器后无法立即生效还会报错，因为缺少了模块。<br />
+在 pycharm 安装目录下找到 <code>pycharm-debug.egg</code> 文件，放到远程服务器python目录下我放到了<code>site-package</code>目录下，pycharm-debug-py3k.egg 提供给python3版本使用，我这边是2.7用第一个即可<br />
+<img src="https://note.youdao.com/yws/api/personal/file/526F8AE46EA6411EAC2B0A168CF200BD?method=download&amp;shareKey=8a99c3eb58b6cda8c008f617358cf3ab" alt="图6" /></p>
+<p>完成以上步骤可以在服务器<code>python</code>中执行下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> pydevd</span><br></pre></td></tr></table></figure>
+<p>如果没有报错说明安装成功</p>
+<h4 id="第三步开始debug"><a class="markdownIt-Anchor" href="#第三步开始debug"></a> 第三步：开始debug</h4>
+<p>点击右上角小虫启动，console 中出现 waiting 后说明开始等待远程的debug请求了<br />
+<img src="https://note.youdao.com/yws/api/personal/file/F3E9D418B3BD4886AB4513820D846898?method=download&amp;shareKey=60d802a2b06d092ad1ea1b7f2d0549b8" alt="图7" /></p>
+<p>运行远程服务器的代码后，本地对应代码将进入对应代码段<br />
+<img src="https://note.youdao.com/yws/api/personal/file/F02A108263F24069BC0B40EF02C148CF?method=download&amp;shareKey=6f7c67705cb87decd66d32c876b7c494" alt="图9" /></p>
+<p><strong>参考资料：</strong></p>
+<p><a href="https://blog.jetbrains.com/pycharm/2010/12/python-remote-debug-with-pycharm/" target="_blank" rel="noopener">pycharm官网远程debug教程</a></p>
+<p><strong>Linux和Mac搭建开发环境资料：</strong></p>
+<p><a href="https://github.com/apache/airflow/blob/master/LOCAL_VIRTUALENV.rst" target="_blank" rel="noopener">https://github.com/apache/airflow/blob/master/LOCAL_VIRTUALENV.rst</a><br />
+<a href="https://github.com/apache/airflow/blob/master/BREEZE.rst#testing-and-debugging-in-breeze" target="_blank" rel="noopener">https://github.com/apache/airflow/blob/master/BREEZE.rst#testing-and-debugging-in-breeze</a></p>
 
-
-              
-                
-<a href="/notes/2015-11-19-learning-note-YII(1.1)/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2015-11-18T16:00:00.000Z" itemprop="datePublished">2015-11-19</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> YII(版本1) 权威指南学习笔记(未完结)
-</a>
-
-
-              
-            </div>
-        </div>
+      
     </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://fantasylion.github.io/tool/2019-11-25-airflow-remote-dev/" title="Windows 本地搭建 Airflow 开发环境" target="_blank" rel="external">https://fantasylion.github.io/tool/2019-11-25-airflow-remote-dev/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fantasylion" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/owner.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fantasylion" target="_blank"><span class="text-dark">Serio</span><small class="ml-1x">一名技术人</small></a></h3>
+        <div>喜欢新事物，关注技术动态，对新的技术有追求； 喜欢玩，喜欢疯，热爱 coding。</div>
+      </div>
+    </figure>
+  </div>
 </div>
+
+
     </div>
   </article>
-   
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/tool/2020-01-07-adding-extra-celery-configs-to-airflow/" title="Airflow 使用 Celery 时，如何添加 Celery 配置"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/Tools/2019-01-17-How-to-use-EA/" title="如何使用 Enterprise Architect 画 UML"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipay.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpay.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -472,6 +622,31 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://fantasylion.github.io/tool/2019-11-25-airflow-remote-dev/';
+        
+        this.page.identifier = '2019-11-25-airflow-remote-dev';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'fantasyLion' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
 
 
 

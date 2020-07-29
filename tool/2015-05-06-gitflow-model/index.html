@@ -17,21 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Ebbinghaus Forgetting Curve | Serio&#39;s blog</title>
-  <meta name="description" content="利用艾宾浩斯遗忘曲线背单词">
+  <title>GitFlow 开发模式 | Serio&#39;s blog</title>
+  <meta name="description" content="GitFlow 开发模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ebbinghaus Forgetting Curve">
-<meta property="og:url" content="https://fantasylion.github.io/English/2018-01-02-How-to-remember-sthing/index.html">
+<meta property="og:title" content="GitFlow 开发模式">
+<meta property="og:url" content="https://fantasylion.github.io/tool/2015-05-06-gitflow-model/index.html">
 <meta property="og:site_name" content="Serio&#39;s blog">
-<meta property="og:description" content="利用艾宾浩斯遗忘曲线背单词">
+<meta property="og:description" content="GitFlow 开发模式">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-01-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2018-01-01T16:00:00.000Z">
+<meta property="article:published_time" content="2015-05-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2015-05-05T16:00:00.000Z">
 <meta property="article:author" content="Serio">
-<meta property="article:tag" content="English">
+<meta property="article:tag" content="tool">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://fantasylion.github.io/English/2018-01-02-How-to-remember-sthing/index.html">
+  <link rel="canonical" href="https://fantasylion.github.io/tool/2015-05-06-gitflow-model/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Serio&#39;s blog" type="application/atom+xml">
   
@@ -348,14 +348,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-2018-01-02-How-to-remember-sthing" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-2015-05-06-gitflow-model" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Ebbinghaus Forgetting Curve
+      GitFlow 开发模式
     </h1>
   
 
@@ -363,20 +363,20 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/English/2018-01-02-How-to-remember-sthing/" class="article-date">
-	  <time datetime="2018-01-01T16:00:00.000Z" itemprop="datePublished">2018-01-02</time>
+	<a href="/tool/2015-05-06-gitflow-model/" class="article-date">
+	  <time datetime="2015-05-05T16:00:00.000Z" itemprop="datePublished">2015-05-06</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/English/">English</a>
+    <a class="article-category-link" href="/categories/tool/">tool</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/English/" rel="tag">English</a>
+	<a class="article-tag-link" href="/tags/tool/" rel="tag">tool</a>
   </span>
 
 
@@ -389,69 +389,112 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/English/2018-01-02-How-to-remember-sthing/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/tool/2015-05-06-gitflow-model/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.6k(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.9k(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 6(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 11(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h2 id="如何运用艾宾浩斯遗忘曲线背单词"><a class="markdownIt-Anchor" href="#如何运用艾宾浩斯遗忘曲线背单词"></a> 如何运用艾宾浩斯遗忘曲线背单词</h2>
-<h3 id="复习点的确定"><a class="markdownIt-Anchor" href="#复习点的确定"></a> 复习点的确定</h3>
+        <p>翻译自：<a href="https://nvie.com/posts/a-successful-git-branching-model/" target="_blank" rel="noopener">https://nvie.com/posts/a-successful-git-branching-model/</a></p>
+<p>在这篇文章中，主要介绍 Git 分支模型。不会谈论任何项目的细节，只讨论分支策略和发布管理。</p>
+<h2 id="git分布式和集中式理解"><a class="markdownIt-Anchor" href="#git分布式和集中式理解"></a> Git分布式和集中式理解</h2>
+<p>我们配置了中央存储库可以很完美的配合该分支模型工作。这里需要注意下，这个仓库只是被认为 是中央仓库（因为 Git 是 DVCS （分布式版本管理系统），在技术层面上没有中央仓库）。我们将这个中央仓库称为 origin ，应该所有 Git 用户都熟悉这个名称。</p>
+<p>每个开发人员都会从中央库 pull 并 push origin 。但除了集中式 pull push  关系之外，每个开发人员还可以从其他开发人员的库中获取更改以形成子团队。例如，在将正在开发的代码 push origin  之前，获取到其他开发人员的代码。这对于与一个大的新功能上的两个或更多开发人员一起工作可能是有用的 。在上图中，有 alice 和 bob，alice 和 david 以及 clair 和 david 的子团队。</p>
+<p>从技术上讲，这意味着 Alice 已经定义了一个 Git 遥控器，名为 bob ，指向 Bob 的存储库，反之亦然。</p>
+<h3 id="主要分支"><a class="markdownIt-Anchor" href="#主要分支"></a> 主要分支</h3>
+<p>在核心，开发模型受到现有模型的极大启发。中央仓库拥有两个主要分支，具有无限的生命周期：</p>
 <ul>
-<li>1． 第一个记忆周期：5分钟</li>
-<li>2． 第二个记忆周期：30分钟</li>
-<li>3． 第三个记忆周期：12小时</li>
-<li>4． 第四个记忆周期：1天</li>
-<li>5． 第五个记忆周期：2天</li>
-<li>6． 第六个记忆周期：4天</li>
-<li>7． 第七个记忆周期：7天</li>
-<li>8． 第八个记忆周期：15天</li>
+<li>master</li>
+<li>develop</li>
 </ul>
-<h3 id="背诵方法"><a class="markdownIt-Anchor" href="#背诵方法"></a> 背诵方法</h3>
+<p>该 master 分支在 origin 应该存在于每一个用户的 Git 。另一个与 master 并行的分支是 develop 。</p>
+<p>我们认为 origin/master 是主要分支，这个分支 HEAD 源码始终反映生产就绪状态 ，简单来说就是 master 分支上的代码与生产使用的代码始终保持一致。这样有个好处就是，当生产代码出现紧急 bug 的时候，可以快速从 master 上 fork 出一个 hotfix 分支用来修复 bug 并发布，而不会因为修复线上 bug ，影响正在开发过程中的下一个版本的代码</p>
+<p>我们认为 origin/develop 是主要开发分支，其 HEAD 源码始终反映了下一版本中最新交付的开发更改的状态。有些人称之为“整合分支”。这是可以用来建立夜间自动构建的分支。如果我们对此非常严格的执行，从理论上讲，我们可以使用Git钩子脚本在每次提交时自动构建和推出我们的项目到我们的测试服务器。</p>
+<p>当 develop 分支中的源代码到达稳定点并准备好发布时，所有更改都应以某种方式合并到 master ，然后使用版本号进行标记。如何执行后面将详细讨论。</p>
+<p>因此，每次将更改合并回 master 时，根据我们的定义，这就是一个新的生产版本。</p>
+<h3 id="支持分支"><a class="markdownIt-Anchor" href="#支持分支"></a> 支持分支</h3>
+<p>接下来除了两个主分支 master 和 develop ，我们的开发模型使用各种支持分支来帮助团队成员之间的并行开发，轻松跟踪功能，准备生产版本以及帮助快速修复实时生产问题。与主分支不同，这些分支的寿命有限，因为它们最终会被删除。</p>
+<p>我们使用的不同类型的分支分别是：</p>
 <ul>
-<li>1． 初记单词时需要记忆的内容：</li>
+<li>功能分支             命名方式：feature-*</li>
+<li>发布分支             命名方式：release-*</li>
+<li>修补bug分支          命名方式：hotfix-*</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a）单词外观</span><br><span class="line">b） 单词的中文释义</span><br><span class="line">c） 单词的记忆法</span><br></pre></td></tr></table></figure>
+<p>这些分支中每一个都有特定的目的，并且有着严格的规则：从哪些分支中 fork 出来，又合并到那些分支中。</p>
+<p>分支类型根据我们如何使用它们进行分类。</p>
+<h3 id="功能分支"><a class="markdownIt-Anchor" href="#功能分支"></a> 功能分支</h3>
 <ul>
-<li>2． 每个list的具体背诵过程（每个list按12页，每页10个单词计）：</li>
+<li>分支出自：  develop</li>
+<li>必须合并回： develop</li>
+<li>分支命名约定： 最好是 feature-[功能名]，当然如果是想自己定义其他名字只要不是 master, develop, release-<em>, or hotfix-</em> 就都可以</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a) 背完一页（大约5分钟），立即返回该页第一个单词开始复习（大约几十秒）</span><br><span class="line">b) 按上面方法背完1～6页（大约在30分钟），回到第1页开始复习（两三分钟）</span><br><span class="line">c) 按上面同样方法背完7～12页，一个list结束</span><br><span class="line">d) 相当于每个list被分为12个小的单元，每个小的单元自成一个复习系统；</span><br><span class="line">   每6个小单元组成一个大单元，2个大单元各自成为一个复习系统。背一个list总共需要一小时左右的时间。</span><br></pre></td></tr></table></figure>
-<h3 id="复习过程"><a class="markdownIt-Anchor" href="#复习过程"></a> 复习过程</h3>
+<p>功能分支主要用于为下一个版本开发新功能。在开始开发功能时，此功能的发布版本可能在此处未知。功能分支的本质是，只要功能处于开发阶段，它就会存在，但最终会合并回 develop （以便将新功能添加到即将发布的版本中）或丢弃（在产品经理放弃这个功能的时候）。</p>
+<p>功能分支通常仅存在于开发人员本地存储库中，而不存在于 origin 。</p>
+<p>创建功能分支<br />
+在开始处理新功能时，从 develop 分支分支。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout -b myfeature develop</span></span><br><span class="line">Switched to a new branch "myfeature"</span><br></pre></td></tr></table></figure>
+<p>在开发中加入完成的功能<br />
+完成的功能分支会合并到 develop 分支中，以确保将它们添加到即将发布的版本中：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout develop</span></span><br><span class="line">Switched to branch 'develop'</span><br><span class="line"><span class="meta">$</span><span class="bash"> git merge --no-ff myfeature</span></span><br><span class="line">Updating ea1b82a..05e9557</span><br><span class="line">(Summary of changes)</span><br><span class="line"><span class="meta">$</span><span class="bash"> git branch -d myfeature</span></span><br><span class="line">Deleted branch myfeature (was 05e9557).</span><br><span class="line"><span class="meta">$</span><span class="bash"> git push origin develop</span></span><br></pre></td></tr></table></figure>
+<p>该 --no-ff 参数使合并始终创建新的 commit ，最新版中 git merge 默认的就是 --no-ff 。这样可以避免丢失功能分支的历史信息，并将所有添加功能的 commit  组合到一个 commit 中。对比：</p>
+<p>在后一种情况下，不可能从 Git 历史中看到哪些 commit 实现了一个功能 - 您必须手动读取所有日志消息。恢复整个功能（即一组提交）在后一种情况下也是比较头痛的，而如果使用该 --no-ff 标志则很容易完成 。</p>
+<p>虽然它会创建一些（空的）commit ，但增益远远大于成本。</p>
+<h3 id="发布分支"><a class="markdownIt-Anchor" href="#发布分支"></a> 发布分支</h3>
 <ul>
-<li>a) 复习方法：遮住中文释义，尽力回忆该单词的意思，几遍下来都记不住的单词可以做记号重点记忆。</li>
-<li>b) 复习一个list所需的时间为20分钟以内</li>
-<li>c) 当天的list最好在中午之前背完，大约12小时之后（最好睡觉前）复习当天所背的list</li>
-<li>d) 在其后的1，2，4，7，15天后分别复习当日所背的list</li>
-<li>e）复习的原则<br />
-时间间隔：30秒 1分钟 5分钟 30分钟 1小时 8小时 1天 2天 6天 31天<br />
-重学节省诵读时间百分数：58.2 44.2 35.8 33.7 27.8 25.4 21.1</li>
+<li>分支出自：develop</li>
+<li>必须合并回：develop 和 master</li>
+<li>分支命名约定：release-[版本号]</li>
 </ul>
-<h3 id="复习点的确定-2"><a class="markdownIt-Anchor" href="#复习点的确定-2"></a> 复习点的确定</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">人的记忆周期分为短期记忆和长期记忆两种。</span><br><span class="line">第一个记忆周期是 5分钟</span><br><span class="line">第二个记忆周期是30分钟</span><br><span class="line">第三个记忆周期是12小时</span><br><span class="line">这三个记忆周期属于短期记忆的范畴。</span><br><span class="line">下面是几个比较重要的周期。</span><br><span class="line">第四个记忆周期是 1天</span><br><span class="line">第五个记忆周期是 2天</span><br><span class="line">第六个记忆周期是 4天</span><br><span class="line">第七个记忆周期是 7天</span><br><span class="line">第八个记忆周期是15天</span><br><span class="line">以上的8个周期应用于背词法，作为一个大的背词的循环的8个复习点，可以最大程度的提高背单词的效率</span><br><span class="line">背单词就找个小本子窄窄的那种，每页中间对折左边英文右边中文，每天背100个，分5组每组20个，每一个看过留下读音和拼写的印象，</span><br><span class="line">基本上5～8分钟一组，全部5组大概看30分钟，最好不要超过40分钟，然后再从第一组再看，每天一百个新的，</span><br><span class="line">看过的按记忆周期在第2、4、7、15天重新复习，基本每天进行的300～400个单词记忆。</span><br></pre></td></tr></table></figure>
-<h3 id="英语背诵任务"><a class="markdownIt-Anchor" href="#英语背诵任务"></a> 英语背诵任务</h3>
+<p>发布分支主要用来发布新的版本到生产。它可以用来修复最后一分钟的 bug ，当在发布的过程中发现了新的 bug ，可以直接在 release 分支中修改。develop  分支将接收下一个大版本的功能。</p>
+<p>需要注意的是在 develop 上创建一个新的发布分支的时候， develop 分支的代码应该是测试完毕后准备发布的代码，至少下一个版本所有的功能都已经合并到 develop 分支 。</p>
+<p>当新建了发布分支分配新的版本号，从这个时候开始 develop 分支反映的将应该是下一个版本的代码。比如新建了release-1.6 后 1.6 版本的代码将不再允许提交到 develop 分支中。</p>
+<p>创建发布分支<br />
+发布分支是从 develop 分支创建的。例如，假设版本 1.1.5 是当前的生产版本，我们即将推出一个大版本。状态 develop 为“下一个版本”做好了准备，我们已经决定这将版本 1.2（而不是 1.1.6或2.0 ）。</p>
+<p>因此，我们分支并为发布分支提供反映新版本号的名称：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout -b release-1.2 develop</span></span><br><span class="line">Switched to a new branch "release-1.2"</span><br><span class="line"><span class="meta">$</span><span class="bash"> ./bump-version.sh 1.2</span></span><br><span class="line">Files modified successfully, version bumped to 1.2.</span><br><span class="line"><span class="meta">$</span><span class="bash"> git commit -a -m <span class="string">"Bumped version number to 1.2"</span></span></span><br><span class="line">[release-1.2 74d9424] Bumped version number to 1.2</span><br><span class="line">1 files changed, 1 insertions(+), 1 deletions(-)</span><br></pre></td></tr></table></figure>
+<p>创建新分支并切换到它后，我们会更新版本号。这 <a href="http://bump-version.sh" target="_blank" rel="noopener">bump-version.sh</a> 是一个虚构的shell脚本，它可以更改工作副本中的某些文件以反映新版本。（这当然可以是手动更改 - 关键是某些文件会发生变化。）然后提交了最新的版本号。</p>
+<p>这个新分支可能存在一段时间，直到新版发布。在此期间，可以在此分支中修复 bug（而不是在 develop 分支上）。严禁在此处添加大型新功能，新功能必须合并到 develop 等待下一个大版本。</p>
+<p>完成发布分支<br />
+当 release 分支准备好真正发布的时候，需要执行一些操作。首先，release 分支合并到 master（因为每次提交master都是按照定义的新版本）。接下来，master必须标记 (tag) 该提交，以便将来参考此历史版本。最后，需要将发布分支上的更改合并回来 develop ，以便将来的版本也包含这些错误修复。</p>
+<p>Git 中的前两个步骤：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout master</span></span><br><span class="line">Switched to branch 'master'</span><br><span class="line"><span class="meta">$</span><span class="bash"> git merge --no-ff release-1.2</span></span><br><span class="line">Merge made by recursive.</span><br><span class="line">(Summary of changes)</span><br><span class="line"><span class="meta">$</span><span class="bash"> git tag -a 1.2</span></span><br></pre></td></tr></table></figure>
+<p>该版本现已完成，并标记以供将来参考。</p>
+<p>编辑：您可以使用 -s 或 -u <key> 标记以加密方式对您的标记进行签名。</p>
+<p>为了保持 release 分支中所做的更改，我们需要将这些更改合并到 develop。在 Git 中：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout develop</span></span><br><span class="line">Switched to branch 'develop'</span><br><span class="line"><span class="meta">$</span><span class="bash"> git merge --no-ff release-1.2</span></span><br><span class="line">Merge made by recursive.</span><br><span class="line">(Summary of changes)</span><br></pre></td></tr></table></figure>
+<p>这一步很可能导致合并冲突（可能是因为我们已经更改了版本号）。如果是出现这种情况，请修复并提交。<br />
+现在我们已经完成了，这个时候我们可以删除发布分支，因为我们不再需要它了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git branch -d release-1.2</span></span><br><span class="line">Deleted branch release-1.2 (was ff452fe).</span><br></pre></td></tr></table></figure>
+<h3 id="修补程序分支"><a class="markdownIt-Anchor" href="#修补程序分支"></a> 修补程序分支</h3>
 <ul>
-<li>a) 每天连续背诵1个list，每个list 120个单词，并完成复习任务；</li>
-<li>b) 复习永远比记新词重要，要反复高频率的复习，复习，再复习；</li>
-<li>c) 一天都不能间断，坚持挺过这15天，之后每天都要花大约1小时复习；</li>
+<li>分支出自：master</li>
+<li>必须合并回：develop 和 master</li>
+<li>分支命名约定：hotfix-*</li>
 </ul>
-<h3 id="时间表"><a class="markdownIt-Anchor" href="#时间表"></a> 时间表</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">			新学		背诵</span><br><span class="line">第1天：			list1		*list1</span><br><span class="line">第2天：			list2		*list1		*list2</span><br><span class="line">第3天：			list3		*list2		*list3</span><br><span class="line">第4天：			list4		*list3		*list1		*list4</span><br><span class="line">第5天：			list5		*list4		*list2		*list5</span><br><span class="line">第6天：			list6		*list5		*list3		*list6</span><br><span class="line">第7天：    		list7		*list6		*list4		*list1		*list7</span><br><span class="line">第8天：			list8		*list7		*list5		*list2		*list8</span><br><span class="line">第9天：    		list9		*list8		*list6		*list3		*list9</span><br><span class="line">第10天：			list10		*list9		*list7		*list4		*list10</span><br><span class="line">第11天：			list11		*list10		*list8		*list5		*list11</span><br><span class="line">第12天：			list12		*list11		*list9		*list6		*list12</span><br><span class="line">第13天：			list13		*list12		*list10		*list7		*list13</span><br><span class="line">第14天*：			list14		*list13		*list11		*list8		*list14</span><br><span class="line">第15天：			list15		*list14		*list12		*list9		*list1		*list15</span><br><span class="line">第16天：			list16		*list15		*list13		*list10		*list2		*list16</span><br><span class="line">第17天：			list17		*list16		*list14		*list11		*list3		*list17</span><br><span class="line">第18天：			list18		*list17		*list15		*list12		*list4		*list18</span><br><span class="line">第19天：			list19		*list18		*list16		*list13		*list5		*list19</span><br><span class="line">第20天：			list20		*list19		*list17		*list14		*list6		*list20</span><br><span class="line">第21天：			list21		*list20		*list18		*list15		*list7		*list21</span><br><span class="line">第22天：			list22		*list21		*list19		*list16		*list8		*list22</span><br><span class="line">第23天：			list23		*list22		*list20		*list17		*list9		*list23</span><br><span class="line">第24天：			list24		*list23		*list21		*list18		*list10		*list24</span><br><span class="line">第25天：			list25		*list24		*list22		*list19		*list11		*list25</span><br><span class="line">第26天：			list26		*list25		*list23		*list20		*list12		*list26</span><br><span class="line">第27天：			list27		*list26		*list24		*list21		*list13		*list27</span><br><span class="line">第28天：			list28		*list27		*list25		*list22		*list14		*list28</span><br><span class="line">第29天：			list29		*list28		*list26		*list23		*list15		*list29</span><br><span class="line">第30天：			list30		*list29		*list27		*list24		*list16		*list30</span><br><span class="line">第31天：			list31		*list30		*list28		*list25		*list17		*list31</span><br><span class="line">第32天：			list32		*list31		*list29		*list26		*list18		*list32</span><br><span class="line">第33天：			list33		*list32		*list30		*list27		*list19		*list33</span><br><span class="line">第34天：			list34		*list33		*list31		*list28		*list20		*list34</span><br><span class="line">第35天：			list35		*list34		*list32		*list29		*list21		*list35</span><br><span class="line">第36天：			list36		*list35		*list33		*list30		*list22		*list36</span><br><span class="line">第37天：			list37		*list36		*list34		*list31		*list23		*list37</span><br><span class="line">第38天：			list38		*list37		*list35		*list32		*list24		*list38</span><br></pre></td></tr></table></figure>
-<h3 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> 注意事项</h3>
-<ul>
-<li>a) 每天连续背诵2个list，并完成复习任务；</li>
-<li>b) 复习永远比记新词重要，要反复高频率的复习，复习，再复习；</li>
-<li>c) 一天都不能间断，坚持挺过这15天，之后每天都要花大约1小时复习；</li>
-</ul>
-<h3 id="时间表左边序号表示第几天号之后表示复习内容"><a class="markdownIt-Anchor" href="#时间表左边序号表示第几天号之后表示复习内容"></a> 时间表（左边序号表示第几天，*号之后表示复习内容）</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">　　第1天 list1→2 *list1→2</span><br><span class="line">　  第2天 *list1→2 list3→4 *list3→4</span><br><span class="line">　　第3天 *list3→4 list5→6 *list5→6 </span><br><span class="line">@ 第4天 *list1→2 *list5→6 list7→8 *list7→8</span><br><span class="line">　　第5天 *list3→4 *list7→8 list9→10 *list9→10</span><br><span class="line">　　第6天 *list5→6 *list9→10 list11→12 *list11→12</span><br><span class="line">　　第7天 *list1→2 *list7→8 *list11→12 list13→14 *list13→14</span><br><span class="line">　　第8天 *list3→4 *list9→10 *list13→14 list15→16 *list15→16</span><br><span class="line">　　第9天 *list5→6 *list11→12 *list15→16 list17→18 *list17→18</span><br><span class="line">　　第10天 *list7→8 *list13→14 *list17→18 list19→20 *list19→20</span><br><span class="line">　　第11天 *list9→10 *list15→16 *list19→20 list21→22 *list21→22</span><br><span class="line">　　第12天 *list11→12 *list17→18 *list21→22 list23→24 *list23→24</span><br><span class="line">　　第13天 *list13→14 *list19→20 *list23→24</span><br><span class="line">　　第14天 *list15→16 *list21→22</span><br><span class="line">　　第15天 *list1→2 *list17→18 *list23→24</span><br><span class="line">　　第16天 *list3→4 *list19→20</span><br><span class="line">　　第17天 *list5→6 *list21→22</span><br><span class="line">　　第18天 *list7→8 *list23→24</span><br><span class="line">　　第19天 *list9→10</span><br><span class="line">　　第24天 *list19→20</span><br><span class="line">　　第25天 *list21→22</span><br><span class="line">　　第26天 *list23→24</span><br><span class="line">　　第27天</span><br><span class="line">　　第28天</span><br><span class="line">　　第29天</span><br><span class="line">　　第30天 *list1→2</span><br><span class="line">　　第31天 *list3→4</span><br><span class="line">　　第32天 *list5→6</span><br><span class="line">　　第33天 *list7→8</span><br><span class="line">　　第34天 *list9→10</span><br><span class="line">　　第35天 *list11→12</span><br><span class="line">　　第36天 *list13→14</span><br><span class="line">　　第37天 *list15→16</span><br><span class="line">　　第38天 *list17→18</span><br><span class="line">　　第39天 *list19→20</span><br><span class="line">　　第40天 *list21→22</span><br><span class="line">　　第41天 *list23→24</span><br><span class="line">　　起始(单元或页码)编号为1</span><br><span class="line">　　截止(单元或页码)编号为24</span><br><span class="line">　　总共需要复习的编号数为24</span><br><span class="line">　　每天需要复习的编号数为2</span><br><span class="line">　　你需要41天时间完成任务[4]</span><br></pre></td></tr></table></figure>
-
+<p>hotfix 分支主要用来修复生产的紧急 bug ，比如当开发人员正在 feature、develop 分支 开发下一个版本的功能，而生产出现了紧急 bug  必须立刻修复并发布。而你又不想把当前未完成的版本发布到生产，这个时候我们可以在 master 分支上 fork 一个新的 hotfix 分支用来修复bug<br />
+，这样的话就不会影响到下一个版本的开发。</p>
+<h3 id="创建修补-bug-分支"><a class="markdownIt-Anchor" href="#创建修补-bug-分支"></a> 创建修补 Bug 分支</h3>
+<p>从 master 分支创建修复 bug 分支。例如，假设版本 1.2 是当前生产版本正在运行并且由于严重错误而影响生产正常使用。但是 develop 分支代码仍然不稳定。然后我们可以 fork hotfix 分支并开始修复问题：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout -b hotfix-1.2.1 master</span></span><br><span class="line">Switched to a new branch "hotfix-1.2.1"</span><br><span class="line"><span class="meta">$</span><span class="bash"> ./bump-version.sh 1.2.1</span></span><br><span class="line">Files modified successfully, version bumped to 1.2.1.</span><br><span class="line"><span class="meta">$</span><span class="bash"> git commit -a -m <span class="string">"Bumped version number to 1.2.1"</span></span></span><br><span class="line">[hotfix-1.2.1 41e61bb] Bumped version number to 1.2.1</span><br><span class="line">1 files changed, 1 insertions(+), 1 deletions(-)</span><br></pre></td></tr></table></figure>
+<p>新建分支后不要忘记标记小版本号！然后修复 bug 并提交一个或多个单独 commit。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git commit -m <span class="string">"Fixed severe production problem"</span></span></span><br><span class="line">[hotfix-1.2.1 abbe5d6] Fixed severe production problem</span><br><span class="line">5 files changed, 32 insertions(+), 17 deletions(-)</span><br></pre></td></tr></table></figure>
+<h3 id="完成修补-bug-分支"><a class="markdownIt-Anchor" href="#完成修补-bug-分支"></a> 完成修补 Bug 分支</h3>
+<p>完成后，需要将 hotfix 分支合并回 master，同时也需要合并回 develop ，以保证修复bug的代码也包含在下一个版本中。这与发布分支的完成方式相似。</p>
+<p>首先，更新 master 并标记版本。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout master</span></span><br><span class="line">Switched to branch 'master'</span><br><span class="line"><span class="meta">$</span><span class="bash"> git merge --no-ff hotfix-1.2.1</span></span><br><span class="line">Merge made by recursive.</span><br><span class="line">(Summary of changes)</span><br><span class="line"><span class="meta">$</span><span class="bash"> git tag -a 1.2.1</span></span><br></pre></td></tr></table></figure>
+<p>编辑：您还可以使用 -s 或 -u <key> 标记以加密方式对您的标记进行签名。</p>
+<p>接下来，合并 hotfix 到 develop：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout develop</span></span><br><span class="line">Switched to branch 'develop'</span><br><span class="line"><span class="meta">$</span><span class="bash"> git merge --no-ff hotfix-1.2.1</span></span><br><span class="line">Merge made by recursive.</span><br><span class="line">(Summary of changes)</span><br></pre></td></tr></table></figure>
+<p>此处有一个例外就是， 在当前 release 分支存在时，只需要将 hotfix 分支合并到该 release 分支中即可，而不是 develop 。将 hotfix 分支合并到 release 分支中，修复的代码最终也会在 release 分支完成时被合并到 develop。（当然如果 develop 立刻需要此修复 bug 代码，不能等到 release 分支完成，您也可以直接地将 hotfix 合并到 develop。）</p>
+<p>最后，删除这个临时分支：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git branch -d hotfix-1.2.1</span></span><br><span class="line">Deleted branch hotfix-1.2.1 (was abbe5d6).</span><br></pre></td></tr></table></figure>
       
     </div>
     <div class="article-footer">
@@ -460,7 +503,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://fantasylion.github.io/English/2018-01-02-How-to-remember-sthing/" title="Ebbinghaus Forgetting Curve" target="_blank" rel="external">https://fantasylion.github.io/English/2018-01-02-How-to-remember-sthing/</a>
+      <a href="https://fantasylion.github.io/tool/2015-05-06-gitflow-model/" title="GitFlow 开发模式" target="_blank" rel="external">https://fantasylion.github.io/tool/2015-05-06-gitflow-model/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -509,12 +552,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/English/2018-01-31-The-Shawshank-Redemption/" title="Ebbinghaus Forgetting Curve"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/program/2015-05-17-css3_animation_trasfrom/" title="CSS3(animation, trasfrom)总结"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/Tools/2016-05-06-Enterprise-Architect-key/" title="Enterprise Architect key"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/program/2015-4-17-canvas_make_image_effect/" title="使用canvas制作视频图片特效"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
@@ -653,9 +696,9 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     <script defer>
     var disqus_config = function () {
         
-            this.page.url = 'https://fantasylion.github.io/English/2018-01-02-How-to-remember-sthing/';
+            this.page.url = 'https://fantasylion.github.io/tool/2015-05-06-gitflow-model/';
         
-        this.page.identifier = '2018-01-02-How-to-remember-sthing';
+        this.page.identifier = '2015-05-06-gitflow-model';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
